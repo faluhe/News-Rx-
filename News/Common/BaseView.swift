@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class BaseView: UIView {
+class RxBaseView: UIView {
 
     var bag = DisposeBag()
     
@@ -26,6 +26,8 @@ class BaseView: UIView {
     // MARK: - Settings
     func commonInit() {
         setupHierarchy()
+        setupView()
+        setupLayout()
     }
 
     func setupHierarchy() { }
@@ -37,7 +39,7 @@ class BaseView: UIView {
     }
 }
 
-fileprivate extension BaseView {
+fileprivate extension RxBaseView {
     enum Color {
         static let backgroundColor = UIColor.systemBackground
     }

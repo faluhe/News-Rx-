@@ -6,15 +6,16 @@
 //
 
 import UIKit
+import RxSwift
 
-class BaseViewController<View>: UIViewController where View: BaseView {
+class RxBaseViewController<View>: UIViewController where View: RxBaseView {
+
+    var bag = DisposeBag()
 
     // MARK: - UI components
-
     let contentView = View()
 
     // MARK: - Lifecycle
-
     init() {
         super.init(nibName: nil, bundle: nil)
         commonInit()
@@ -25,8 +26,12 @@ class BaseViewController<View>: UIViewController where View: BaseView {
         commonInit()
     }
 
-    // MARK: - Overrides
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBinding()
+    }
 
+    // MARK: - Overrides
     override func loadView() {
         view = contentView
     }
@@ -44,4 +49,6 @@ class BaseViewController<View>: UIViewController where View: BaseView {
     func setupLayout() { }
 
     func setupView() { }
+
+    func setupBinding() { }
 }

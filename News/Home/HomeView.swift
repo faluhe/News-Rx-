@@ -11,8 +11,8 @@ import RxRelay
 import SnapKit
 
 
-class HomeView: BaseView {
-//
+class HomeView: RxBaseView {
+
     private var items = ["1","2","3"]
 
     lazy var newsCollectionView: UICollectionView = {
@@ -30,14 +30,15 @@ class HomeView: BaseView {
         newsCollectionView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(30)
-//            $0.left.equalToSuperview().offset(20)
-//            $0.right.equalToSuperview().offset(-20)
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
         }
     }
 
     override func setupView() {
+        super.setupView()
         newsCollectionView.backgroundColor = .clear
-
+        
         Observable.just(items)
                     .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { row, element, cell in
                         // Configure your cell with the data here

@@ -7,25 +7,27 @@
 
 import UIKit
 
-final class HomeViewController: BaseViewController<BaseView> {
+final class HomeViewController: RxBaseViewController<HomeView> {
+
+    var viewModel: HomeViewModelType!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 
+    override func setupBinding() {
+//        configure(viewModel.bindings)
+//        configure(viewModel.commands)
+    }
+
+    private func configure(_ bindings: HomeViewModel.Bindings) {
+
+    }
+
+    private func configure(_ commands: HomeViewModel.Commands) {
+    }
     
-
-
-}
-
-
-final class qwwqqw: BaseViewController<BaseView> {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-
 
 
 }
