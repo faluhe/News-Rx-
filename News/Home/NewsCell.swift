@@ -14,7 +14,6 @@ class NewsCell: UICollectionViewCell {
 
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         view.layer.cornerRadius = 20
         return view
     }()
@@ -31,6 +30,7 @@ class NewsCell: UICollectionViewCell {
 
     private lazy var img: UIImageView = {
         let img = UIImageView()
+        img.contentMode = .scaleAspectFill
         return img
     }()
 
@@ -43,8 +43,8 @@ class NewsCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-         
     }
+
 
     func setupHierarchy() {
         addSubview(containerView)
@@ -58,8 +58,11 @@ class NewsCell: UICollectionViewCell {
         }
 
         img.snp.makeConstraints {
-            $0.leading.top.bottom.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview().offset(5)
+            $0.top.equalToSuperview().offset(10)
+            $0.bottom.equalToSuperview().offset(-10)
             $0.width.equalTo(80)
+            $0.height.equalTo(0).priority(.high) // Set a priority on height constraint
         }
 
         title.snp.makeConstraints {
@@ -77,6 +80,24 @@ class NewsCell: UICollectionViewCell {
     }
 
     static func cellSize(collectionView: UICollectionView) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 40, height: 55)
+        return CGSize(width: UIScreen.main.bounds.width - 40, height: 70)
+    }
+
+
+    func configure(article: Article){
+        title.text = article.title
+        subTitle.text = article.description
+
+        if let imageURL = URL(string: article.urlToImage ?? "") {
+            ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    // Check if the cell is still valid before setting the image
+                    if let validImage = image, self.img.image == nil {
+                        self.img.image = validImage
+                    }
+                }
+            }
+        }
     }
 }

@@ -40,7 +40,13 @@
 		9A7608F02A8B164E00342AC3 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608EF2A8B164E00342AC3 /* News.swift */; };
 		9A7608F32A8B16AE00342AC3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608F22A8B16AE00342AC3 /* Constants.swift */; };
 		9A7608F52A8B2FF500342AC3 /* HomeTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608F42A8B2FF500342AC3 /* HomeTarget.swift */; };
-		9A7608F72A8B342400342AC3 /* HomeNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608F62A8B342400342AC3 /* HomeNetworkService.swift */; };
+		9A7608F72A8B342400342AC3 /* HomeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608F62A8B342400342AC3 /* HomeService.swift */; };
+		9A7608FB2A8D561B00342AC3 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 9A7608FA2A8D561B00342AC3 /* Swinject */; };
+		9A7608FD2A8D564600342AC3 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608FC2A8D564600342AC3 /* AppContainer.swift */; };
+		9A7609002A8D6DB100342AC3 /* NewsSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608FF2A8D6DB100342AC3 /* NewsSectionModel.swift */; };
+		9A7609032A8DA70A00342AC3 /* SwinjectAutoregistration in Frameworks */ = {isa = PBXBuildFile; productRef = 9A7609022A8DA70A00342AC3 /* SwinjectAutoregistration */; };
+		9A7609062A8EE32E00342AC3 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7609052A8EE32E00342AC3 /* ImageManager.swift */; };
+		9A7609082A8EE33B00342AC3 /* ImageCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7609072A8EE33B00342AC3 /* ImageCaching.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +99,11 @@
 		9A7608EF2A8B164E00342AC3 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		9A7608F22A8B16AE00342AC3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9A7608F42A8B2FF500342AC3 /* HomeTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTarget.swift; sourceTree = "<group>"; };
-		9A7608F62A8B342400342AC3 /* HomeNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNetworkService.swift; sourceTree = "<group>"; };
+		9A7608F62A8B342400342AC3 /* HomeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeService.swift; sourceTree = "<group>"; };
+		9A7608FC2A8D564600342AC3 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		9A7608FF2A8D6DB100342AC3 /* NewsSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSectionModel.swift; sourceTree = "<group>"; };
+		9A7609052A8EE32E00342AC3 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		9A7609072A8EE33B00342AC3 /* ImageCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaching.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,11 +111,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A7609032A8DA70A00342AC3 /* SwinjectAutoregistration in Frameworks */,
 				9A7608A12A85992800342AC3 /* RxRelay in Frameworks */,
 				9A76089F2A85992800342AC3 /* RxCocoa in Frameworks */,
 				9A7608A32A85992800342AC3 /* RxSwift in Frameworks */,
 				9A76089D2A85992800342AC3 /* RxBlocking in Frameworks */,
 				9A7608A62A85998300342AC3 /* SnapKit in Frameworks */,
+				9A7608FB2A8D561B00342AC3 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,10 +170,8 @@
 				9A7607E02A85901B00342AC3 /* SceneDelegate.swift */,
 				9A7607EC2A85901C00342AC3 /* LaunchScreen.storyboard */,
 				9A7607E72A85901B00342AC3 /* News.xcdatamodeld */,
-				9A7608ED2A8B158100342AC3 /* HomeNetwork.swift */,
-				9A7608F42A8B2FF500342AC3 /* HomeTarget.swift */,
-				9A7608F62A8B342400342AC3 /* HomeNetworkService.swift */,
 				9A7608EC2A8B154300342AC3 /* Core */,
+				9A7608FE2A8D565100342AC3 /* Dependency IInjection */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -196,6 +206,7 @@
 		9A7608DF2A859ECF00342AC3 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				9A7609042A8EE2AF00342AC3 /* Helper */,
 				9A7608E02A859EE300342AC3 /* Extensions */,
 				9A7608D22A859DEF00342AC3 /* RxBaseView.swift */,
 				9A7608D12A859DEF00342AC3 /* BaseView.swift */,
@@ -234,11 +245,12 @@
 		9A7608E32A859F0C00342AC3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				9A7608F12A8B168F00342AC3 /* Model */,
+				9A7608F82A8D48C900342AC3 /* Network */,
 				9A7608B82A859BF200342AC3 /* HomeView.swift */,
 				9A7608B92A859BF200342AC3 /* NewsCell.swift */,
 				9A7608BA2A859BF200342AC3 /* HomeViewController.swift */,
 				9A7608E42A870FB200342AC3 /* HomeViewModel.swift */,
-				9A7608F12A8B168F00342AC3 /* Model */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -257,8 +269,36 @@
 			isa = PBXGroup;
 			children = (
 				9A7608EF2A8B164E00342AC3 /* News.swift */,
+				9A7608FF2A8D6DB100342AC3 /* NewsSectionModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9A7608F82A8D48C900342AC3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9A7608ED2A8B158100342AC3 /* HomeNetwork.swift */,
+				9A7608F42A8B2FF500342AC3 /* HomeTarget.swift */,
+				9A7608F62A8B342400342AC3 /* HomeService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9A7608FE2A8D565100342AC3 /* Dependency IInjection */ = {
+			isa = PBXGroup;
+			children = (
+				9A7608FC2A8D564600342AC3 /* AppContainer.swift */,
+			);
+			path = "Dependency IInjection";
+			sourceTree = "<group>";
+		};
+		9A7609042A8EE2AF00342AC3 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				9A7609052A8EE32E00342AC3 /* ImageManager.swift */,
+				9A7609072A8EE33B00342AC3 /* ImageCaching.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +323,8 @@
 				9A7608A02A85992800342AC3 /* RxRelay */,
 				9A7608A22A85992800342AC3 /* RxSwift */,
 				9A7608A52A85998300342AC3 /* SnapKit */,
+				9A7608FA2A8D561B00342AC3 /* Swinject */,
+				9A7609022A8DA70A00342AC3 /* SwinjectAutoregistration */,
 			);
 			productName = News;
 			productReference = 9A7607DB2A85901B00342AC3 /* News.app */;
@@ -359,6 +401,8 @@
 			packageReferences = (
 				9A76089B2A85992800342AC3 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				9A7608A42A85998300342AC3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9A7608F92A8D561B00342AC3 /* XCRemoteSwiftPackageReference "Swinject" */,
+				9A7609012A8DA70A00342AC3 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
 			);
 			productRefGroup = 9A7607DC2A85901B00342AC3 /* Products */;
 			projectDirPath = "";
@@ -405,13 +449,15 @@
 				9A7608C82A859DDD00342AC3 /* AppCoordinator.swift in Sources */,
 				9A7608F32A8B16AE00342AC3 /* Constants.swift in Sources */,
 				9A7608E72A8AE73D00342AC3 /* DatabaseDispatcher.swift in Sources */,
+				9A7609062A8EE32E00342AC3 /* ImageManager.swift in Sources */,
 				9A7608CC2A859DE500342AC3 /* HomeView.swift in Sources */,
 				9A7608D42A859DEF00342AC3 /* BaseView.swift in Sources */,
 				9A7608E52A870FB200342AC3 /* HomeViewModel.swift in Sources */,
-				9A7608F72A8B342400342AC3 /* HomeNetworkService.swift in Sources */,
+				9A7608F72A8B342400342AC3 /* HomeService.swift in Sources */,
 				9A7608CE2A859DE500342AC3 /* NewsCell.swift in Sources */,
 				9A7608C92A859DDD00342AC3 /* HomeCoordinator.swift in Sources */,
 				9A7608CD2A859DE500342AC3 /* HomeViewController.swift in Sources */,
+				9A7609002A8D6DB100342AC3 /* NewsSectionModel.swift in Sources */,
 				9A7608D62A859DFA00342AC3 /* RxBaseViewController.swift in Sources */,
 				9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */,
 				9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */,
@@ -419,11 +465,13 @@
 				9A7608D32A859DEF00342AC3 /* RxBaseView.swift in Sources */,
 				9A7608E92A8AF65600342AC3 /* NetworkTargetType.swift in Sources */,
 				9A7608D02A859DE800342AC3 /* BookmarkViewController.swift in Sources */,
+				9A7608FD2A8D564600342AC3 /* AppContainer.swift in Sources */,
 				9A7608EB2A8B12A800342AC3 /* ResponseError.swift in Sources */,
 				9A7608CA2A859DDD00342AC3 /* MainCoordinator.swift in Sources */,
 				9A7608DE2A859EAB00342AC3 /* UIVIew+Ext.swift in Sources */,
 				9A7608F02A8B164E00342AC3 /* News.swift in Sources */,
 				9A7608CB2A859DDD00342AC3 /* BookmarkCoordinator.swift in Sources */,
+				9A7609082A8EE33B00342AC3 /* ImageCaching.swift in Sources */,
 				9A7608F52A8B2FF500342AC3 /* HomeTarget.swift in Sources */,
 				9A7608EE2A8B158100342AC3 /* HomeNetwork.swift in Sources */,
 			);
@@ -775,6 +823,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		9A7608F92A8D561B00342AC3 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		9A7609012A8DA70A00342AC3 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/SwinjectAutoregistration";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -802,6 +866,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A7608A42A85998300342AC3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		9A7608FA2A8D561B00342AC3 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A7608F92A8D561B00342AC3 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		9A7609022A8DA70A00342AC3 /* SwinjectAutoregistration */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A7609012A8DA70A00342AC3 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */;
+			productName = SwinjectAutoregistration;
 		};
 /* End XCSwiftPackageProductDependency section */
 

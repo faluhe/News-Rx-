@@ -6,19 +6,29 @@
 //
 
 import UIKit
+import RxRelay
+import RxSwift
 
 class HomeCoordinator: Coordinator {
 
+    let bag = DisposeBag()
+
+    struct Input {
+        let updatedata = PublishRelay<Void>()
+    }
+
+    let input = Input()
+
     var rootViewController = UINavigationController()
 
-    fileprivate lazy var viewController: HomeViewController = {
-        let vc = HomeViewController()
-        vc.title = "Home"
-        return vc
-    }()
 
     func start() {
-        rootViewController.setViewControllers([viewController], animated: true)
+        let module = HomeModuleConfigurator.configure()
+        input.updatedata
+            .bind(to: module.viewModel.moduleBindings.loadNews)
+            .disposed(by: bag)
+
+        rootViewController.setViewControllers([module.view], animated: true)
     }
 
 }

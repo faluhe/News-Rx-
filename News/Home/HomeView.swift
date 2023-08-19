@@ -8,13 +8,11 @@
 import UIKit
 import RxSwift
 import RxRelay
+import RxCocoa
 import SnapKit
 
-
 class HomeView: RxBaseView {
-
-    private var items = ["1","2","3"]
-
+    let sections = BehaviorRelay<News?>(value: nil)
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
@@ -38,15 +36,19 @@ class HomeView: RxBaseView {
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
-        
-        Observable.just(items)
-                    .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { row, element, cell in
-                        // Configure your cell with the data here
-                        cell.title.text = element
-                        print(element)
-                    }
-                    .disposed(by: bag)
+
+        sections
+            .compactMap { $0?.articles }
+            .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
+                cell.configure(article: article)
+            }
+            .disposed(by: bag)
+
     }
+
+
+
+
 }
 
 

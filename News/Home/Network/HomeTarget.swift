@@ -13,7 +13,7 @@ enum HomeTarget: NetworkTargetType {
     var path: String {
         switch self {
         case .getNews:
-            return "v2/top-headlines?country=us&apiKey=\(K.apiKey)"
+            return K.baseURL + K.endpoint + K.apiKey
         }
     }
 

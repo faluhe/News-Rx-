@@ -17,12 +17,12 @@ final class HomeViewController: RxBaseViewController<HomeView> {
     }
 
     override func setupBinding() {
-//        configure(viewModel.bindings)
-//        configure(viewModel.commands)
+        configure(viewModel.bindings)
+        configure(viewModel.commands)
     }
 
     private func configure(_ bindings: HomeViewModel.Bindings) {
-
+        bindings.sections.bind(to: contentView.sections).disposed(by: bag)
     }
 
     private func configure(_ commands: HomeViewModel.Commands) {

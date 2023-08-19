@@ -12,7 +12,7 @@ protocol DatabaseDispatcherType {
 }
 
 final class DatabaseDispatcher: DatabaseDispatcherType {
-
+    
     func request<T>(_ target: NetworkTargetType, type: T.Type) -> RxSwift.Single<T> where T : Decodable, T : Encodable {
         return Single.create { [unowned self] single in
             switch target.requestMethod {

@@ -5,8 +5,9 @@
 //  Created by Ismailov Farrukh on 11/08/23.
 //
 
-import RxSwift
 import UIKit
+import RxSwift
+import RxRelay
 
 protocol HomeModuleType {
     var moduleBindings: HomeViewModel.ModuleBindings { get }
@@ -23,19 +24,25 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
     private let bag = DisposeBag()
 
+//    var items = 
+
     // MARK: - Dependencies
     let dependencies: Dependencies
 
     struct ModuleCommands { }
 
-    struct Bindings { }
+    struct Bindings {
+        let sections = BehaviorRelay<News?>(value: nil)
+    }
 
     struct Commands { }
 
-    struct ModuleBindings { }
+    struct ModuleBindings {
+        let loadNews = PublishRelay<Void>()
+    }
 
     struct Dependencies {
-        let newsService: HomeNetworkService
+        let newsService: HomeService
     }
 
 
@@ -64,13 +71,26 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     }
 
     func configure(bindings: Bindings) {
-
+        loadNews()
     }
 
     func configure(commands: Commands) {
 
     }
-    
+
+    func configure(moduleBindings: ModuleBindings) {
+        moduleBindings.loadNews.bind(to: Binder<Void>(self) { target, _ in
+            
+        }).disposed(by: bag)
+    }
+
+
+    func loadNews() {
+        let news = dependencies.newsService.getNews()
+        news.subscribe { news in
+            self.bindings.sections.accept(news)
+        }.disposed(by: bag)
+    }
 }
 
 
@@ -81,8 +101,7 @@ final class HomeModuleConfigurator {
 
     class func configure() -> Module {
         let view = HomeViewController()
-        let newsService = HomeNetworkService(network: <#HomeNetworkType#>)
-        let viewModel = HomeViewModel(dependencies: .init(newsService: newsService))
+        let viewModel = HomeViewModel(dependencies: .init(newsService: AppContainer.shared.inject()))
         view.viewModel = viewModel
         return (view, viewModel)
     }

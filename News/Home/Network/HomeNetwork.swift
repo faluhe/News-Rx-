@@ -16,7 +16,7 @@ final class HomeNetwork: HomeNetworkType {
 
     private let dispatcher: DatabaseDispatcherType
 
-    init(dispatcher: DatabaseDispatcherType) {
+    init(_ dispatcher: DatabaseDispatcherType) {
         self.dispatcher = dispatcher
     }
 

@@ -9,22 +9,19 @@ import Foundation
 import RxSwift
 
 
-protocol HomeNetworkServiceType {
+protocol HomeServiceType {
     func getNews() -> Observable<News>
 }
 
-
-final class HomeNetworkService: HomeNetworkServiceType {
+final class HomeService: HomeServiceType {
 
     private let network: HomeNetworkType
 
-    init(network: HomeNetworkType) {
+    init(_ network: HomeNetworkType) {
         self.network = network
     }
 
     func getNews() -> Observable<News> {
         return network.getNews().asObservable()
     }
-
-
 }
