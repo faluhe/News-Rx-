@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class HomeViewController: RxBaseViewController<HomeView> {
 
@@ -23,6 +24,11 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     private func configure(_ bindings: HomeViewModel.Bindings) {
         bindings.sections.bind(to: contentView.sections).disposed(by: bag)
+
+        contentView.newsCollectionView.rx.modelSelected(Article.self).bind(to: Binder<Article>(self) { _, model in
+            print(model)
+        }).disposed(by: bag)
+
     }
 
     private func configure(_ commands: HomeViewModel.Commands) {

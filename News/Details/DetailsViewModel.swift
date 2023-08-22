@@ -1,15 +1,15 @@
 //
-//  HomeViewModel.swift
+//  DetailsViewModel.swift
 //  News
 //
-//  Created by Ismailov Farrukh on 11/08/23.
+//  Created by Ismailov Farrukh on 21/08/23.
 //
 
 import UIKit
 import RxSwift
 import RxRelay
 
-final class HomeViewModel: HomeModuleType, HomeViewModelType {
+final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     private let bag = DisposeBag()
 
@@ -24,10 +24,11 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     let bindings = Bindings()
     let commands = Commands()
 
+
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
-        self.configure(dependencies: dependencies)
-        self.configure(moduleCommands: moduleCommands)
+        configure(dependencies: dependencies)
+        configure(moduleCommands: moduleCommands)
         configure(commands: commands)
         configure(bindings: bindings)
     }
@@ -41,7 +42,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     }
 
     func configure(bindings: Bindings) {
-        loadNews()
+
     }
 
     func configure(commands: Commands) {
@@ -49,16 +50,8 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     }
 
     func configure(moduleBindings: ModuleBindings) {
-        moduleBindings.loadNews.bind(to: Binder<Void>(self) { target, _ in
-            
-        }).disposed(by: bag)
+
     }
 
-
-    func loadNews() {
-        let news = dependencies.newsService.getNews()
-        news.subscribe { news in
-            self.bindings.sections.accept(news)
-        }.disposed(by: bag)
-    }
 }
+

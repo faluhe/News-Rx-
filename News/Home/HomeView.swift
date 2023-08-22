@@ -12,10 +12,13 @@ import RxCocoa
 import SnapKit
 
 class HomeView: RxBaseView {
+
     let sections = BehaviorRelay<News?>(value: nil)
+
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
+        cv.showsVerticalScrollIndicator = false
         return cv
     }()
 

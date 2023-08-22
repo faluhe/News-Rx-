@@ -15,6 +15,7 @@ class NewsCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
+        view.backgroundColor = .systemGray6
         return view
     }()
 
@@ -25,12 +26,16 @@ class NewsCell: UICollectionViewCell {
 
     private lazy var subTitle: UILabel = {
         let lbl = UILabel()
+        lbl.numberOfLines = 3
+        lbl.font = .systemFont(ofSize: 14)
         return lbl
     }()
 
     private lazy var img: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
+        img.clipsToBounds = true
+        img.layer.cornerRadius = 5
         return img
     }()
 
@@ -53,16 +58,14 @@ class NewsCell: UICollectionViewCell {
 
     func setupLayout() {
         containerView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.top.bottom.equalToSuperview()
         }
 
         img.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(5)
+            $0.leading.equalToSuperview().offset(10)
             $0.top.equalToSuperview().offset(10)
             $0.bottom.equalToSuperview().offset(-10)
             $0.width.equalTo(80)
-            $0.height.equalTo(0).priority(.high) // Set a priority on height constraint
         }
 
         title.snp.makeConstraints {
@@ -75,12 +78,12 @@ class NewsCell: UICollectionViewCell {
             $0.leading.equalTo(img.snp.trailing).offset(10)
             $0.trailing.equalToSuperview().inset(10)
             $0.top.equalTo(title.snp.bottom).offset(5)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(10).priority(.low)
         }
     }
 
     static func cellSize(collectionView: UICollectionView) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 40, height: 70)
+        return CGSize(width: UIScreen.main.bounds.width - 40, height: 100)
     }
 
 
@@ -90,11 +93,9 @@ class NewsCell: UICollectionViewCell {
 
         if let imageURL = URL(string: article.urlToImage ?? "") {
             ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    // Check if the cell is still valid before setting the image
-                    if let validImage = image, self.img.image == nil {
-                        self.img.image = validImage
+                DispatchQueue.main.async {
+                    if let validImage = image, self?.img.image == nil {
+                        self?.img.image = validImage
                     }
                 }
             }
