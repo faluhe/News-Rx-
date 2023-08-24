@@ -36,6 +36,7 @@ class NewsCell: UICollectionViewCell {
         img.contentMode = .scaleAspectFill
         img.clipsToBounds = true
         img.layer.cornerRadius = 5
+        img.backgroundColor = .gray
         return img
     }()
 
@@ -90,15 +91,19 @@ class NewsCell: UICollectionViewCell {
     func configure(article: NewsSectionModel){
         title.text = article.title
         subTitle.text = article.description
+        img.image = nil
 
-        if let imageURL = article.imageURL {
+        guard let imageURL = article.imageURL else {
+                return
+            }
+
             ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
                 DispatchQueue.main.async {
-                    if let validImage = image, self?.img.image == nil {
-                        self?.img.image = validImage
+                    guard let validImage = image, self?.img.image == nil else {
+                        return
                     }
+                    self?.img.image = validImage
                 }
             }
-        }
     }
 }

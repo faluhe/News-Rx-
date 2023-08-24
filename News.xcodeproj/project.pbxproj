@@ -27,7 +27,7 @@
 		9A7608A62A85998300342AC3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A7608A52A85998300342AC3 /* SnapKit */; };
 		9A7608C82A859DDD00342AC3 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608C52A859DDD00342AC3 /* AppCoordinator.swift */; };
 		9A7608C92A859DDD00342AC3 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608C42A859DDD00342AC3 /* HomeCoordinator.swift */; };
-		9A7608CA2A859DDD00342AC3 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608C72A859DDD00342AC3 /* MainCoordinator.swift */; };
+		9A7608CA2A859DDD00342AC3 /* StartTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608C72A859DDD00342AC3 /* StartTabBarCoordinator.swift */; };
 		9A7608CB2A859DDD00342AC3 /* BookmarkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608C62A859DDD00342AC3 /* BookmarkCoordinator.swift */; };
 		9A7608CC2A859DE500342AC3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608B82A859BF200342AC3 /* HomeView.swift */; };
 		9A7608CD2A859DE500342AC3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7608BA2A859BF200342AC3 /* HomeViewController.swift */; };
@@ -95,7 +95,7 @@
 		9A7608C42A859DDD00342AC3 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		9A7608C52A859DDD00342AC3 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9A7608C62A859DDD00342AC3 /* BookmarkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCoordinator.swift; sourceTree = "<group>"; };
-		9A7608C72A859DDD00342AC3 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		9A7608C72A859DDD00342AC3 /* StartTabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTabBarCoordinator.swift; sourceTree = "<group>"; };
 		9A7608CF2A859DE800342AC3 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
 		9A7608D12A859DEF00342AC3 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		9A7608D22A859DEF00342AC3 /* RxBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxBaseView.swift; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 				9A7608C52A859DDD00342AC3 /* AppCoordinator.swift */,
 				9A7608C62A859DDD00342AC3 /* BookmarkCoordinator.swift */,
 				9A7608C42A859DDD00342AC3 /* HomeCoordinator.swift */,
-				9A7608C72A859DDD00342AC3 /* MainCoordinator.swift */,
+				9A7608C72A859DDD00342AC3 /* StartTabBarCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -491,7 +491,7 @@
 				9A7608D02A859DE800342AC3 /* BookmarkViewController.swift in Sources */,
 				9A7608FD2A8D564600342AC3 /* AppContainer.swift in Sources */,
 				9A7608EB2A8B12A800342AC3 /* ResponseError.swift in Sources */,
-				9A7608CA2A859DDD00342AC3 /* MainCoordinator.swift in Sources */,
+				9A7608CA2A859DDD00342AC3 /* StartTabBarCoordinator.swift in Sources */,
 				9A5109DC2A944955008EF0F8 /* DetailsViewController.swift in Sources */,
 				9A7608DE2A859EAB00342AC3 /* UIVIew+Ext.swift in Sources */,
 				9A7608F02A8B164E00342AC3 /* News.swift in Sources */,

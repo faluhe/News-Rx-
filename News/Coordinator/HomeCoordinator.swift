@@ -11,6 +11,9 @@ import RxSwift
 
 class HomeCoordinator: Coordinator {
 
+    typealias Container = UINavigationController
+    var container = UINavigationController()
+
     let bag = DisposeBag()
 
     struct Input {
@@ -18,8 +21,6 @@ class HomeCoordinator: Coordinator {
     }
 
     let input = Input()
-
-    var rootViewController = UINavigationController()
 
     func start() {
         configure()
@@ -36,12 +37,12 @@ class HomeCoordinator: Coordinator {
                 target.startDetailsScreen()
             }).disposed(by: bag)
 
-        rootViewController.setViewControllers([module.view], animated: true)
+        container.setViewControllers([module.view], animated: true)
     }
 
 
     func startDetailsScreen() {
         let module = DetailsModuleConfiguraotor.configure()
-        rootViewController.pushViewController(module.view, animated: true)
+        container.pushViewController(module.view, animated: true)
     }
 }

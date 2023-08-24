@@ -9,23 +9,27 @@ import UIKit
 import SwiftUI
 
 protocol Coordinator {
+    associatedtype Container: AnyObject
+    var container: Container { get }
     func start ()
 }
 
 class AppCoordinator: Coordinator {
 
-    var window: UIWindow
-    var coordinators: [Coordinator] = []
+    typealias Container = UIWindow
+    var container: UIWindow
+
+    var coordinators: [any Coordinator] = []
 
     init(window: UIWindow) {
-        self.window = window
+        self.container = window
     }
 
     func start() {
-        let mainCoordinator = MainCoordinator()
-        coordinators.append(mainCoordinator)
-        mainCoordinator.start()
-        window.rootViewController = mainCoordinator.tabBarController
-        window.makeKeyAndVisible()
+        let startTabBarCoordinator = StartTabBarCoordinator()
+        coordinators.append(startTabBarCoordinator)
+        startTabBarCoordinator.start()
+        self.container.rootViewController = startTabBarCoordinator.container
+        self.container.makeKeyAndVisible()
     }
 }

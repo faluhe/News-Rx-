@@ -8,8 +8,9 @@
 import UIKit
 
 class BookmarkCoordinator: Coordinator {
-
-    var rootViewController = UINavigationController()
+    
+    typealias Container = UINavigationController
+    var container = UINavigationController()
 
     fileprivate lazy var viewController: BookmarkViewController = {
         let vc = BookmarkViewController()
@@ -18,7 +19,7 @@ class BookmarkCoordinator: Coordinator {
     }()
 
     func start() {
-        rootViewController.setViewControllers([viewController], animated: true)
+        container.setViewControllers([viewController], animated: true)
     }
 
 }
