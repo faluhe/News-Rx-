@@ -13,7 +13,7 @@ import SnapKit
 
 class HomeView: RxBaseView {
 
-    let sections = BehaviorRelay<News?>(value: nil)
+    let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -41,7 +41,6 @@ class HomeView: RxBaseView {
         newsCollectionView.backgroundColor = .clear
 
         sections
-            .compactMap { $0?.articles }
             .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)
             }

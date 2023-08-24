@@ -183,11 +183,11 @@
 			children = (
 				9A76086D2A85963B00342AC3 /* Resources */,
 				9A7607DE2A85901B00342AC3 /* AppDelegate.swift */,
+				9A7607E02A85901B00342AC3 /* SceneDelegate.swift */,
 				9A7608DF2A859ECF00342AC3 /* Common */,
 				9A7608E12A859EF700342AC3 /* Coordinator */,
 				9A7608E22A859F0200342AC3 /* Bookmark */,
 				9A7608E32A859F0C00342AC3 /* Home */,
-				9A7607E02A85901B00342AC3 /* SceneDelegate.swift */,
 				9A5109CE2A9448DB008EF0F8 /* Details */,
 				9A7607EC2A85901C00342AC3 /* LaunchScreen.storyboard */,
 				9A7607E72A85901B00342AC3 /* News.xcdatamodeld */,

@@ -14,7 +14,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = "News"
     }
 
     override func setupBinding() {
@@ -25,13 +25,14 @@ final class HomeViewController: RxBaseViewController<HomeView> {
     private func configure(_ bindings: HomeViewModel.Bindings) {
         bindings.sections.bind(to: contentView.sections).disposed(by: bag)
 
-        contentView.newsCollectionView.rx.modelSelected(Article.self).bind(to: Binder<Article>(self) { _, model in
-            print(model)
-        }).disposed(by: bag)
-
+        contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
+            .bind(to: Binder<NewsSectionModel>(self) { _, model in
+            bindings.openDetailsScreen.accept(model)
+            }).disposed(by: bag)
     }
 
     private func configure(_ commands: HomeViewModel.Commands) {
+
     }
     
 

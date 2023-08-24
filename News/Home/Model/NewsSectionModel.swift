@@ -7,6 +7,23 @@
 
 import Foundation
 
-enum NewsSectionModel {
-    
+struct NewsSectionModel {
+    let title: String
+    let imageURL: URL?
+    let description: String?
+    let publishedAt: String?
 }
+
+// Extension to convert Article to NewsModel
+extension Article {
+    func toViewModel() -> NewsSectionModel {
+        return NewsSectionModel(
+            title: title ?? "",
+            imageURL: URL(string: urlToImage ?? ""),
+            description: description ?? "",
+            publishedAt: publishedAt ?? ""
+        )
+    }
+}
+
+

@@ -87,11 +87,11 @@ class NewsCell: UICollectionViewCell {
     }
 
 
-    func configure(article: Article){
+    func configure(article: NewsSectionModel){
         title.text = article.title
         subTitle.text = article.description
 
-        if let imageURL = URL(string: article.urlToImage ?? "") {
+        if let imageURL = article.imageURL {
             ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
                 DispatchQueue.main.async {
                     if let validImage = image, self?.img.image == nil {

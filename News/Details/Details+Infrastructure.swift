@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxRelay
 
 protocol DetailsModuleType {
     var moduleBindings: DetailsViewModel.ModuleBindings { get }
@@ -23,7 +24,7 @@ extension DetailsViewModel {
     }
 
     struct ModuleBindings {
-
+        let updateData = PublishRelay<Void>()
     }
 
     struct Commands {

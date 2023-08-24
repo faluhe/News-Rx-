@@ -15,6 +15,7 @@ protocol Coordinator {
 class AppCoordinator: Coordinator {
 
     var window: UIWindow
+    var coordinators: [Coordinator] = []
 
     init(window: UIWindow) {
         self.window = window
@@ -22,10 +23,9 @@ class AppCoordinator: Coordinator {
 
     func start() {
         let mainCoordinator = MainCoordinator()
+        coordinators.append(mainCoordinator)
         mainCoordinator.start()
-
         window.rootViewController = mainCoordinator.tabBarController
+        window.makeKeyAndVisible()
     }
-
-
 }

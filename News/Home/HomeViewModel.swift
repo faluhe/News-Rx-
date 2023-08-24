@@ -30,6 +30,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
         self.configure(moduleCommands: moduleCommands)
         configure(commands: commands)
         configure(bindings: bindings)
+        configure(moduleBindings: moduleBindings)
     }
 
     func configure(dependencies: Dependencies) {
@@ -45,20 +46,39 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     }
 
     func configure(commands: Commands) {
-
     }
 
     func configure(moduleBindings: ModuleBindings) {
-        moduleBindings.loadNews.bind(to: Binder<Void>(self) { target, _ in
-            
-        }).disposed(by: bag)
+        //        moduleBindings.loadNews.bind(to: Binder<Void>(self) { target, _ in
+        //
+        //        }).disposed(by: bag)
+
+        bindings.openDetailsScreen.bind(to: moduleBindings.startDetails).disposed(by: bag)
     }
 
 
     func loadNews() {
-        let news = dependencies.newsService.getNews()
-        news.subscribe { news in
-            self.bindings.sections.accept(news)
-        }.disposed(by: bag)
+            let news = dependencies.newsService.getNews()
+
+            news
+                .subscribe(onNext: { [weak self] news in
+                    let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
+                    self?.bindings.sections.accept(newsViewModels)
+                })
+                .disposed(by: bag)
+        }
+}
+
+
+
+final class DetailsModuleConfiguraotor {
+
+    typealias Module = (view: UIViewController, viewModel: DetailsModuleType)
+
+    class func configure() -> Module {
+        let view = DetailsViewController()
+        let viewModel = DetailsViewModel()
+        view.viewModel = viewModel
+        return (view, viewModel)
     }
 }

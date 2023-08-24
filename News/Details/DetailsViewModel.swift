@@ -14,7 +14,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
     private let bag = DisposeBag()
 
     // MARK: - Dependencies
-    let dependencies: Dependencies
+//    let dependencies: Dependencies
 
     // MARK: - Module infrastructure
     let moduleBindings = ModuleBindings()
@@ -25,9 +25,9 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
     let commands = Commands()
 
 
-    init(dependencies: Dependencies) {
-        self.dependencies = dependencies
-        configure(dependencies: dependencies)
+    init() {
+//        self.dependencies = dependencies
+//        configure(dependencies: dependencies)
         configure(moduleCommands: moduleCommands)
         configure(commands: commands)
         configure(bindings: bindings)
