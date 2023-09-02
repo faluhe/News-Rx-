@@ -22,7 +22,8 @@ protocol HomeViewModelType {
 extension HomeViewModel {
 
     struct ModuleCommands {
-
+        let startDetails = BehaviorRelay<NewsSectionModel?>(value: nil)
+        let done = PublishRelay<Void>()
     }
 
     struct Bindings {
@@ -31,12 +32,11 @@ extension HomeViewModel {
     }
 
     struct Commands {
-        let goStartDetailsScreen = BehaviorRelay<[NewsSectionModel]>(value: [])
+        let loadNews = PublishRelay<Void>()
     }
 
     struct ModuleBindings {
         let updateData = PublishRelay<Void>()
-        let startDetails =  BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
     struct Dependencies {

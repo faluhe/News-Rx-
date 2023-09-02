@@ -18,3 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.appCoordinator?.start()
     }
 }
+
+
+

@@ -11,7 +11,7 @@ import RxRelay
 import RxCocoa
 import SnapKit
 
-class HomeView: RxBaseView {
+final class HomeView: RxBaseView {
 
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
 

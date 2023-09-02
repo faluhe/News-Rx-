@@ -20,11 +20,12 @@ protocol DetailsViewModelType {
 
 extension DetailsViewModel {
     struct Bindings {
-
+        let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
     struct ModuleBindings {
         let updateData = PublishRelay<Void>()
+        let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
     struct Commands {
@@ -36,6 +37,6 @@ extension DetailsViewModel {
     }
 
     struct Dependencies {
-
+        
     }
 }

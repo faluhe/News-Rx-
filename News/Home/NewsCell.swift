@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class NewsCell: UICollectionViewCell {
+final class NewsCell: UICollectionViewCell {
 
     static let identifier = "NewsCell"
 

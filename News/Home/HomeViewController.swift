@@ -17,6 +17,11 @@ final class HomeViewController: RxBaseViewController<HomeView> {
         navigationItem.title = "News"
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.commands.loadNews.accept(())
+    }
+
     override func setupBinding() {
         configure(viewModel.bindings)
         configure(viewModel.commands)

@@ -33,52 +33,38 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
         configure(moduleBindings: moduleBindings)
     }
 
-    func configure(dependencies: Dependencies) {
-
-    }
+    func configure(dependencies: Dependencies) {}
 
     func configure(moduleCommands: ModuleCommands) {
-
+        bindings.openDetailsScreen.bind(to: moduleCommands.startDetails).disposed(by: bag)
     }
 
-    func configure(bindings: Bindings) {
+    func configure(bindings: Bindings) { //ViewModel and UI
         loadNews()
+
     }
 
-    func configure(commands: Commands) {
+    func configure(commands: Commands) { //Command from UI interaction
+        commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
+            target.loadNews()
+        }).disposed(by: bag)
+
     }
 
-    func configure(moduleBindings: ModuleBindings) {
-        //        moduleBindings.loadNews.bind(to: Binder<Void>(self) { target, _ in
-        //
-        //        }).disposed(by: bag)
-
-        bindings.openDetailsScreen.bind(to: moduleBindings.startDetails).disposed(by: bag)
+    func configure(moduleBindings: ModuleBindings) { //connecting action to Module for using in Coordinator
+//        moduleBindings.updateData.bind(to: Binder<Void>(self) { target, _ in
+//            target.loadNews()
+//        }).disposed(by: bag)
     }
 
 
     func loadNews() {
-            let news = dependencies.newsService.getNews()
+        let news = dependencies.newsService.getNews()
 
-            news
-                .subscribe(onNext: { [weak self] news in
-                    let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
-                    self?.bindings.sections.accept(newsViewModels)
-                })
-                .disposed(by: bag)
-        }
-}
-
-
-
-final class DetailsModuleConfiguraotor {
-
-    typealias Module = (view: UIViewController, viewModel: DetailsModuleType)
-
-    class func configure() -> Module {
-        let view = DetailsViewController()
-        let viewModel = DetailsViewModel()
-        view.viewModel = viewModel
-        return (view, viewModel)
+        news.subscribe(onNext: { [weak self] news in
+                let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
+                self?.bindings.sections.accept(newsViewModels)
+            })
+            .disposed(by: bag)
     }
 }

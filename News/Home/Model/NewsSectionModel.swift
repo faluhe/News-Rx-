@@ -12,6 +12,7 @@ struct NewsSectionModel {
     let imageURL: URL?
     let description: String?
     let publishedAt: String?
+    let url: String?
 }
 
 // Extension to convert Article to NewsModel
@@ -21,7 +22,8 @@ extension Article {
             title: title ?? "",
             imageURL: URL(string: urlToImage ?? ""),
             description: description ?? "",
-            publishedAt: publishedAt ?? ""
+            publishedAt: publishedAt ?? "",
+            url: url ?? ""
         )
     }
 }
