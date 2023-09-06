@@ -24,20 +24,18 @@ class StartTabBarCoordinator: Coordinator {
         let homeCoordinator = HomeCoordinator()
         coordinators.append(homeCoordinator)
         homeCoordinator.start()
-        setup(vc: homeCoordinator.container, title: "Home", imageName: "newspaper", selectedImageName: "newspaper.fill")
+        setup(vc: homeCoordinator.container, title: K.home, imageName: Images.newspaper.systemImage, selectedImageName: Images.home.systemImage)
     }
 
     func startBookmarkCoordinator() {
         let bookmarkCoordinator = BookmarkCoordinator()
         coordinators.append(bookmarkCoordinator)
         bookmarkCoordinator.start()
-        setup(vc: bookmarkCoordinator.container, title: "Bookmark", imageName: "bookmark", selectedImageName: "bookmark.fill")
+        setup(vc: bookmarkCoordinator.container, title: K.bookmark, imageName: Images.bookmarkEmpty.systemImage, selectedImageName: Images.bookmarkFill.systemImage)
     }
 
-    func setup(vc: UIViewController, title: String, imageName: String, selectedImageName: String) {
-        let defaultImage = UIImage(systemName: imageName)
-        let selectedImage = UIImage(systemName: selectedImageName)
-        let tabBarItem = UITabBarItem(title: title, image: defaultImage, selectedImage: selectedImage)
+    func setup(vc: UIViewController, title: String, imageName: UIImage?, selectedImageName: UIImage?) {
+        let tabBarItem = UITabBarItem(title: title, image: imageName, selectedImage: selectedImageName)
         vc.tabBarItem = tabBarItem
     }
 }

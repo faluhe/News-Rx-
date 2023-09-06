@@ -29,7 +29,7 @@ extension DetailsViewModel {
     }
 
     struct Commands {
-
+        let addToBookmarks = PublishRelay<Void>()
     }
 
     struct ModuleCommands {

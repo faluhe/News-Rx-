@@ -32,10 +32,9 @@ final class DetailsView: RxBaseView {
     }
 
     override func setupView() {
-        model.subscribe(onNext: { [weak self] model in
+        model.bind(to: Binder<NewsSectionModel?>(self) { target, model in
             guard let urlString = model?.url, let url = URL(string: urlString) else { return }
-            self?.webView.load(URLRequest(url: url))
-            })
-            .disposed(by: bag)
+            target.webView.load(URLRequest(url: url))
+        }).disposed(by: bag)
     }
 }

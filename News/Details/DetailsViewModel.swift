@@ -46,13 +46,13 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
     }
 
     func configure(commands: Commands) {
-
+        commands.addToBookmarks.bind(to: Binder<Void>(self) { target, _ in
+            print("added")
+        }).disposed(by: bag)
     }
 
     func configure(moduleBindings: ModuleBindings) {
-
         moduleBindings.detailsModel.bind(to: bindings.detailsModel).disposed(by: bag)
-        
     }
 
 }
