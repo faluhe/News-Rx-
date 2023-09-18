@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ArticlesEntity" representedClassName="ArticlesEntity" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="descript" optional="YES" attributeType="String"/>
+        <attribute name="imgUrl" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+        <relationship name="news" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NewsEntity" inverseName="articles" inverseEntity="NewsEntity"/>
+        <relationship name="source" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourcesEntity" inverseName="articles" inverseEntity="SourcesEntity"/>
+    </entity>
+    <entity name="NewsEntity" representedClassName="NewsEntity" syncable="YES">
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="totalResults" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="articles" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ArticlesEntity" inverseName="news" inverseEntity="ArticlesEntity"/>
+    </entity>
+    <entity name="SourcesEntity" representedClassName="SourcesEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="articles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ArticlesEntity" inverseName="source" inverseEntity="ArticlesEntity"/>
+    </entity>
 </model>

@@ -41,5 +41,6 @@ extension HomeViewModel {
 
     struct Dependencies {
         let newsService: HomeService
+//        let coreData: CoreDataManager
     }
 }

@@ -11,7 +11,6 @@ struct NewsSectionModel {
     let title: String
     let imageURL: URL?
     let description: String?
-    let publishedAt: String?
     let url: String?
 }
 
@@ -22,10 +21,19 @@ extension Article {
             title: title ?? "",
             imageURL: URL(string: urlToImage ?? ""),
             description: description ?? "",
-            publishedAt: publishedAt ?? "",
             url: url ?? ""
         )
     }
 }
 
-
+extension ArticlesEntity {
+    func toModel() -> Article {
+        return Article(source: Source(id: source?.id, name: source?.name),
+                       author: self.author,
+                       title: self.title,
+                       description: self.descript,
+                       url: self.url,
+                       urlToImage: self.imgUrl,
+                       content: self.content)
+    }
+}

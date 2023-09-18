@@ -16,3 +16,8 @@ enum ResponseError: Error {
 enum NetworkError: Error {
     case invalidURL
 }
+
+
+enum CoreDataError: Error {
+    case noStoredData
+}
