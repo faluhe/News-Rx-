@@ -13,7 +13,7 @@ final class DetailsModuleConfiguraotor {
 
     class func configure() -> Module {
         let view = DetailsViewController()
-        let viewModel = DetailsViewModel(dependencies: .init())
+        let viewModel = DetailsViewModel(dependencies: .init(coreDataManager: AppContainer().inject()))
         view.viewModel = viewModel
         return (view, viewModel)
     }

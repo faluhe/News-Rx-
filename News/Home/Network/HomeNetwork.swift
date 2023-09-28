@@ -29,22 +29,28 @@ final class HomeNetwork: HomeNetworkType {
         let target: HomeTarget = .getNews
         return dispatcher.request(target, type: NewsDTO.self).map { elements in
             let news = News(status: elements.status, totalResults: elements.totalResults, articles: elements.articles)
-            self.dataBase.saveNews(news)
             return news
         }
     }
 
     func getStoredNews() -> Single<News> {
         return Single.create { [unowned self] single in
-                let result = self.dataBase.getStoredNews()
-                switch result {
-                case let .success(news):
-                    single(.success(news))
-                case let .failure(error):
-                    single(.failure(error))
-                }
-                return Disposables.create()
+            let result: Result<NewsEntity, Error> = dataBase.getStoredEntity(NewsEntity())
+
+            switch result {
+            case let .success(newsEntity):
+                let news = News(
+                    status: newsEntity.status ?? "",
+                    totalResults: newsEntity.totalResults,
+                    articles: newsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
+                )
+                single(.success(news))
+            case let .failure(error):
+                single(.failure(error))
             }
+
+            return Disposables.create()
+        }
     }
 }
 

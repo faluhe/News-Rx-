@@ -19,6 +19,8 @@
 		9A5109DD2A944955008EF0F8 /* Details+Infrastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109DA2A944955008EF0F8 /* Details+Infrastructure.swift */; };
 		9A5109DE2A944955008EF0F8 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109DB2A944955008EF0F8 /* DetailsViewModel.swift */; };
 		9A5109E62A99B0D9008EF0F8 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109E52A99B0D9008EF0F8 /* DetailsView.swift */; };
+		9A6042292ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */; };
+		9A60422A2ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */; };
 		9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607DE2A85901B00342AC3 /* AppDelegate.swift */; };
 		9A7607E12A85901B00342AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607E02A85901B00342AC3 /* SceneDelegate.swift */; };
 		9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607E72A85901B00342AC3 /* News.xcdatamodeld */; };
@@ -92,6 +94,8 @@
 		9A5109DA2A944955008EF0F8 /* Details+Infrastructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Details+Infrastructure.swift"; sourceTree = "<group>"; };
 		9A5109DB2A944955008EF0F8 /* DetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		9A5109E52A99B0D9008EF0F8 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9A7607DB2A85901B00342AC3 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A7607DE2A85901B00342AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A7607E02A85901B00342AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 				9A118E072AAA44AD00C3BFB5 /* SourcesEntity+CoreDataProperties.swift */,
 				9A118E142AAA4C0300C3BFB5 /* NewsEntity+CoreDataClass.swift */,
 				9A118E152AAA4C0300C3BFB5 /* NewsEntity+CoreDataProperties.swift */,
+				9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */,
+				9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */,
 				9A7608EC2A8B154300342AC3 /* Core */,
 				9A7608FE2A8D565100342AC3 /* Dependency IInjection */,
 			);
@@ -507,6 +513,7 @@
 				9A7608C92A859DDD00342AC3 /* HomeCoordinator.swift in Sources */,
 				9A7608CD2A859DE500342AC3 /* HomeViewController.swift in Sources */,
 				9A7609002A8D6DB100342AC3 /* NewsSectionModel.swift in Sources */,
+				9A6042292ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift in Sources */,
 				9A7608D62A859DFA00342AC3 /* RxBaseViewController.swift in Sources */,
 				9A118E0B2AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataProperties.swift in Sources */,
 				9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */,
@@ -516,6 +523,7 @@
 				9A7608D32A859DEF00342AC3 /* RxBaseView.swift in Sources */,
 				9A7608E92A8AF65600342AC3 /* NetworkTargetType.swift in Sources */,
 				9A7608D02A859DE800342AC3 /* BookmarkViewController.swift in Sources */,
+				9A60422A2ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift in Sources */,
 				9A7608FD2A8D564600342AC3 /* AppContainer.swift in Sources */,
 				9A7608EB2A8B12A800342AC3 /* ResponseError.swift in Sources */,
 				9A7608CA2A859DDD00342AC3 /* StartTabBarCoordinator.swift in Sources */,

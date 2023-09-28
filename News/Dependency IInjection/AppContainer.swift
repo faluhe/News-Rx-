@@ -50,20 +50,20 @@ extension AppContainer {
             DatabaseDispatcher()
         }.inObjectScope(.container)
 
-        container.register(CoreDataManagerType.self) { _ in
+        container.register(CoreDataManager.self) { _ in
             CoreDataManager(containerName: "News")
         }
         .inObjectScope(.container)
 
         container.register(HomeNetwork.self) { resolver in
             let dispatcher = resolver.resolve(DatabaseDispatcher.self)!
-            let dataBase = resolver.resolve(CoreDataManagerType.self)!
+            let dataBase = resolver.resolve(CoreDataManager.self)!
             return HomeNetwork(dispatcher, dataBase)
         }.inObjectScope(.container)
 
         container.register(HomeService.self) { resolver in
             let network = resolver.resolve(HomeNetwork.self)!
-            let dataBase = resolver.resolve(CoreDataManagerType.self)!
+            let dataBase = resolver.resolve(CoreDataManager.self)!
             return HomeService(network, dataBase: dataBase)
         }.inObjectScope(.container)
     }

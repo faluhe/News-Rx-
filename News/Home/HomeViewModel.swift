@@ -64,7 +64,9 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
         news.subscribe(onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
+            print(newsViewModels)
                 self?.bindings.sections.accept(newsViewModels)
+            self?.dependencies.coreData.saveEntity(news)
             })
             .disposed(by: bag)
     }
@@ -72,9 +74,9 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     func loadStoredNews() {
         let storedNews = dependencies.newsService.getStoredNews()
 
-        storedNews.subscribe(onNext: { [weak self] news in
-                let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
-               print(newsViewModels)
+        storedNews.subscribe(onNext: { [weak self] storedNews in
+                let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
+//               print(newsViewModels)
             self?.bindings.sections.accept(newsViewModels)
             })
             .disposed(by: bag)

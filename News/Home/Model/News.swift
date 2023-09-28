@@ -34,8 +34,14 @@ struct Source: Codable {
 
 
 struct News {
-    let status: String?
-    let totalResults: Double?
-    let articles: [Article]?
+    var status: String? = nil
+    var totalResults: Double? = nil
+    var articles: [Article]?
+
+        init(status: String? = nil, totalResults: Double? = nil, articles: [Article]? = nil) {
+            self.status = status
+            self.totalResults = totalResults
+            self.articles = articles
+        }
 }
 

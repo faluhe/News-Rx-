@@ -55,70 +55,206 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
 }
 
 
+//protocol CoreDataManagerType {
+//    func saveNews(_ news: News)
+//    func getStoredNews() -> Result<News, Error>
+//}
+//
+//class CoreDataManager: CoreDataManagerType {
+//    let persistentContainer: NSPersistentContainer
+//
+//    init(containerName: String) {
+//        persistentContainer = NSPersistentContainer(name: containerName)
+//        persistentContainer.loadPersistentStores { _, error in
+//            if let error = error {
+//                fatalError("Unable to load persistent stores: \(error)")
+//            }
+//        }
+//    }
+//
+//    func saveNews(_ news: News) {
+//        let context = persistentContainer.viewContext
+//
+//        let newsEntity = NewsEntity(context: context)
+//        newsEntity.status = news.status
+//        newsEntity.totalResults = news.totalResults ?? 0
+//
+//        if let articles = news.articles {
+//            let articleEntities = articles.map { article in
+//                return createArticleEntity(from: article, context: context)
+//            }
+//            newsEntity.articles = NSOrderedSet(array: articleEntities)
+//        }
+//
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Failed to save news to Core Data: \(error)")
+//        }
+//    }
+//
+//    func saveArticleToBookmark(_ news: News) {
+//        let context = persistentContainer.viewContext
+//
+//        let bookmarkEntity = BookmarkEntity(context: context)
+//
+//        if let articles = news.articles {
+//            let articleEntities = articles.map { article in
+//                return createArticleEntity(from: article, context: context)
+//            }
+//            bookmarkEntity.articles = NSOrderedSet(array: articleEntities)
+//        }
+//
+//        do {
+//            try context.save()
+//        } catch {
+//            print("Failed to save news to Core Data: \(error)")
+//        }
+//    }
+//
+//    func createArticleEntity(from article: Article, context: NSManagedObjectContext) -> ArticlesEntity {
+//        let articleEntity = ArticlesEntity(context: context)
+//        articleEntity.title = article.title
+//        articleEntity.descript = article.description
+//        articleEntity.imgUrl = article.urlToImage
+//        articleEntity.url = article.url
+//
+//        let sourceEntity = SourcesEntity(context: context)
+//        sourceEntity.name = article.source?.name
+//        sourceEntity.id = article.source?.id
+//        articleEntity.source = sourceEntity
+//
+//        return articleEntity
+//    }
+//
+//    func getStoredNews() -> Result<News, Error> {
+//        let context = persistentContainer.viewContext
+//
+//        do {
+//            let fetchRequest: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
+//            let storedNewsEntities = try context.fetch(fetchRequest)
+//
+//            if let storedNewsEntity = storedNewsEntities.first {
+//                print(storedNewsEntity)
+//                let news = News(
+//                    status: storedNewsEntity.status ?? "",
+//                    totalResults: storedNewsEntity.totalResults,
+//                    articles: storedNewsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
+//                )
+//                return .success(news)
+//            } else {
+//                return .failure(CoreDataError.noStoredData)
+//            }
+//        } catch {
+//            return .failure(error)
+//        }
+//    }
+//
+//    func getBookmarkNews() -> Result<News, Error> {
+//        let context = persistentContainer.viewContext
+//
+//        do {
+//            let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
+//            let storedNewsEntities = try context.fetch(fetchRequest)
+//
+//            if let storedNewsEntity = storedNewsEntities.first {
+//                print(storedNewsEntity)
+//                let news = News(
+//                    articles: storedNewsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
+//                )
+//                return .success(news)
+//            } else {
+//                return .failure(CoreDataError.noStoredData)
+//            }
+//        } catch {
+//            return .failure(error)
+//        }
+//    }
+//}
 protocol CoreDataManagerType {
-    func saveNews(_ news: News)
-    func getStoredNews() -> Result<News, Error>
+    func saveEntity<T: ConvertibleToEntity>(_ entity: T)
+    func getStoredEntity<T: NSManagedObject>(_ entity: T) -> Result<T, Error>
 }
 
-class CoreDataManager: CoreDataManagerType {
-    let persistentContainer: NSPersistentContainer
+protocol ConvertibleToEntity {
+    associatedtype EntityType
+    func toEntity(context: NSManagedObjectContext) -> EntityType
+}
 
-    init(containerName: String) {
-        persistentContainer = NSPersistentContainer(name: containerName)
-        persistentContainer.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
+extension Article: ConvertibleToEntity {
+    typealias EntityType = ArticlesEntity
+
+    func toEntity(context: NSManagedObjectContext) -> ArticlesEntity {
+        // Implement conversion logic from Article to ArticlesEntity
+        let articlesEntity = ArticlesEntity(context: context)
+           articlesEntity.title = self.title
+           articlesEntity.descript = self.description
+           articlesEntity.imgUrl = self.urlToImage
+           articlesEntity.url = self.url
+
+           if let source = self.source {
+               let sourceEntity = SourcesEntity(context: context)
+               sourceEntity.name = source.name
+               sourceEntity.id = source.id
+               articlesEntity.source = sourceEntity
+           }
+        return articlesEntity
     }
+}
 
-    func saveNews(_ news: News) {
-        let context = persistentContainer.viewContext
+extension News: ConvertibleToEntity {
+    typealias EntityType = NewsEntity
 
+    func toEntity(context: NSManagedObjectContext) -> NewsEntity {
+        // Implement conversion logic from News to NewsEntity
         let newsEntity = NewsEntity(context: context)
-        newsEntity.status = news.status
-        newsEntity.totalResults = news.totalResults ?? 0
+        newsEntity.status = self.status
+        newsEntity.totalResults = self.totalResults ?? 0
 
-        if let articles = news.articles {
+        if let articles = self.articles {
             let articleEntities = articles.map { article in
-                let articleEntity = ArticlesEntity(context: context)
-                articleEntity.title = article.title
-                articleEntity.descript = article.description
-                articleEntity.imgUrl = article.urlToImage
-                articleEntity.url = article.url
-
-                let sourceEntity = SourcesEntity(context: context)
-                sourceEntity.name = article.source?.name
-                sourceEntity.id = article.source?.id
-                articleEntity.source = sourceEntity
-
-                return articleEntity
+                return article.toEntity(context: context)
             }
             newsEntity.articles = NSOrderedSet(array: articleEntities)
         }
 
+        return newsEntity
+    }
+}
+
+
+class CoreDataManager: CoreDataManagerType {
+    let persistentContainer: NSPersistentContainer
+
+       init(containerName: String) {
+           persistentContainer = NSPersistentContainer(name: containerName)
+           persistentContainer.loadPersistentStores { _, error in
+               if let error = error {
+                   fatalError("Unable to load persistent stores: \(error)")
+               }
+           }
+       }
+
+    func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
+        let context = persistentContainer.viewContext
+        let _ = entity.toEntity(context: context)
+
         do {
             try context.save()
         } catch {
-            print("Failed to save news to Core Data: \(error)")
+            print("Failed to save entity to Core Data: \(error)")
         }
     }
 
-    func getStoredNews() -> Result<News, Error> {
+    func getStoredEntity<T: NSManagedObject>(_ entity: T) -> Result<T, Error> {
         let context = persistentContainer.viewContext
 
         do {
-            let fetchRequest: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
-            let storedNewsEntities = try context.fetch(fetchRequest)
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: T.self))
+            let storedEntities = try context.fetch(fetchRequest)
 
-            if let storedNewsEntity = storedNewsEntities.first {
-                print(storedNewsEntity)
-                let news = News(
-                    status: storedNewsEntity.status ?? "",
-                    totalResults: storedNewsEntity.totalResults,
-                    articles: storedNewsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
-                )
-                return .success(news)
+            if let storedEntity = storedEntities.first {
+                return .success(storedEntity as! T)
             } else {
                 return .failure(CoreDataError.noStoredData)
             }
@@ -126,4 +262,6 @@ class CoreDataManager: CoreDataManagerType {
             return .failure(error)
         }
     }
+
+
 }

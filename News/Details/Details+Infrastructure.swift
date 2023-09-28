@@ -37,6 +37,6 @@ extension DetailsViewModel {
     }
 
     struct Dependencies {
-        
+        let coreDataManager: CoreDataManager
     }
 }
