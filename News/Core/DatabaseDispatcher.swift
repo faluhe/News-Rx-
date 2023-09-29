@@ -187,17 +187,17 @@ extension Article: ConvertibleToEntity {
     func toEntity(context: NSManagedObjectContext) -> ArticlesEntity {
         // Implement conversion logic from Article to ArticlesEntity
         let articlesEntity = ArticlesEntity(context: context)
-           articlesEntity.title = self.title
-           articlesEntity.descript = self.description
-           articlesEntity.imgUrl = self.urlToImage
-           articlesEntity.url = self.url
+        articlesEntity.title = self.title
+        articlesEntity.descript = self.description
+        articlesEntity.imgUrl = self.urlToImage
+        articlesEntity.url = self.url
 
-           if let source = self.source {
-               let sourceEntity = SourcesEntity(context: context)
-               sourceEntity.name = source.name
-               sourceEntity.id = source.id
-               articlesEntity.source = sourceEntity
-           }
+        if let source = self.source {
+            let sourceEntity = SourcesEntity(context: context)
+            sourceEntity.name = source.name
+            sourceEntity.id = source.id
+            articlesEntity.source = sourceEntity
+        }
         return articlesEntity
     }
 }
@@ -223,17 +223,36 @@ extension News: ConvertibleToEntity {
 }
 
 
+extension NewsSectionModel: ConvertibleToEntity {
+    typealias EntityType = BookmarkEntity
+
+    func toEntity(context: NSManagedObjectContext) -> BookmarkEntity {
+
+        let bookmarkEntity = BookmarkEntity(context: context)
+        bookmarkEntity.title = self.title
+        bookmarkEntity.desc = self.description
+        bookmarkEntity.url = self.url
+        bookmarkEntity.urlToImage = self.imageURL
+
+        return bookmarkEntity
+    }
+
+
+
+}
+
+
 class CoreDataManager: CoreDataManagerType {
     let persistentContainer: NSPersistentContainer
 
-       init(containerName: String) {
-           persistentContainer = NSPersistentContainer(name: containerName)
-           persistentContainer.loadPersistentStores { _, error in
-               if let error = error {
-                   fatalError("Unable to load persistent stores: \(error)")
-               }
-           }
-       }
+    init(containerName: String) {
+        persistentContainer = NSPersistentContainer(name: containerName)
+        persistentContainer.loadPersistentStores { _, error in
+            if let error = error {
+                fatalError("Unable to load persistent stores: \(error)")
+            }
+        }
+    }
 
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = persistentContainer.viewContext
@@ -262,6 +281,4 @@ class CoreDataManager: CoreDataManagerType {
             return .failure(error)
         }
     }
-
-
 }

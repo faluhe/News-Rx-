@@ -9,7 +9,7 @@ import Foundation
 
 struct NewsSectionModel {
     let title: String
-    let imageURL: URL?
+    let imageURL: String?
     let description: String?
     let url: String?
 }
@@ -19,7 +19,7 @@ extension Article {
     func toViewModel() -> NewsSectionModel {
         return NewsSectionModel(
             title: title ?? "",
-            imageURL: URL(string: urlToImage ?? ""),
+            imageURL: urlToImage ?? "",
             description: description ?? "",
             url: url ?? ""
         )

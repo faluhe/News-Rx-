@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class BookmarkViewController: RxBaseViewController<RxBaseView> {
+final class BookmarkViewController: RxBaseViewController<BookmarkView> {
+
+    var viewModel: BookmarkViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()

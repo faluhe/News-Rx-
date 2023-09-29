@@ -21,6 +21,10 @@
 		9A5109E62A99B0D9008EF0F8 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109E52A99B0D9008EF0F8 /* DetailsView.swift */; };
 		9A6042292ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */; };
 		9A60422A2ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */; };
+		9A60422E2AC776C500CAE2F3 /* BookmarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60422D2AC776C500CAE2F3 /* BookmarkView.swift */; };
+		9A6042302AC776CF00CAE2F3 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60422F2AC776CF00CAE2F3 /* BookmarkViewModel.swift */; };
+		9A6042322AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042312AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift */; };
+		9A6042342AC7772D00CAE2F3 /* Bookmark+infrastracture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6042332AC7772D00CAE2F3 /* Bookmark+infrastracture.swift */; };
 		9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607DE2A85901B00342AC3 /* AppDelegate.swift */; };
 		9A7607E12A85901B00342AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607E02A85901B00342AC3 /* SceneDelegate.swift */; };
 		9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A7607E72A85901B00342AC3 /* News.xcdatamodeld */; };
@@ -96,6 +100,10 @@
 		9A5109E52A99B0D9008EF0F8 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BookmarkEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9A60422D2AC776C500CAE2F3 /* BookmarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkView.swift; sourceTree = "<group>"; };
+		9A60422F2AC776CF00CAE2F3 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
+		9A6042312AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkModuleConfigurator.swift; sourceTree = "<group>"; };
+		9A6042332AC7772D00CAE2F3 /* Bookmark+infrastracture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bookmark+infrastracture.swift"; sourceTree = "<group>"; };
 		9A7607DB2A85901B00342AC3 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A7607DE2A85901B00342AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A7607E02A85901B00342AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -289,6 +297,10 @@
 			isa = PBXGroup;
 			children = (
 				9A7608CF2A859DE800342AC3 /* BookmarkViewController.swift */,
+				9A60422D2AC776C500CAE2F3 /* BookmarkView.swift */,
+				9A60422F2AC776CF00CAE2F3 /* BookmarkViewModel.swift */,
+				9A6042312AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift */,
+				9A6042332AC7772D00CAE2F3 /* Bookmark+infrastracture.swift */,
 			);
 			path = Bookmark;
 			sourceTree = "<group>";
@@ -520,6 +532,7 @@
 				9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */,
 				9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */,
 				9A7607E12A85901B00342AC3 /* SceneDelegate.swift in Sources */,
+				9A6042302AC776CF00CAE2F3 /* BookmarkViewModel.swift in Sources */,
 				9A7608D32A859DEF00342AC3 /* RxBaseView.swift in Sources */,
 				9A7608E92A8AF65600342AC3 /* NetworkTargetType.swift in Sources */,
 				9A7608D02A859DE800342AC3 /* BookmarkViewController.swift in Sources */,
@@ -529,6 +542,7 @@
 				9A7608CA2A859DDD00342AC3 /* StartTabBarCoordinator.swift in Sources */,
 				9A5109DC2A944955008EF0F8 /* DetailsViewController.swift in Sources */,
 				9A118E172AAA4C0300C3BFB5 /* NewsEntity+CoreDataProperties.swift in Sources */,
+				9A60422E2AC776C500CAE2F3 /* BookmarkView.swift in Sources */,
 				9A118E0C2AAA44AD00C3BFB5 /* SourcesEntity+CoreDataClass.swift in Sources */,
 				9A7608DE2A859EAB00342AC3 /* UIVIew+Ext.swift in Sources */,
 				9A7608F02A8B164E00342AC3 /* News.swift in Sources */,
@@ -537,6 +551,8 @@
 				9A7608CB2A859DDD00342AC3 /* BookmarkCoordinator.swift in Sources */,
 				9A7609082A8EE33B00342AC3 /* ImageCaching.swift in Sources */,
 				9A5109DE2A944955008EF0F8 /* DetailsViewModel.swift in Sources */,
+				9A6042322AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift in Sources */,
+				9A6042342AC7772D00CAE2F3 /* Bookmark+infrastracture.swift in Sources */,
 				9A5109CB2A944861008EF0F8 /* Home+infastructure.swift in Sources */,
 				9A5109E62A99B0D9008EF0F8 /* DetailsView.swift in Sources */,
 				9A7608F52A8B2FF500342AC3 /* HomeTarget.swift in Sources */,

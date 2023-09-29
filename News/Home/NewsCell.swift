@@ -93,7 +93,7 @@ final class NewsCell: UICollectionViewCell {
         subTitle.text = article.description
         img.image = nil
 
-        guard let imageURL = article.imageURL else {
+        guard let imageUrlStr = article.imageURL, let imageURL = URL(string: imageUrlStr)  else {
                 return
             }
 

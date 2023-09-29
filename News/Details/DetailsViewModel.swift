@@ -49,13 +49,13 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
         commands.addToBookmarks.bind(to: Binder<Void>(self) { target, _ in
             print("added")
 
-//            guard let detailsModel = self.bindings.detailsModel.value else {
-//                // Handle the case where detailsModel doesn't conform to ConvertibleToEntity
-//                print("Error: detailsModel does not conform to ConvertibleToEntity")
-//                return
-//            }
-//
-//            dependencies.coreDataManager.saveEntity(detailsModel)
+            guard let detailsModel = self.bindings.detailsModel.value else {
+                // Handle the case where detailsModel doesn't conform to ConvertibleToEntity
+                print("Error: detailsModel does not conform to ConvertibleToEntity")
+                return
+            }
+
+            self.dependencies.coreDataManager.saveEntity(detailsModel)
         }).disposed(by: bag)
     }
 

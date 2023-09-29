@@ -7,12 +7,14 @@
         <attribute name="imgUrl" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
-        <relationship name="bookmark" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookmarkEntity" inverseName="articles" inverseEntity="BookmarkEntity"/>
         <relationship name="news" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NewsEntity" inverseName="articles" inverseEntity="NewsEntity"/>
         <relationship name="source" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SourcesEntity" inverseName="articles" inverseEntity="SourcesEntity"/>
     </entity>
     <entity name="BookmarkEntity" representedClassName="BookmarkEntity" syncable="YES">
-        <relationship name="articles" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ArticlesEntity" inverseName="bookmark" inverseEntity="ArticlesEntity"/>
+        <attribute name="desc" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="url" optional="YES" attributeType="String"/>
+        <attribute name="urlToImage" optional="YES" attributeType="String"/>
     </entity>
     <entity name="NewsEntity" representedClassName="NewsEntity" syncable="YES">
         <attribute name="status" optional="YES" attributeType="String"/>
