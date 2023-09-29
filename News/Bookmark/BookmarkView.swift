@@ -9,4 +9,7 @@ import UIKit
 
 class BookmarkView: RxBaseView {
 
+    override func setupView() {
+        <#code#>
+    }
 }
