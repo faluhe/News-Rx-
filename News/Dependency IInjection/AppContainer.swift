@@ -66,6 +66,11 @@ extension AppContainer {
             let dataBase = resolver.resolve(CoreDataManager.self)!
             return HomeService(network, dataBase: dataBase)
         }.inObjectScope(.container)
+
+        container.register(BookmarkService.self) { resolver in
+            let dataBase = resolver.resolve(CoreDataManager.self)!
+            return BookmarkService(dataBase)
+        }
     }
 }
 

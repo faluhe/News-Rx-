@@ -6,8 +6,12 @@
 //
 
 import Foundation
+import RxSwift
+import RxRelay
 
 final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
+
+    private let bag = DisposeBag()
 
     //MARK: - Dependencies
     let dependencies: Dependencies
@@ -28,9 +32,7 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
         self.configure(moduileCommands: moduleCommands)
     }
 
-    func configure(dependencies: Dependencies) {
-
-    }
+    func configure(dependencies: Dependencies) { }
 
     func configure(commands: Commands) {
 
@@ -41,10 +43,20 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     }
 
     func configure(bindings: Bindings) {
-
+        loadBookmarks()
     }
 
     func configure(moduleBindings: ModuleBindings) {
 
+    }
+
+    func loadBookmarks() {
+        let bookmarks = dependencies.bookmarkService.getBookmarks()
+        bookmarks.subscribe({ [weak self] storedBookmarks in
+
+            print(storedBookmarks)
+
+        })
+        .disposed(by: bag)
     }
 }

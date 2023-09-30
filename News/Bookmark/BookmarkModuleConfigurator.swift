@@ -13,7 +13,7 @@ final class BookmarkModuleConfigurator {
 
     class func configure() -> Module {
         let view = BookmarkViewController()
-        let viewModel = BookmarkViewModel(dependencies: AppContainer.shared.inject())
+        let viewModel = BookmarkViewModel(dependencies: .init(bookmarkService: AppContainer.shared.inject()))
         view.viewModel = viewModel
         return (view, viewModel)
     }

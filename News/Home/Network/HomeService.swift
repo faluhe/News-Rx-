@@ -32,8 +32,5 @@ final class HomeService: HomeServiceType {
     func getStoredNews() -> Observable<News> {
         return network.getStoredNews().asObservable()
     }
-
-//    func getBookmark() -> Observable<NewsSectionModel> {
-//        return network.getBookmarks().asObservable()
-//    }
+ 
 }

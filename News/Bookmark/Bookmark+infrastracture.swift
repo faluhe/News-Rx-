@@ -38,6 +38,6 @@ extension BookmarkViewModel{
     }
 
     struct Dependencies {
-        
+        let bookmarkService: BookmarkService
     }
 }

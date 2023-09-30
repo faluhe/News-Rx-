@@ -16,6 +16,17 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
         
 
     }
-    
- 
+
+    override func setupBinding() {
+        configure(viewModel.bindings)
+        configure(viewModel.commands)
+    }
+
+    private func configure(_ bindings: BookmarkViewModel.Bindings) {
+
+    }
+
+    private func configure(_ commands: BookmarkViewModel.Commands) {
+
+    }
 }

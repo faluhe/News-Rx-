@@ -19,7 +19,12 @@ class BookmarkCoordinator: Coordinator {
     }()
 
     func start() {
-        container.setViewControllers([viewController], animated: true)
+       configure()
+    }
+
+    func configure() {
+        let module = BookmarkModuleConfigurator.configure()
+        container.setViewControllers([module.view], animated: true)
     }
 
 }

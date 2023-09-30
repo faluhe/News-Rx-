@@ -10,6 +10,12 @@ import UIKit
 class BookmarkView: RxBaseView {
 
     override func setupView() {
-        <#code#>
+        super.setupView()
+    }
+
+
+    override func setupHierarchy() {
+        super.setupHierarchy()
     }
 }
+
