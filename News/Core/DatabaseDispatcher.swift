@@ -173,7 +173,7 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
 //}
 protocol CoreDataManagerType {
     func saveEntity<T: ConvertibleToEntity>(_ entity: T)
-    func getStoredEntity<T: NSManagedObject>(_ entity: T) -> Result<T, Error>
+    func getStoredEntities<T: NSManagedObject>(_ entityClass: T.Type) -> Result<[T], Error>
 }
 
 protocol ConvertibleToEntity {
@@ -265,15 +265,15 @@ class CoreDataManager: CoreDataManagerType {
         }
     }
 
-    func getStoredEntity<T: NSManagedObject>(_ entity: T) -> Result<T, Error> {
+    func getStoredEntities<T: NSManagedObject>(_ entityClass: T.Type) -> Result<[T], Error> {
         let context = persistentContainer.viewContext
 
         do {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: T.self))
+            let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
             let storedEntities = try context.fetch(fetchRequest)
 
-            if let storedEntity = storedEntities.first {
-                return .success(storedEntity as! T)
+            if !storedEntities.isEmpty {
+                return .success(storedEntities)
             } else {
                 return .failure(CoreDataError.noStoredData)
             }

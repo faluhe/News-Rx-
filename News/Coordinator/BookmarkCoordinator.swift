@@ -12,12 +12,6 @@ class BookmarkCoordinator: Coordinator {
     typealias Container = UINavigationController
     var container = UINavigationController()
 
-    fileprivate lazy var viewController: BookmarkViewController = {
-        let vc = BookmarkViewController()
-        vc.title = "Bookmark"
-        return vc
-    }()
-
     func start() {
        configure()
     }

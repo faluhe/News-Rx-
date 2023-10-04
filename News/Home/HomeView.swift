@@ -23,8 +23,8 @@ final class HomeView: RxBaseView {
     }()
 
     override func setupHierarchy() {
-        newsCollectionView.rx.setDelegate(self).disposed(by: bag)
         addSubview(newsCollectionView)
+        newsCollectionView.rx.setDelegate(self).disposed(by: bag)
     }
 
     override func setupLayout() {
@@ -45,7 +45,6 @@ final class HomeView: RxBaseView {
                 cell.configure(article: article)
             }
             .disposed(by: bag)
-
     }
 
 

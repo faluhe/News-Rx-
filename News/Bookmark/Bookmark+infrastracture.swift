@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxRelay
 
 protocol BookmarkMuduleType {
     var moduleBindings: BookmarkViewModel.ModuleBindings { get }
@@ -30,11 +32,11 @@ extension BookmarkViewModel{
 
 
     struct Bindings {
-
+        let sections = BehaviorRelay<[BookmarkEntity]>(value: [])
     }
 
     struct Commands {
-
+        let loadBookmarks = PublishRelay<Void>()
     }
 
     struct Dependencies {

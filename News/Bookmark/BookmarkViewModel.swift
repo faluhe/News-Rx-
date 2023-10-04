@@ -35,7 +35,10 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     func configure(dependencies: Dependencies) { }
 
     func configure(commands: Commands) {
-
+       // from UI interaction
+        commands.loadBookmarks.bind(to: Binder<Void>(self) { target, _ in
+                target.loadBookmarks()
+            }).disposed(by: bag)
     }
 
     func configure(moduileCommands: ModuleCommands) {
@@ -52,10 +55,13 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
     func loadBookmarks() {
         let bookmarks = dependencies.bookmarkService.getBookmarks()
-        bookmarks.subscribe({ [weak self] storedBookmarks in
-
-            print(storedBookmarks)
-
+        bookmarks.subscribe({ [weak self] result in
+            switch result {
+            case .success(let storedBookmarks):
+                self?.bindings.sections.accept(storedBookmarks)
+            case .failure(let error):
+                print("Error: \(error)")
+            }
         })
         .disposed(by: bag)
     }

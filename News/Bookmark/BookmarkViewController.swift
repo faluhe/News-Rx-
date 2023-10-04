@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
@@ -13,8 +14,12 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        print(viewModel.bindings.sections.value.count)
     }
 
     override func setupBinding() {
@@ -23,7 +28,8 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     }
 
     private func configure(_ bindings: BookmarkViewModel.Bindings) {
-
+        bindings.sections.bind(to: contentView.sections).disposed(by: bag)
+        print(bindings.sections.value.count)
     }
 
     private func configure(_ commands: BookmarkViewModel.Commands) {

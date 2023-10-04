@@ -12,7 +12,6 @@ import RxSwift
 protocol HomeNetworkType {
     func getNews() -> Single<News>
     func getStoredNews() -> Single<News>
-//    func getBookmarks() -> Single<NewsSectionModel>
 }
 
 final class HomeNetwork: HomeNetworkType {
@@ -36,10 +35,11 @@ final class HomeNetwork: HomeNetworkType {
 
     func getStoredNews() -> Single<News> {
         return Single.create { [unowned self] single in
-            let result: Result<NewsEntity, Error> = dataBase.getStoredEntity(NewsEntity())
-
+           
+            let result: Result<[NewsEntity], Error> = dataBase.getStoredEntities(NewsEntity.self)
             switch result {
             case let .success(newsEntity):
+                guard let newsEntity = newsEntity.first else {return Disposables.create()}
                 let news = News(
                     status: newsEntity.status ?? "",
                     totalResults: newsEntity.totalResults,
@@ -53,7 +53,5 @@ final class HomeNetwork: HomeNetworkType {
             return Disposables.create()
         }
     }
-
-//   
 }
 

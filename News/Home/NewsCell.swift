@@ -94,16 +94,38 @@ final class NewsCell: UICollectionViewCell {
         img.image = nil
 
         guard let imageUrlStr = article.imageURL, let imageURL = URL(string: imageUrlStr)  else {
-                return
-            }
+            return
+        }
 
-            ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
-                DispatchQueue.main.async {
-                    guard let validImage = image, self?.img.image == nil else {
-                        return
-                    }
-                    self?.img.image = validImage
+        ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
+            DispatchQueue.main.async {
+                guard let validImage = image, self?.img.image == nil else {
+                    return
                 }
+                self?.img.image = validImage
             }
+        }
+    }
+
+    func configure(article: BookmarkEntity){
+        title.text = article.title
+        subTitle.text = article.description
+        img.image = nil
+
+        guard let imageUrlStr = article.urlToImage, let imageURL = URL(string: imageUrlStr)  else {
+            return
+        }
+
+
+        ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
+            DispatchQueue.main.async {
+                guard let validImage = image, self?.img.image == nil else {
+                    return
+                }
+                self?.img.image = validImage
+            }
+        }
+
+
     }
 }

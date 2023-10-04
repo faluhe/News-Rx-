@@ -42,13 +42,12 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     func configure(bindings: Bindings) { //ViewModel and UI
         loadNewsFromServer()
         loadStoredNews()
-//        loadTest()
     }
 
     func configure(commands: Commands) { //Command from UI interaction
-//        commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
-//            target.loadStoredNews()
-//        }).disposed(by: bag)
+        commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
+            target.loadStoredNews()
+        }).disposed(by: bag)
 
     }
 
@@ -64,7 +63,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
         news.subscribe(onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
-//            print(newsViewModels)
+
                 self?.bindings.sections.accept(newsViewModels)
             self?.dependencies.coreData.saveEntity(news)
             })
@@ -76,20 +75,8 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
         storedNews.subscribe(onNext: { [weak self] storedNews in
                 let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
-//               print(newsViewModels)
             self?.bindings.sections.accept(newsViewModels)
             })
             .disposed(by: bag)
     }
-
-//    func loadTest() {
-//        let storedNews = dependencies.newsService.getBookmark()
-//
-//        storedNews.subscribe(onNext: { [weak self] storedNews in
-//
-//               print(storedNews)
-////            self?.bindings.sections.accept(newsViewModels)
-//            })
-//            .disposed(by: bag)
-//    }
 }
