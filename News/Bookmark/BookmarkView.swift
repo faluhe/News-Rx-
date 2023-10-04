@@ -44,6 +44,7 @@ class BookmarkView: RxBaseView {
 
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)
+            ///
             }
             .disposed(by: bag)
     }
