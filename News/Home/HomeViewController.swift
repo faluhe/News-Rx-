@@ -29,7 +29,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     private func configure(_ bindings: HomeViewModel.Bindings) {
         bindings.sections.bind(to: contentView.sections).disposed(by: bag)
-        print(bindings.sections.value.count)
+        
         contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
             .bind(to: Binder<NewsSectionModel>(self) { _, model in
             bindings.openDetailsScreen.accept(model)

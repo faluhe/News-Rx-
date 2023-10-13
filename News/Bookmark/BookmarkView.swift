@@ -11,14 +11,15 @@ import RxRelay
 import RxCocoa
 import SnapKit
 
-class BookmarkView: RxBaseView {
+final class BookmarkView: RxBaseView {
 
     let sections = BehaviorRelay<[BookmarkEntity]>(value: [])
 
     lazy var newsCollectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
         cv.showsVerticalScrollIndicator = false
+        cv.alwaysBounceVertical = true
         return cv
     }()
 
@@ -40,7 +41,7 @@ class BookmarkView: RxBaseView {
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
-        print(sections.value.count)
+        print(sections.value.first?.title)
 
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)

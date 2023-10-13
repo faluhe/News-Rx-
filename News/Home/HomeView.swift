@@ -38,10 +38,10 @@ final class HomeView: RxBaseView {
 
     override func setupView() {
         super.setupView()
-        newsCollectionView.backgroundColor = .clear
 
-        sections
-            .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
+        newsCollectionView.backgroundColor = .clear
+        
+        sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)
             }
             .disposed(by: bag)
