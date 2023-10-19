@@ -21,6 +21,8 @@ protocol DetailsViewModelType {
 extension DetailsViewModel {
     struct Bindings {
         let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
+        var isBookmarked = BehaviorRelay<Bool>(value: false)
+        let title = BehaviorRelay<String>(value: "")
     }
 
     struct ModuleBindings {

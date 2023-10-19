@@ -177,8 +177,8 @@ protocol CoreDataManagerType {
 }
 
 protocol ConvertibleToEntity {
-    associatedtype EntityType
-    func toEntity(context: NSManagedObjectContext) -> EntityType
+    associatedtype ManagedObjectType: NSManagedObject
+    func toEntity(context: NSManagedObjectContext) -> ManagedObjectType
 }
 
 extension Article: ConvertibleToEntity {
@@ -265,6 +265,20 @@ class CoreDataManager: CoreDataManagerType {
         }
     }
 
+    func deleteEntity<T: ConvertibleToEntity>(_ entity: T) {
+        let context = persistentContainer.viewContext
+        let managedObject = entity.toEntity(context: context)
+        print(managedObject)
+        context.delete(managedObject)
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete entity from Core Data: \(error)")
+        }
+    }
+    
+
     func getStoredEntities<T: NSManagedObject>(_ entityClass: T.Type) -> Result<[T], Error> {
         let context = persistentContainer.viewContext
 
@@ -279,6 +293,23 @@ class CoreDataManager: CoreDataManagerType {
             }
         } catch {
             return .failure(error)
+        }
+    }
+
+
+    func doesArticleExist(withTitle title: String) -> Bool {
+        let context = persistentContainer.viewContext
+
+        let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+
+        do {
+            let result = try context.fetch(fetchRequest)
+            return !result.isEmpty
+        }
+        catch {
+            print("Error fetching bookmark: \(error)")
+            return false
         }
     }
 }
