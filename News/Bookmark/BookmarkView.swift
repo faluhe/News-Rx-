@@ -13,7 +13,7 @@ import SnapKit
 
 final class BookmarkView: RxBaseView {
 
-    let sections = BehaviorRelay<[BookmarkEntity]>(value: [])
+    let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -41,7 +41,6 @@ final class BookmarkView: RxBaseView {
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
-        print(sections.value.first?.title)
 
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)

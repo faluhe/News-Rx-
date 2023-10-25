@@ -19,6 +19,7 @@ final class HomeView: RxBaseView {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
         cv.showsVerticalScrollIndicator = false
+        cv.alwaysBounceVertical = true
         return cv
     }()
 
@@ -38,7 +39,6 @@ final class HomeView: RxBaseView {
 
     override func setupView() {
         super.setupView()
-
         newsCollectionView.backgroundColor = .clear
         
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in

@@ -267,15 +267,18 @@ class CoreDataManager: CoreDataManagerType {
 
     func deleteEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = persistentContainer.viewContext
-        let managedObject = entity.toEntity(context: context)
-        print(managedObject)
-        context.delete(managedObject)
+        if let managedObject = entity.toEntity(context: context) as? NSManagedObject {
+             print(managedObject)
+                context.delete(managedObject)
+            } else {
+                print("Failed to convert entity to NSManagedObject")
+            }
 
-        do {
-            try context.save()
-        } catch {
-            print("Failed to delete entity from Core Data: \(error)")
-        }
+            do {
+                try context.save()
+            } catch {
+                print("Failed to delete entity from Core Data: \(error)")
+            }
     }
     
 

@@ -27,12 +27,13 @@ extension BookmarkViewModel{
     }
 
     struct ModuleCommands {
-
+        let startDetails = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
 
     struct Bindings {
-        let sections = BehaviorRelay<[BookmarkEntity]>(value: [])
+        let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
+        let openDetailsScreen = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
     struct Commands {

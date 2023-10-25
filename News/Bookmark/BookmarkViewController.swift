@@ -30,6 +30,10 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     private func configure(_ bindings: BookmarkViewModel.Bindings) {
         bindings.sections.bind(to: contentView.sections).disposed(by: bag)
 
+        contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
+            .bind(to: Binder<NewsSectionModel>(self) { _, model in
+            bindings.openDetailsScreen.accept(model)
+            }).disposed(by: bag)
     }
 
     private func configure(_ commands: BookmarkViewModel.Commands) {

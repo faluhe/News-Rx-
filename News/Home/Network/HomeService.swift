@@ -12,7 +12,6 @@ import RxSwift
 protocol HomeServiceType {
     func getNews() -> Observable<News>
     func getStoredNews() -> Observable<News>
-//    func getBookmark() -> Observable<NewsSectionModel>
 }
 
 final class HomeService: HomeServiceType {

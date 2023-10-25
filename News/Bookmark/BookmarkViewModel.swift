@@ -42,7 +42,7 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     }
 
     func configure(moduileCommands: ModuleCommands) {
-
+        bindings.openDetailsScreen.bind(to: moduileCommands.startDetails).disposed(by: bag)
     }
 
     func configure(bindings: Bindings) {

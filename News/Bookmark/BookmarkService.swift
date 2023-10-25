@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol BookmarkServiceType {
-    func getBookmarks() -> Single<[BookmarkEntity]>
+    func getBookmarks() -> Single<[NewsSectionModel]>
 }
 
 final class BookmarkService: BookmarkServiceType {
@@ -22,15 +22,24 @@ final class BookmarkService: BookmarkServiceType {
         self.dataBase = dataBase
     }
 
-    func getBookmarks() -> Single<[BookmarkEntity]> {
+    func getBookmarks() -> Single<[NewsSectionModel]> {
         return Single.create { [unowned self] single in
 
             let result: Result<[BookmarkEntity], Error> = dataBase.getStoredEntities(BookmarkEntity.self)
 
             switch result {
             case let .success(newsEntity):
-//                let model = NewsSectionModel(title: newsEntity.title ?? "", imageURL: newsEntity.urlToImage, description: newsEntity.desc, url: newsEntity.url)
-                single(.success(newsEntity))
+
+                let bookmarkArticles = newsEntity.map { entity in
+                    return NewsSectionModel(
+                        title: entity.title ?? "",
+                        imageURL: entity.urlToImage,
+                        description: entity.desc,
+                        url: entity.url
+                    )
+                }
+
+                single(.success(bookmarkArticles))
             case let .failure(error):
                 single(.failure(error))
             }
