@@ -38,10 +38,10 @@ struct News {
     var totalResults: Double? = nil
     var articles: [Article]?
 
-        init(status: String? = nil, totalResults: Double? = nil, articles: [Article]? = nil) {
-            self.status = status
-            self.totalResults = totalResults
-            self.articles = articles
-        }
+    init(status: String? = nil, totalResults: Double? = nil, articles: [Article]? = nil) {
+        self.status = status
+        self.totalResults = totalResults
+        self.articles = articles
+    }
 }
 

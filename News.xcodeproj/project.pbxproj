@@ -68,6 +68,8 @@
 		9A7609062A8EE32E00342AC3 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7609052A8EE32E00342AC3 /* ImageManager.swift */; };
 		9A7609082A8EE33B00342AC3 /* ImageCaching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7609072A8EE33B00342AC3 /* ImageCaching.swift */; };
 		9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BCD892AA2A19900725B57 /* DetailsModuleConfiguraotor.swift */; };
+		9AA123D32B04570200F91E92 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA123D22B04570200F91E92 /* CoreDataManager.swift */; };
+		9AA123D52B0457FE00F91E92 /* CoreDataConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +148,8 @@
 		9A7609052A8EE32E00342AC3 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		9A7609072A8EE33B00342AC3 /* ImageCaching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaching.swift; sourceTree = "<group>"; };
 		9A8BCD892AA2A19900725B57 /* DetailsModuleConfiguraotor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModuleConfiguraotor.swift; sourceTree = "<group>"; };
+		9AA123D22B04570200F91E92 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataConvertable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -332,6 +336,8 @@
 				9A7608E62A8AE73D00342AC3 /* DatabaseDispatcher.swift */,
 				9A7608E82A8AF65600342AC3 /* NetworkTargetType.swift */,
 				9A7608EA2A8B12A800342AC3 /* ResponseError.swift */,
+				9AA123D22B04570200F91E92 /* CoreDataManager.swift */,
+				9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -535,6 +541,7 @@
 				9A6042292ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift in Sources */,
 				9A7608D62A859DFA00342AC3 /* RxBaseViewController.swift in Sources */,
 				9A118E0B2AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataProperties.swift in Sources */,
+				9AA123D32B04570200F91E92 /* CoreDataManager.swift in Sources */,
 				9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */,
 				9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */,
 				9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */,
@@ -553,6 +560,7 @@
 				9A118E0C2AAA44AD00C3BFB5 /* SourcesEntity+CoreDataClass.swift in Sources */,
 				9A7608DE2A859EAB00342AC3 /* UIVIew+Ext.swift in Sources */,
 				9A7608F02A8B164E00342AC3 /* News.swift in Sources */,
+				9AA123D52B0457FE00F91E92 /* CoreDataConvertable.swift in Sources */,
 				9A118E0D2AAA44AD00C3BFB5 /* SourcesEntity+CoreDataProperties.swift in Sources */,
 				9A5109CD2A9448B1008EF0F8 /* HomeModuleConfigurator.swift in Sources */,
 				9A6042382AC7A3E000CAE2F3 /* BookmarkService.swift in Sources */,
