@@ -23,7 +23,7 @@ final class BookmarkNetwork: BookmarkNetworkType {
 
     func getBookmarks() -> Single<[BookmarkEntity]> {
         return Single.create { [unowned self] single in
-            let result: Result<[BookmarkEntity], Error> = dataBase.getStoredEntities(BookmarkEntity.self)
+            let result: Result<[BookmarkEntity], Error> = dataBase.fetchEntities(BookmarkEntity.self, predicate: nil)
 
             switch result {
             case let .success(newsEntity):

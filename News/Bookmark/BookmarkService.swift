@@ -14,23 +14,24 @@ protocol BookmarkServiceType {
 
 final class BookmarkService: BookmarkServiceType {
 
-//    private let network: BookmarkNetworkType
+    //    private let network: BookmarkNetworkType
     private let dataBase: CoreDataManagerType
 
     init(_ dataBase: CoreDataManagerType) {
-//        self.network = network
+        //        self.network = network
         self.dataBase = dataBase
     }
 
     func getBookmarks() -> Single<[NewsSectionModel]> {
         return Single.create { [unowned self] single in
 
-            let result: Result<[BookmarkEntity], Error> = dataBase.getStoredEntities(BookmarkEntity.self)
+            let result: Result<[BookmarkEntity], Error> = dataBase.fetchEntities(BookmarkEntity.self, predicate: nil)
 
             switch result {
             case let .success(newsEntity):
 
                 let bookmarkArticles = newsEntity.map { entity in
+
                     return NewsSectionModel(
                         title: entity.title ?? "",
                         imageURL: entity.urlToImage,
@@ -47,6 +48,5 @@ final class BookmarkService: BookmarkServiceType {
             return Disposables.create()
         }
     }
-
-
 }
+

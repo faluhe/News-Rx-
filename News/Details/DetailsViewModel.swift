@@ -43,7 +43,8 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     func configure(bindings: Bindings) {
         bindings.title.bind(to: Binder<String>(self) { target, value in
-            let articleExist = target.dependencies.coreDataManager.doesArticleExist(withTitle: value)
+            print(value)
+            let articleExist = target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value)
             bindings.isBookmarked.accept(articleExist)
         }).disposed(by: bag)
     }
@@ -56,7 +57,6 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
                 return
             } 
 
-            print(detailsModel.title)
             if target.bindings.isBookmarked.value {
                 self.dependencies.coreDataManager.deleteEntity(detailsModel)
                 print("delete")
@@ -70,7 +70,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     func configure(moduleBindings: ModuleBindings) {
         moduleBindings.detailsModel.bind(to: bindings.detailsModel).disposed(by: bag)
-
+//
 //        bindings.detailsModel.subscribe(onNext: { [weak self] model in
 //            print("FIRST _\(model?.toEntity(context: (self?.dependencies.coreDataManager.persistentContainer.viewContext)!))")
 //        }).disposed(by: bag)

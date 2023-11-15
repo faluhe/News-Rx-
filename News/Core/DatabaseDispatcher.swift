@@ -55,130 +55,21 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
 }
 
 
-//protocol CoreDataManagerType {
-//    func saveNews(_ news: News)
-//    func getStoredNews() -> Result<News, Error>
-//}
-//
-//class CoreDataManager: CoreDataManagerType {
-//    let persistentContainer: NSPersistentContainer
-//
-//    init(containerName: String) {
-//        persistentContainer = NSPersistentContainer(name: containerName)
-//        persistentContainer.loadPersistentStores { _, error in
-//            if let error = error {
-//                fatalError("Unable to load persistent stores: \(error)")
-//            }
-//        }
-//    }
-//
-//    func saveNews(_ news: News) {
-//        let context = persistentContainer.viewContext
-//
-//        let newsEntity = NewsEntity(context: context)
-//        newsEntity.status = news.status
-//        newsEntity.totalResults = news.totalResults ?? 0
-//
-//        if let articles = news.articles {
-//            let articleEntities = articles.map { article in
-//                return createArticleEntity(from: article, context: context)
-//            }
-//            newsEntity.articles = NSOrderedSet(array: articleEntities)
-//        }
-//
-//        do {
-//            try context.save()
-//        } catch {
-//            print("Failed to save news to Core Data: \(error)")
-//        }
-//    }
-//
-//    func saveArticleToBookmark(_ news: News) {
-//        let context = persistentContainer.viewContext
-//
-//        let bookmarkEntity = BookmarkEntity(context: context)
-//
-//        if let articles = news.articles {
-//            let articleEntities = articles.map { article in
-//                return createArticleEntity(from: article, context: context)
-//            }
-//            bookmarkEntity.articles = NSOrderedSet(array: articleEntities)
-//        }
-//
-//        do {
-//            try context.save()
-//        } catch {
-//            print("Failed to save news to Core Data: \(error)")
-//        }
-//    }
-//
-//    func createArticleEntity(from article: Article, context: NSManagedObjectContext) -> ArticlesEntity {
-//        let articleEntity = ArticlesEntity(context: context)
-//        articleEntity.title = article.title
-//        articleEntity.descript = article.description
-//        articleEntity.imgUrl = article.urlToImage
-//        articleEntity.url = article.url
-//
-//        let sourceEntity = SourcesEntity(context: context)
-//        sourceEntity.name = article.source?.name
-//        sourceEntity.id = article.source?.id
-//        articleEntity.source = sourceEntity
-//
-//        return articleEntity
-//    }
-//
-//    func getStoredNews() -> Result<News, Error> {
-//        let context = persistentContainer.viewContext
-//
-//        do {
-//            let fetchRequest: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
-//            let storedNewsEntities = try context.fetch(fetchRequest)
-//
-//            if let storedNewsEntity = storedNewsEntities.first {
-//                print(storedNewsEntity)
-//                let news = News(
-//                    status: storedNewsEntity.status ?? "",
-//                    totalResults: storedNewsEntity.totalResults,
-//                    articles: storedNewsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
-//                )
-//                return .success(news)
-//            } else {
-//                return .failure(CoreDataError.noStoredData)
-//            }
-//        } catch {
-//            return .failure(error)
-//        }
-//    }
-//
-//    func getBookmarkNews() -> Result<News, Error> {
-//        let context = persistentContainer.viewContext
-//
-//        do {
-//            let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
-//            let storedNewsEntities = try context.fetch(fetchRequest)
-//
-//            if let storedNewsEntity = storedNewsEntities.first {
-//                print(storedNewsEntity)
-//                let news = News(
-//                    articles: storedNewsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
-//                )
-//                return .success(news)
-//            } else {
-//                return .failure(CoreDataError.noStoredData)
-//            }
-//        } catch {
-//            return .failure(error)
-//        }
-//    }
-//}
+
 protocol CoreDataManagerType {
     func saveEntity<T: ConvertibleToEntity>(_ entity: T)
-    func getStoredEntities<T: NSManagedObject>(_ entityClass: T.Type) -> Result<[T], Error>
+    func deleteEntity<T: ConvertibleToEntity>(_ entity: T)
+    func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate?) -> Result<[T], Error>
+    func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool
 }
 
 protocol ConvertibleToEntity {
     associatedtype ManagedObjectType: NSManagedObject
     func toEntity(context: NSManagedObjectContext) -> ManagedObjectType
+}
+
+protocol TransferToBookmarkEntity {
+    func toBookmark() -> BookmarkEntity
 }
 
 extension Article: ConvertibleToEntity {
@@ -227,23 +118,47 @@ extension NewsSectionModel: ConvertibleToEntity {
     typealias EntityType = BookmarkEntity
 
     func toEntity(context: NSManagedObjectContext) -> BookmarkEntity {
+        let existingEntity = self.existingEntity(in: context)
 
-        let bookmarkEntity = BookmarkEntity(context: context)
-        bookmarkEntity.title = self.title
-        bookmarkEntity.desc = self.description
-        bookmarkEntity.url = self.url
-        bookmarkEntity.urlToImage = self.imageURL
-
-        return bookmarkEntity
+        if let existingEntity = existingEntity {
+            // If the entity already exists, update its properties
+            existingEntity.title = self.title
+            existingEntity.desc = self.description
+            existingEntity.url = self.url
+            existingEntity.urlToImage = self.imageURL
+            return existingEntity
+        } else {
+            // If the entity doesn't exist, create a new one
+            let bookmarkEntity = BookmarkEntity(context: context)
+            bookmarkEntity.title = self.title
+            bookmarkEntity.desc = self.description
+            bookmarkEntity.url = self.url
+            bookmarkEntity.urlToImage = self.imageURL
+            return bookmarkEntity
+        }
     }
 
+    private func existingEntity(in context: NSManagedObjectContext) -> BookmarkEntity? {
+        let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title == %@", self.title)
 
-
+        do {
+            let result = try context.fetch(fetchRequest)
+            return result.first
+        } catch {
+            print("Error fetching existing entity: \(error)")
+            return nil
+        }
+    }
 }
 
 
+
+
+// Refactored CoreDataManager implementation
 class CoreDataManager: CoreDataManagerType {
     let persistentContainer: NSPersistentContainer
+    let viewContext: NSManagedObjectContext
 
     init(containerName: String) {
         persistentContainer = NSPersistentContainer(name: containerName)
@@ -252,11 +167,12 @@ class CoreDataManager: CoreDataManagerType {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
+        viewContext = persistentContainer.viewContext
     }
 
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
-        let context = persistentContainer.viewContext
-        let _ = entity.toEntity(context: context)
+        let context = viewContext
+        let i = entity.toEntity(context: context)
 
         do {
             try context.save()
@@ -266,27 +182,22 @@ class CoreDataManager: CoreDataManagerType {
     }
 
     func deleteEntity<T: ConvertibleToEntity>(_ entity: T) {
-        let context = persistentContainer.viewContext
-        if let managedObject = entity.toEntity(context: context) as? NSManagedObject {
-             print(managedObject)
-                context.delete(managedObject)
-            } else {
-                print("Failed to convert entity to NSManagedObject")
-            }
+        let context = viewContext
 
-            do {
-                try context.save()
-            } catch {
-                print("Failed to delete entity from Core Data: \(error)")
-            }
+        let existingEntity = entity.toEntity(context: context)
+        context.delete(existingEntity)
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete entity from Core Data: \(error)")
+        }
     }
-    
 
-    func getStoredEntities<T: NSManagedObject>(_ entityClass: T.Type) -> Result<[T], Error> {
-        let context = persistentContainer.viewContext
+    func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error> {
+        let context = viewContext
 
         do {
-            let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
+            let fetchRequest = makeFetchRequest(for: entityClass, with: predicate)
             let storedEntities = try context.fetch(fetchRequest)
 
             if !storedEntities.isEmpty {
@@ -299,20 +210,23 @@ class CoreDataManager: CoreDataManagerType {
         }
     }
 
+    func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool {
+        let context = viewContext
 
-    func doesArticleExist(withTitle title: String) -> Bool {
-        let context = persistentContainer.viewContext
-
-        let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@", title)
+        let fetchRequest: NSFetchRequest<T> = makeFetchRequest(for: entityClass, with: NSPredicate(format: "title == %@", title))
 
         do {
             let result = try context.fetch(fetchRequest)
             return !result.isEmpty
-        }
-        catch {
-            print("Error fetching bookmark: \(error)")
+        } catch {
+            print("Error fetching entity: \(error)")
             return false
         }
+    }
+
+    private func makeFetchRequest<T: NSManagedObject>(for entityClass: T.Type, with predicate: NSPredicate? = nil) -> NSFetchRequest<T> {
+        let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
+        fetchRequest.predicate = predicate
+        return fetchRequest
     }
 }

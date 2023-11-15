@@ -58,10 +58,10 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
         bookmarks.subscribe({ [weak self] result in
             switch result {
             case .success(let storedBookmarks):
-                print(storedBookmarks)
                 self?.bindings.sections.accept(storedBookmarks)
             case .failure(let error):
                 print("Error: \(error)")
+                self?.bindings.sections.accept([])
             }
         })
         .disposed(by: bag)
