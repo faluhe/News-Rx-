@@ -56,6 +56,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
                 return
             }
 
+            //removing
             if target.bindings.isBookmarked.value {
                 self.dependencies.coreDataManager.deleteEntity(detailsModel)
                 target.bindings.isBookmarked.accept(false)
