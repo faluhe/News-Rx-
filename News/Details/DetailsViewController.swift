@@ -32,14 +32,15 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
     private func setupNavigationBar(_ bindings: DetailsViewModel.Bindings) {
         let bookmarkItem = UIBarButtonItem()
 
-        let image = bindings.isBookmarked.value ? Images.bookmarkFill.systemImage : Images.bookmarkEmpty.systemImage
-        bookmarkItem.image = image?.withConfiguration(
-            UIImage.SymbolConfiguration(weight: .semibold)
-        )
+        bindings.isBookmarked
+                .map { $0 ? Images.bookmarkFill.systemImage : Images.bookmarkEmpty.systemImage }
+                .bind(to: bookmarkItem.rx.image)
+                .disposed(by: bag)
 
-        bookmarkItem.rx.tap.bind(to: viewModel.commands.addToBookmarks).disposed(by: bag)
+            bookmarkItem.rx.tap
+                .bind(to: viewModel.commands.addToBookmarks)
+                .disposed(by: bag)
 
-//        updateBookmark(bindings.isBookmarked.value)
         navigationItem.rightBarButtonItem = bookmarkItem
     }
 }

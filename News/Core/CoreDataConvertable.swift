@@ -24,7 +24,7 @@ extension Article: ConvertibleToEntity {
         articlesEntity.imgUrl = self.urlToImage
         articlesEntity.url = self.url
 
-        if let source = self.source {
+        if let source = source {
             let sourceEntity = SourcesEntity(context: context)
             sourceEntity.name = source.name
             sourceEntity.id = source.id
@@ -58,25 +58,16 @@ extension NewsSectionModel: ConvertibleToEntity {
     typealias EntityType = BookmarkEntity
 
     func toEntity(context: NSManagedObjectContext) -> BookmarkEntity {
-        let existingEntity = self.existingEntity(in: context)
+        let existingEntity = self.existingEntity(in: context) ?? BookmarkEntity(context: context)
 
-        if let existingEntity = existingEntity {
-            // If the entity already exists, update its properties
-            existingEntity.title = self.title
-            existingEntity.desc = self.description
-            existingEntity.url = self.url
-            existingEntity.urlToImage = self.imageURL
-            return existingEntity
-        } else {
-            // If the entity doesn't exist, create a new one
-            let bookmarkEntity = BookmarkEntity(context: context)
-            bookmarkEntity.title = self.title
-            bookmarkEntity.desc = self.description
-            bookmarkEntity.url = self.url
-            bookmarkEntity.urlToImage = self.imageURL
-            return bookmarkEntity
-        }
+        existingEntity.title = self.title
+        existingEntity.desc = self.description
+        existingEntity.url = self.url
+        existingEntity.urlToImage = self.imageURL
+
+        return existingEntity
     }
+
 
     private func existingEntity(in context: NSManagedObjectContext) -> BookmarkEntity? {
         let fetchRequest: NSFetchRequest<BookmarkEntity> = BookmarkEntity.fetchRequest()
