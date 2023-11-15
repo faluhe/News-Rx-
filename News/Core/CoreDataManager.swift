@@ -18,7 +18,7 @@ protocol CoreDataManagerType {
 final class CoreDataManager: CoreDataManagerType {
     let persistentContainer: NSPersistentContainer
     let viewContext: NSManagedObjectContext
-
+    
     init(containerName: String) {
         persistentContainer = NSPersistentContainer(name: containerName)
         persistentContainer.loadPersistentStores { _, error in
@@ -28,21 +28,21 @@ final class CoreDataManager: CoreDataManagerType {
         }
         viewContext = persistentContainer.viewContext
     }
-
+    
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
         let i = entity.toEntity(context: context)
-
+        
         do {
             try context.save()
         } catch {
             print("Failed to save entity to Core Data: \(error)")
         }
     }
-
+    
     func deleteEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
-
+        
         let existingEntity = entity.toEntity(context: context)
         context.delete(existingEntity)
         do {
@@ -51,14 +51,14 @@ final class CoreDataManager: CoreDataManagerType {
             print("Failed to delete entity from Core Data: \(error)")
         }
     }
-
+    
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error> {
         let context = viewContext
-
+        
         do {
             let fetchRequest = makeFetchRequest(for: entityClass, with: predicate)
             let storedEntities = try context.fetch(fetchRequest)
-
+            
             if !storedEntities.isEmpty {
                 return .success(storedEntities)
             } else {
@@ -68,12 +68,12 @@ final class CoreDataManager: CoreDataManagerType {
             return .failure(error)
         }
     }
-
+    
     func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool {
         let context = viewContext
-
+        
         let fetchRequest: NSFetchRequest<T> = makeFetchRequest(for: entityClass, with: NSPredicate(format: "title == %@", title))
-
+        
         do {
             let result = try context.fetch(fetchRequest)
             return !result.isEmpty
@@ -82,11 +82,10 @@ final class CoreDataManager: CoreDataManagerType {
             return false
         }
     }
-
+    
     private func makeFetchRequest<T: NSManagedObject>(for entityClass: T.Type, with predicate: NSPredicate? = nil) -> NSFetchRequest<T> {
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
         fetchRequest.predicate = predicate
         return fetchRequest
     }
-}//test
-
+}
