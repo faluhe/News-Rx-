@@ -43,7 +43,6 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     func configure(bindings: Bindings) {
         bindings.title.bind(to: Binder<String>(self) { target, value in
-            print(value)
             let articleExist = target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value)
             bindings.isBookmarked.accept(articleExist)
         }).disposed(by: bag)
