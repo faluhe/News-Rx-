@@ -32,7 +32,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
         contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
             .bind(to: Binder<NewsSectionModel>(self) { _, model in
-            bindings.openDetailsScreen.accept(model)
+                bindings.openDetailsScreen.accept(model)
             }).disposed(by: bag)
     }
 

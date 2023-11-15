@@ -21,25 +21,25 @@ protocol BookmarkViewModelType {
 
 
 extension BookmarkViewModel{
-
+    
     struct ModuleBindings {
-
+        
     }
-
+    
     struct ModuleCommands {
         let startDetails = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
-
-
+    
+    
     struct Bindings {
         let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
         let openDetailsScreen = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
-
+    
     struct Commands {
         let loadBookmarks = PublishRelay<Void>()
     }
-
+    
     struct Dependencies {
         let bookmarkService: BookmarkService
     }

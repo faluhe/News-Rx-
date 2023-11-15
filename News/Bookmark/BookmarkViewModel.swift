@@ -35,10 +35,10 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     func configure(dependencies: Dependencies) { }
 
     func configure(commands: Commands) {
-       // from UI interaction
+        // from UI interaction
         commands.loadBookmarks.bind(to: Binder<Void>(self) { target, _ in
-                target.loadBookmarks()
-            }).disposed(by: bag)
+            target.loadBookmarks()
+        }).disposed(by: bag)
     }
 
     func configure(moduileCommands: ModuleCommands) {

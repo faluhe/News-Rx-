@@ -31,7 +31,6 @@ final class BookmarkService: BookmarkServiceType {
             case let .success(newsEntity):
 
                 let bookmarkArticles = newsEntity.map { entity in
-
                     return NewsSectionModel(
                         title: entity.title ?? "",
                         imageURL: entity.urlToImage,
