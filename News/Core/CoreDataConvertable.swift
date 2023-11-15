@@ -13,7 +13,6 @@ protocol ConvertibleToEntity {
     func toEntity(context: NSManagedObjectContext) -> ManagedObjectType
 }
 
-
 extension Article: ConvertibleToEntity {
     typealias EntityType = ArticlesEntity
 
@@ -55,7 +54,6 @@ extension News: ConvertibleToEntity {
     }
 }
 
-
 extension NewsSectionModel: ConvertibleToEntity {
     typealias EntityType = BookmarkEntity
 
@@ -93,6 +91,5 @@ extension NewsSectionModel: ConvertibleToEntity {
         }
     }
 }
-
 
 
