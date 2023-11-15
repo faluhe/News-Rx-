@@ -88,5 +88,5 @@ final class CoreDataManager: CoreDataManagerType {
         fetchRequest.predicate = predicate
         return fetchRequest
     }
-}
+}//test
 
