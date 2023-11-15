@@ -89,3 +89,4 @@ final class CoreDataManager: CoreDataManagerType {
         return fetchRequest
     }
 }
+
