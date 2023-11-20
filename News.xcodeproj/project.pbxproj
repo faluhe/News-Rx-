@@ -224,19 +224,8 @@
 				9A7607E02A85901B00342AC3 /* SceneDelegate.swift */,
 				9A7608DF2A859ECF00342AC3 /* Common */,
 				9A7608E12A859EF700342AC3 /* Coordinator */,
-				9A7608E22A859F0200342AC3 /* Bookmark */,
-				9A7608E32A859F0C00342AC3 /* Home */,
-				9A5109CE2A9448DB008EF0F8 /* Details */,
+				9ACDDB112B0C07B20090A823 /* Screens */,
 				9A7607EC2A85901C00342AC3 /* LaunchScreen.storyboard */,
-				9A7607E72A85901B00342AC3 /* News.xcdatamodeld */,
-				9A118E042AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataClass.swift */,
-				9A118E052AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataProperties.swift */,
-				9A118E062AAA44AD00C3BFB5 /* SourcesEntity+CoreDataClass.swift */,
-				9A118E072AAA44AD00C3BFB5 /* SourcesEntity+CoreDataProperties.swift */,
-				9A118E142AAA4C0300C3BFB5 /* NewsEntity+CoreDataClass.swift */,
-				9A118E152AAA4C0300C3BFB5 /* NewsEntity+CoreDataProperties.swift */,
-				9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */,
-				9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */,
 				9A7608EC2A8B154300342AC3 /* Core */,
 				9A7608FE2A8D565100342AC3 /* Dependency IInjection */,
 			);
@@ -304,13 +293,12 @@
 		9A7608E22A859F0200342AC3 /* Bookmark */ = {
 			isa = PBXGroup;
 			children = (
+				9ACDDB0F2B0C068A0090A823 /* Network */,
 				9A7608CF2A859DE800342AC3 /* BookmarkViewController.swift */,
 				9A60422D2AC776C500CAE2F3 /* BookmarkView.swift */,
 				9A60422F2AC776CF00CAE2F3 /* BookmarkViewModel.swift */,
 				9A6042312AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift */,
 				9A6042332AC7772D00CAE2F3 /* Bookmark+infrastracture.swift */,
-				9A6042352AC7A3D600CAE2F3 /* BookmarkNetwork.swift */,
-				9A6042372AC7A3E000CAE2F3 /* BookmarkService.swift */,
 			);
 			path = Bookmark;
 			sourceTree = "<group>";
@@ -333,10 +321,11 @@
 		9A7608EC2A8B154300342AC3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				9ACDDB102B0C06C80090A823 /* CoreDataEntities */,
 				9A7608E62A8AE73D00342AC3 /* DatabaseDispatcher.swift */,
+				9AA123D22B04570200F91E92 /* CoreDataManager.swift */,
 				9A7608E82A8AF65600342AC3 /* NetworkTargetType.swift */,
 				9A7608EA2A8B12A800342AC3 /* ResponseError.swift */,
-				9AA123D22B04570200F91E92 /* CoreDataManager.swift */,
 				9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */,
 			);
 			path = Core;
@@ -376,6 +365,41 @@
 				9A7609072A8EE33B00342AC3 /* ImageCaching.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		9ACDDB0F2B0C068A0090A823 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9A6042352AC7A3D600CAE2F3 /* BookmarkNetwork.swift */,
+				9A6042372AC7A3E000CAE2F3 /* BookmarkService.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9ACDDB102B0C06C80090A823 /* CoreDataEntities */ = {
+			isa = PBXGroup;
+			children = (
+				9A7607E72A85901B00342AC3 /* News.xcdatamodeld */,
+				9A118E042AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataClass.swift */,
+				9A118E052AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataProperties.swift */,
+				9A118E062AAA44AD00C3BFB5 /* SourcesEntity+CoreDataClass.swift */,
+				9A118E072AAA44AD00C3BFB5 /* SourcesEntity+CoreDataProperties.swift */,
+				9A118E142AAA4C0300C3BFB5 /* NewsEntity+CoreDataClass.swift */,
+				9A118E152AAA4C0300C3BFB5 /* NewsEntity+CoreDataProperties.swift */,
+				9A6042272ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataClass.swift */,
+				9A6042282ABD1B6600CAE2F3 /* BookmarkEntity+CoreDataProperties.swift */,
+			);
+			path = CoreDataEntities;
+			sourceTree = "<group>";
+		};
+		9ACDDB112B0C07B20090A823 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				9A7608E22A859F0200342AC3 /* Bookmark */,
+				9A7608E32A859F0C00342AC3 /* Home */,
+				9A5109CE2A9448DB008EF0F8 /* Details */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

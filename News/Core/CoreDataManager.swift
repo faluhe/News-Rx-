@@ -31,7 +31,7 @@ final class CoreDataManager: CoreDataManagerType {
     
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
-        let i = entity.toEntity(context: context)
+        let _ = entity.toEntity(context: context)
         
         do {
             try context.save()

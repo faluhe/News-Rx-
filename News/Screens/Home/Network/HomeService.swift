@@ -17,11 +17,9 @@ protocol HomeServiceType {
 final class HomeService: HomeServiceType {
 
     private let network: HomeNetworkType
-    private let dataBase: CoreDataManagerType
 
-    init(_ network: HomeNetworkType, dataBase: CoreDataManagerType) {
+    init(_ network: HomeNetworkType) {
         self.network = network
-        self.dataBase = dataBase
     }
 
     func getNews() -> Observable<News> {

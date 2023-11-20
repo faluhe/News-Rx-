@@ -63,13 +63,17 @@ extension AppContainer {
 
         container.register(HomeService.self) { resolver in
             let network = resolver.resolve(HomeNetwork.self)!
+            return HomeService(network)
+        }.inObjectScope(.container)
+
+        container.register(BookmarkNetwork.self) { resolver in
             let dataBase = resolver.resolve(CoreDataManager.self)!
-            return HomeService(network, dataBase: dataBase)
+            return BookmarkNetwork(dataBase)
         }.inObjectScope(.container)
 
         container.register(BookmarkService.self) { resolver in
-            let dataBase = resolver.resolve(CoreDataManager.self)!
-            return BookmarkService(dataBase)
+            let network = resolver.resolve(BookmarkNetwork.self)!
+            return BookmarkService(network)
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  BookmarkService.swift
+//  BookmarkNetwork.swift
 //  News
 //
 //  Created by Ismailov Farrukh on 29/09/23.
@@ -8,17 +8,15 @@
 import Foundation
 import RxSwift
 
-protocol BookmarkServiceType {
+protocol BookmarkNetworkType {
     func getBookmarks() -> Single<[NewsSectionModel]>
 }
 
-final class BookmarkService: BookmarkServiceType {
-
-    //    private let network: BookmarkNetworkType
+final class BookmarkNetwork: BookmarkNetworkType {
+    
     private let dataBase: CoreDataManagerType
-
+    
     init(_ dataBase: CoreDataManagerType) {
-        //        self.network = network
         self.dataBase = dataBase
     }
 
@@ -48,4 +46,3 @@ final class BookmarkService: BookmarkServiceType {
         }
     }
 }
-

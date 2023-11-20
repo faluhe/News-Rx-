@@ -55,14 +55,8 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
     func loadBookmarks() {
         let bookmarks = dependencies.bookmarkService.getBookmarks()
-        bookmarks.subscribe({ [weak self] result in
-            switch result {
-            case .success(let storedBookmarks):
-                self?.bindings.sections.accept(storedBookmarks)
-            case .failure(let error):
-                print("Error: \(error)")
-                self?.bindings.sections.accept([])
-            }
+        bookmarks.subscribe(onNext: { [weak self] result in
+            self?.bindings.sections.accept(result)
         })
         .disposed(by: bag)
     }
