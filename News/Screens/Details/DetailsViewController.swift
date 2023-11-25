@@ -16,7 +16,6 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     override func setupBinding() {
@@ -33,13 +32,13 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
         let bookmarkItem = UIBarButtonItem()
 
         bindings.isBookmarked
-                .map { $0 ? Images.bookmarkFill.systemImage : Images.bookmarkEmpty.systemImage }
-                .bind(to: bookmarkItem.rx.image)
-                .disposed(by: bag)
+            .map { $0 ? Images.bookmarkFill.systemImage : Images.bookmarkEmpty.systemImage }
+            .bind(to: bookmarkItem.rx.image)
+            .disposed(by: bag)
 
-            bookmarkItem.rx.tap
-                .bind(to: viewModel.commands.addToBookmarks)
-                .disposed(by: bag)
+        bookmarkItem.rx.tap
+            .bind(to: viewModel.commands.addToBookmarks)
+            .disposed(by: bag)
 
         navigationItem.rightBarButtonItem = bookmarkItem
     }

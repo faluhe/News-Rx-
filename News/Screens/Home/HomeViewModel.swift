@@ -40,43 +40,44 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     }
 
     func configure(bindings: Bindings) { //ViewModel and UI
-        loadNewsFromServer()
-        loadStoredNews()
+
     }
 
     func configure(commands: Commands) { //Command from UI interaction
         commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
-            target.loadStoredNews()
+            target.loadNewsFromServer()
         }).disposed(by: bag)
-
     }
 
     func configure(moduleBindings: ModuleBindings) { //connecting action to Module for using in Coordinator
-//        moduleBindings.updateData.bind(to: Binder<Void>(self) { target, _ in
-//            target.loadNews()
-//        }).disposed(by: bag)
+        moduleBindings.updateData.bind(to: Binder<Void>(self) { target, _ in
+            target.loadNewsFromServer()
+        }).disposed(by: bag)
     }
 
 
     func loadNewsFromServer() {
         let news = dependencies.newsService.getNews()
-
-        news.subscribe(onNext: { [weak self] news in
+        news.subscribe(
+            onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
-
                 self?.bindings.sections.accept(newsViewModels)
-            self?.dependencies.coreData.saveEntity(news)
-            })
-            .disposed(by: bag)
+//                self?.dependencies.coreData.saveEntity(news)
+            },
+            onError: { [weak self] error in
+                print("Error loading news: \(error.localizedDescription)")
+                self?.loadStoredNews()
+            }
+        ).disposed(by: bag)
     }
 
     func loadStoredNews() {
         let storedNews = dependencies.newsService.getStoredNews()
 
         storedNews.subscribe(onNext: { [weak self] storedNews in
-                let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
+            let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
             self?.bindings.sections.accept(newsViewModels)
-            })
-            .disposed(by: bag)
+        })
+        .disposed(by: bag)
     }
 }

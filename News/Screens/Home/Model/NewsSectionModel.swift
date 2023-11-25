@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NewsSectionModel {
+struct NewsSectionModel: Hashable {
     let title: String
     let imageURL: String?
     let description: String?

@@ -32,7 +32,7 @@ final class CoreDataManager: CoreDataManagerType {
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
         let _ = entity.toEntity(context: context)
-        
+
         do {
             try context.save()
         } catch {

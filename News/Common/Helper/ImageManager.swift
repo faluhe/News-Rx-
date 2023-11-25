@@ -8,6 +8,7 @@
 import UIKit
 
 class ImageManager {
+
     static let shared = ImageManager()
 
     private let cache = ImageCache.shared

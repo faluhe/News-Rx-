@@ -14,8 +14,8 @@ class HomeCoordinator: Coordinator {
     typealias Container = UINavigationController
     var container = UINavigationController()
 
-    let bag = DisposeBag()
-
+    var bag = DisposeBag()
+    
     struct Input {
         let updatedata = PublishRelay<Void>()
         let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
@@ -23,21 +23,22 @@ class HomeCoordinator: Coordinator {
 
     let input = Input()
 
+
     func start() {
         configure()
     }
 
     func configure() {
+
         let module = HomeModuleConfigurator.configure()
 //        input.updatedata
 //            .bind(to: module.viewModel.moduleBindings.updateData)
 //            .disposed(by: bag)
 
-
         module.viewModel.moduleCommands.startDetails
             .filterNil()
-            .do(onNext: { value in
-            self.input.detailsModel.accept(value)
+            .do(onNext: { [weak self] value in
+            self?.input.detailsModel.accept(value)
         }).bind(to: Binder<NewsSectionModel?>(self) { target, _ in
          target.startDetailsScreen()
         }).disposed(by: bag)
@@ -49,7 +50,7 @@ class HomeCoordinator: Coordinator {
     func startDetailsScreen() {
         let module = DetailsModuleConfiguraotor.configure()
         input.detailsModel.bind(to: module.viewModel.moduleBindings.detailsModel).disposed(by: bag)
-        container.pushViewController(module.view, animated: true)
+        container.show(module.view, sender: self)
     }
 }
 

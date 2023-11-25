@@ -51,7 +51,6 @@ final class NewsCell: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-
     func setupHierarchy() {
         addSubview(containerView)
         containerView.addSubviews(title, subTitle, img)
@@ -88,7 +87,7 @@ final class NewsCell: UICollectionViewCell {
     }
 
 
-    func configure(article: NewsSectionModel){
+    func configure(article: NewsSectionModel) {
         title.text = article.title
         subTitle.text = article.description
         img.image = nil
@@ -99,33 +98,11 @@ final class NewsCell: UICollectionViewCell {
 
         ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
             DispatchQueue.main.async {
-                guard let validImage = image, self?.img.image == nil else {
+                guard let validImage = image else {
                     return
                 }
                 self?.img.image = validImage
             }
         }
-    }
-
-    func configure(article: BookmarkEntity){
-        title.text = article.title
-        subTitle.text = article.description
-        img.image = nil
-
-        guard let imageUrlStr = article.urlToImage, let imageURL = URL(string: imageUrlStr)  else {
-            return
-        }
-
-
-        ImageManager.shared.loadImage(from: imageURL) { [weak self] image in
-            DispatchQueue.main.async {
-                guard let validImage = image, self?.img.image == nil else {
-                    return
-                }
-                self?.img.image = validImage
-            }
-        }
-
-
     }
 }

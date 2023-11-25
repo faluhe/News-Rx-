@@ -50,7 +50,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     func configure(commands: Commands) {
         commands.addToBookmarks.bind(to: Binder<Void>(self) { target, _ in
-            guard let detailsModel = self.bindings.detailsModel.value else {
+            guard let detailsModel = target.bindings.detailsModel.value else {
                 // Handle the case where detailsModel doesn't conform to ConvertibleToEntity
                 print("Error: detailsModel does not conform to ConvertibleToEntity")
                 return
@@ -58,10 +58,10 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
             //removing
             if target.bindings.isBookmarked.value {
-                self.dependencies.coreDataManager.deleteEntity(detailsModel)
+                target.dependencies.coreDataManager.deleteEntity(detailsModel)
                 target.bindings.isBookmarked.accept(false)
             }else {
-                self.dependencies.coreDataManager.saveEntity(detailsModel)
+                target.dependencies.coreDataManager.saveEntity(detailsModel)
                 target.bindings.isBookmarked.accept(true)
             }
         }).disposed(by: bag)

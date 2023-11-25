@@ -32,8 +32,8 @@ class BookmarkCoordinator: Coordinator {
         module.viewModel.moduleCommands
             .startDetails
             .filterNil()
-            .do(onNext: { value in
-                self.input.detailsModel.accept(value)
+            .do(onNext: { [weak self] value in
+                self?.input.detailsModel.accept(value)
             })
             .bind(to: Binder<NewsSectionModel?>(self) { target, _ in
                     target.startDetailsScreen()
