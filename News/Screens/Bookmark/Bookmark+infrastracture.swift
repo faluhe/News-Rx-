@@ -38,9 +38,11 @@ extension BookmarkViewModel{
     
     struct Commands {
         let loadBookmarks = PublishRelay<Void>()
+        let deleteBookmark = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
     
     struct Dependencies {
         let bookmarkService: BookmarkService
+        let coreData: CoreDataManager
     }
 }

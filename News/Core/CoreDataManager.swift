@@ -31,8 +31,7 @@ final class CoreDataManager: CoreDataManagerType {
     
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
-        let _ = entity.toEntity(context: context)
-
+        let i = entity.toEntity(context: context)
         do {
             try context.save()
         } catch {
@@ -58,12 +57,8 @@ final class CoreDataManager: CoreDataManagerType {
         do {
             let fetchRequest = makeFetchRequest(for: entityClass, with: predicate)
             let storedEntities = try context.fetch(fetchRequest)
-            
-            if !storedEntities.isEmpty {
-                return .success(storedEntities)
-            } else {
-                return .failure(CoreDataError.noStoredData)
-            }
+            print("Fetched entities: \(storedEntities)")
+            return .success(storedEntities)
         } catch {
             return .failure(error)
         }

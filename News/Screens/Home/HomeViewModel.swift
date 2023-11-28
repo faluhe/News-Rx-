@@ -51,7 +51,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
     func configure(moduleBindings: ModuleBindings) { //connecting action to Module for using in Coordinator
         moduleBindings.updateData.bind(to: Binder<Void>(self) { target, _ in
-            target.loadNewsFromServer()
+//            target.loadNewsFromServer()
         }).disposed(by: bag)
     }
 
@@ -62,22 +62,23 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
-//                self?.dependencies.coreData.saveEntity(news)
+                DispatchQueue.main.async {
+                    self?.dependencies.coreData.saveEntity(news)
+                }
             },
             onError: { [weak self] error in
                 print("Error loading news: \(error.localizedDescription)")
                 self?.loadStoredNews()
-            }
-        ).disposed(by: bag)
+            }).disposed(by: bag)
     }
 
     func loadStoredNews() {
         let storedNews = dependencies.newsService.getStoredNews()
 
-        storedNews.subscribe(onNext: { [weak self] storedNews in
+        storedNews.subscribe(
+            onNext: { [weak self] storedNews in
             let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
             self?.bindings.sections.accept(newsViewModels)
-        })
-        .disposed(by: bag)
+        }).disposed(by: bag)
     }
 }

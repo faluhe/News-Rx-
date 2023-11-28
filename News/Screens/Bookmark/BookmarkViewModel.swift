@@ -39,6 +39,12 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
         commands.loadBookmarks.bind(to: Binder<Void>(self) { target, _ in
             target.loadBookmarks()
         }).disposed(by: bag)
+
+        commands.deleteBookmark.bind(to: Binder<NewsSectionModel?>(self) { target, model in
+            guard let model = model else { return }
+            target.dependencies.coreData.deleteEntity(model)
+            target.loadBookmarks()
+        }).disposed(by: bag)
     }
 
     func configure(moduileCommands: ModuleCommands) {
