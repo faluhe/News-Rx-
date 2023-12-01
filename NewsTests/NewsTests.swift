@@ -7,30 +7,56 @@
 
 import XCTest
 @testable import News
+import CoreData
 
-final class NewsTests: XCTestCase {
+class CoreDataManagerTests: XCTestCase {
+
+    var coreDataManager: CoreDataManager!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        coreDataManager = CoreDataManager(containerName: "News")
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        coreDataManager = nil
+        try super.tearDownWithError()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+    func testSaveAndFetchEntities() {
+        // Create a test entity
+        let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        // Save the entity
+        coreDataManager.saveEntity(bookmark)
+
+        // Fetch the entities
+        let result = coreDataManager.fetchEntities(BookmarkEntity.self, predicate: nil)
+
+        switch result {
+        case .success(let storedEntities):
+            XCTAssertEqual(storedEntities.count, 1, "Expected one entity to be stored.")
+            // Add additional assertions based on your data model
+        case .failure(let error):
+            XCTFail("Failed to fetch entities with error: \(error)")
         }
     }
 
+    func testDeleteEntity() {
+        // Create a test entity
+        let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
+
+        // Delete the entity
+        coreDataManager.deleteEntity(bookmark)
+
+        // Fetch the entities after deletion
+        let afterDeletionFetchResult = coreDataManager.fetchEntities(BookmarkEntity.self, predicate: nil)
+
+        switch afterDeletionFetchResult {
+        case .success(let afterDeletionStoredEntities):
+            XCTAssertEqual(afterDeletionStoredEntities.count, 0, "Expected no entities to be stored after deletion.")
+        case .failure(let error):
+            XCTFail("Failed to fetch entities with error: \(error)")
+        }
+    }
 }
