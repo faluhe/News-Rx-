@@ -67,8 +67,6 @@ final class BookmarkView: RxBaseView {
         }
         .disposed(by: bag)
     }
-
-    
 }
 
 extension BookmarkView: UICollectionViewDelegateFlowLayout {

@@ -44,7 +44,7 @@ final class HomeNetwork: HomeNetworkType {
                     totalResults: newsEntity.totalResults,
                     articles: newsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
                 )
-                print(news.articles?.first)
+
                 single(.success(news))
             case let .failure(error):
                 single(.failure(error))

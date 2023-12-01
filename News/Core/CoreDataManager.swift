@@ -18,7 +18,7 @@ protocol CoreDataManagerType {
 final class CoreDataManager: CoreDataManagerType {
     let persistentContainer: NSPersistentContainer
     let viewContext: NSManagedObjectContext
-    
+
     init(containerName: String) {
         persistentContainer = NSPersistentContainer(name: containerName)
         persistentContainer.loadPersistentStores { _, error in
@@ -28,56 +28,65 @@ final class CoreDataManager: CoreDataManagerType {
         }
         viewContext = persistentContainer.viewContext
     }
-    
+
+    //MARK: - Saving and updating
     func saveEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
-        let i = entity.toEntity(context: context)
+
         do {
+            if let existingEntity = try fetchEntity(ofType: T.ManagedObjectType.self, predicate: nil, in: context) {
+                print("Entity already exists. Deleting.")
+            }
+
+            let newEntity = entity.toEntity(context: context)
             try context.save()
         } catch {
-            print("Failed to save entity to Core Data: \(error)")
+            print("Error managing entity: \(error)")
         }
     }
-    
+
+    //MARK: - Removing
     func deleteEntity<T: ConvertibleToEntity>(_ entity: T) {
         let context = viewContext
-        
+
         let existingEntity = entity.toEntity(context: context)
         context.delete(existingEntity)
+
         do {
             try context.save()
         } catch {
             print("Failed to delete entity from Core Data: \(error)")
         }
     }
-    
+
+    //MARK: - Fetching
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error> {
         let context = viewContext
-        
+
         do {
             let fetchRequest = makeFetchRequest(for: entityClass, with: predicate)
             let storedEntities = try context.fetch(fetchRequest)
-            print("Fetched entities: \(storedEntities)")
+            print("Fetched entities: \(storedEntities.first?.objectID)")
             return .success(storedEntities)
         } catch {
             return .failure(error)
         }
     }
-    
+
+    //MARK: - Checking existance
     func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool {
         let context = viewContext
-        
-        let fetchRequest: NSFetchRequest<T> = makeFetchRequest(for: entityClass, with: NSPredicate(format: "title == %@", title))
-        
-        do {
-            let result = try context.fetch(fetchRequest)
-            return !result.isEmpty
-        } catch {
-            print("Error fetching entity: \(error)")
-            return false
-        }
+
+        let predicate = NSPredicate(format: "title == %@", title)
+        return (try? fetchEntity(ofType: entityClass, predicate: predicate, in: context)) != nil
     }
-    
+
+    private func fetchEntity<T: NSManagedObject>(ofType type: T.Type, predicate: NSPredicate?, in context: NSManagedObjectContext) throws -> T? {
+        let fetchRequest: NSFetchRequest<T> = makeFetchRequest(for: type)
+        fetchRequest.predicate = predicate
+        return try context.fetch(fetchRequest).first
+    }
+
     private func makeFetchRequest<T: NSManagedObject>(for entityClass: T.Type, with predicate: NSPredicate? = nil) -> NSFetchRequest<T> {
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
         fetchRequest.predicate = predicate

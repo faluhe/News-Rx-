@@ -50,14 +50,12 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     func configure(moduileCommands: ModuleCommands) {
         bindings.openDetailsScreen.bind(to: moduileCommands.startDetails).disposed(by: bag)
     }
-
+    
     func configure(bindings: Bindings) {
         loadBookmarks()
     }
 
-    func configure(moduleBindings: ModuleBindings) {
-
-    }
+    func configure(moduleBindings: ModuleBindings) { }
 
     func loadBookmarks() {
         let bookmarks = dependencies.bookmarkService.getBookmarks()
