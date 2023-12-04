@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxSwift
 import RxRelay
 
 protocol HomeModuleType {
@@ -21,6 +20,8 @@ protocol HomeViewModelType {
 
 extension HomeViewModel {
 
+    struct ModuleBindings { }
+    
     struct ModuleCommands {
         let startDetails = BehaviorRelay<NewsSectionModel?>(value: nil)
         let done = PublishRelay<Void>()
@@ -33,10 +34,6 @@ extension HomeViewModel {
 
     struct Commands {
         let loadNews = PublishRelay<Void>()
-    }
-
-    struct ModuleBindings {
-        let updateData = PublishRelay<Void>()
     }
 
     struct Dependencies {

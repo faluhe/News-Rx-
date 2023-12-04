@@ -36,7 +36,7 @@ class BookmarkCoordinator: Coordinator {
                 self?.input.detailsModel.accept(value)
             })
             .bind(to: Binder<NewsSectionModel?>(self) { target, _ in
-                    target.startDetailsScreen()
+                target.startDetailsScreen()
             }).disposed(by: bag)
 
         container.setViewControllers([module.view], animated: true)
@@ -47,5 +47,4 @@ class BookmarkCoordinator: Coordinator {
         input.detailsModel.bind(to: module.viewModel.moduleBindings.detailsModel).disposed(by: bag)
         container.pushViewController(module.view, animated: true)
     }
-
 }

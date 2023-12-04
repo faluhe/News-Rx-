@@ -15,7 +15,6 @@ class ImageManager {
 
     private init() {}
 
-
     func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
         // Check cache first
         if let cachedImage = cache.image(forKey: url.absoluteString) {

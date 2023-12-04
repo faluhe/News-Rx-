@@ -19,23 +19,21 @@ protocol DetailsViewModelType {
 }
 
 extension DetailsViewModel {
+
+    struct ModuleBindings {
+        let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
+    }
+
+    struct ModuleCommands { }
+
     struct Bindings {
         let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
         var isBookmarked = BehaviorRelay<Bool>(value: false)
         let title = BehaviorRelay<String>(value: "")
     }
 
-    struct ModuleBindings {
-        let updateData = PublishRelay<Void>()
-        let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
-    }
-
     struct Commands {
         let addToBookmarks = PublishRelay<Void>()
-    }
-
-    struct ModuleCommands {
-
     }
 
     struct Dependencies {

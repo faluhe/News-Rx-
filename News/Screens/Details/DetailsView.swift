@@ -21,7 +21,6 @@ final class DetailsView: RxBaseView {
         return webView
     }()
 
-
     override func setupHierarchy() {
         self.addSubview(webView)
     }

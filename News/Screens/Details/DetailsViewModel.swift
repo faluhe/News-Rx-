@@ -7,7 +7,6 @@
 
 import UIKit
 import RxSwift
-import RxRelay
 
 final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
@@ -33,14 +32,17 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
         configure(moduleBindings: moduleBindings)
     }
 
-    func configure(dependencies: Dependencies) {
+    func configure(dependencies: Dependencies) { }
+    
+    // Module Configuration: Connects module-level commands to communication with the coordinator.
+    func configure(moduleCommands: ModuleCommands) { }
 
+    // Module Bindings Configuration: for connecting actions to the module for coordination purposes.
+    func configure(moduleBindings: ModuleBindings) {
+        moduleBindings.detailsModel.bind(to: bindings.detailsModel).disposed(by: bag)
     }
 
-    func configure(moduleCommands: ModuleCommands) {
-
-    }
-
+    // ViewModel and UI Configuration: bindings between ViewModel and UI components.
     func configure(bindings: Bindings) {
         bindings.title.bind(to: Binder<String>(self) { target, value in
             let articleExist = target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value)
@@ -48,16 +50,17 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
         }).disposed(by: bag)
     }
 
+    // UI Commands Configuration:  UI interaction commands
     func configure(commands: Commands) {
         commands.addToBookmarks.bind(to: Binder<Void>(self) { target, _ in
             guard let detailsModel = target.bindings.detailsModel.value else {
-                // Handle the case where detailsModel doesn't conform to ConvertibleToEntity
                 print("Error: detailsModel does not conform to ConvertibleToEntity")
                 return
             }
 
             //removing
-            if target.bindings.isBookmarked.value {
+            let isBookmarked = target.bindings.isBookmarked.value
+            if isBookmarked {
                 target.dependencies.coreDataManager.deleteEntity(detailsModel)
                 target.bindings.isBookmarked.accept(false)
             }else {
@@ -65,10 +68,5 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
                 target.bindings.isBookmarked.accept(true)
             }
         }).disposed(by: bag)
-
-    }
-
-    func configure(moduleBindings: ModuleBindings) {
-        moduleBindings.detailsModel.bind(to: bindings.detailsModel).disposed(by: bag)
     }
 }

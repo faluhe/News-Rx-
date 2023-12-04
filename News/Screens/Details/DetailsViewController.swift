@@ -6,9 +6,6 @@
 //
 
 import UIKit
-import RxSwift
-import CoreData
-import RxRelay
 
 final class DetailsViewController: RxBaseViewController<DetailsView> {
 

@@ -6,9 +6,7 @@
 //
 
 import UIKit
-import RxSwift
 import RxRelay
-import RxCocoa
 import SnapKit
 
 final class HomeView: RxBaseView {
@@ -42,9 +40,9 @@ final class HomeView: RxBaseView {
         newsCollectionView.backgroundColor = .clear
         
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
-                cell.configure(article: article)
-            }
-            .disposed(by: bag)
+            cell.configure(article: article)
+        }
+        .disposed(by: bag)
     }
 }
 

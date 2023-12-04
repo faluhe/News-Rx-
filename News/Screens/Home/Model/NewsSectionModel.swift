@@ -14,9 +14,9 @@ struct NewsSectionModel: Hashable {
     let url: String?
 }
 
-// Extension to convert Article to NewsModel
+// Extension to convert Article to NewsSectionModel
 extension Article {
-    func toViewModel() -> NewsSectionModel {
+    func toNewsSectionModel() -> NewsSectionModel {
         return NewsSectionModel(
             title: title ?? "",
             imageURL: urlToImage ?? "",
@@ -25,15 +25,4 @@ extension Article {
         )
     }
 }
-
-extension ArticlesEntity {
-    func toModel() -> Article {
-        return Article(source: Source(id: source?.id, name: source?.name),
-                       author: self.author,
-                       title: self.title,
-                       description: self.descript,
-                       url: self.url,
-                       urlToImage: self.imgUrl,
-                       content: self.content)
-    }
-}
+ 

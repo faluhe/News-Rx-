@@ -34,8 +34,21 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
     func configure(dependencies: Dependencies) { }
 
+    // Module Configuration: Connects module-level commands to communication with the coordinator.
+    func configure(moduileCommands: ModuleCommands) {
+        bindings.openDetailsScreen.bind(to: moduileCommands.startDetails).disposed(by: bag)
+    }
+
+    // Module Bindings Configuration: for connecting actions to the module for coordination purposes.
+    func configure(moduleBindings: ModuleBindings) { }
+
+    // ViewModel and UI Configuration: bindings between ViewModel and UI components.
+    func configure(bindings: Bindings) {
+        loadBookmarks()
+    }
+
+    // UI Commands Configuration:  UI interaction commands
     func configure(commands: Commands) {
-        // from UI interaction
         commands.loadBookmarks.bind(to: Binder<Void>(self) { target, _ in
             target.loadBookmarks()
         }).disposed(by: bag)
@@ -46,16 +59,6 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
             target.loadBookmarks()
         }).disposed(by: bag)
     }
-
-    func configure(moduileCommands: ModuleCommands) {
-        bindings.openDetailsScreen.bind(to: moduileCommands.startDetails).disposed(by: bag)
-    }
-    
-    func configure(bindings: Bindings) {
-        loadBookmarks()
-    }
-
-    func configure(moduleBindings: ModuleBindings) { }
 
     func loadBookmarks() {
         let bookmarks = dependencies.bookmarkService.getBookmarks()

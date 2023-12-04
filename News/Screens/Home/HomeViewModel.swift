@@ -35,32 +35,29 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
     func configure(dependencies: Dependencies) {}
 
+    // Module Configuration: Connects module-level commands to communication with the coordinator.
     func configure(moduleCommands: ModuleCommands) {
         bindings.openDetailsScreen.bind(to: moduleCommands.startDetails).disposed(by: bag)
     }
 
-    func configure(bindings: Bindings) { //ViewModel and UI
+    // Module Bindings Configuration: for connecting actions to the module for coordination purposes.
+    func configure(moduleBindings: ModuleBindings) { }
 
-    }
+    // ViewModel and UI Configuration: bindings between ViewModel and UI components.
+    func configure(bindings: Bindings) { }
 
-    func configure(commands: Commands) { //Command from UI interaction
+    // UI Commands Configuration:  UI interaction commands
+    func configure(commands: Commands) {
         commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
             target.loadNewsFromServer()
         }).disposed(by: bag)
     }
 
-    func configure(moduleBindings: ModuleBindings) { //connecting action to Module for using in Coordinator
-        moduleBindings.updateData.bind(to: Binder<Void>(self) { target, _ in
-//            target.loadNewsFromServer()
-        }).disposed(by: bag)
-    }
-
-
     func loadNewsFromServer() {
         let news = dependencies.newsService.getNews()
         news.subscribe(
             onNext: { [weak self] news in
-                let newsViewModels = news.articles?.map { $0.toViewModel() } ?? []
+                let newsViewModels = news.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
                 DispatchQueue.main.async {
                     self?.dependencies.coreData.saveEntity(news)
@@ -77,8 +74,8 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
         storedNews.subscribe(
             onNext: { [weak self] storedNews in
-            let newsViewModels = storedNews.articles?.map { $0.toViewModel() } ?? []
-            self?.bindings.sections.accept(newsViewModels)
-        }).disposed(by: bag)
+                let newsViewModels = storedNews.articles?.map { $0.toNewsSectionModel() } ?? []
+                self?.bindings.sections.accept(newsViewModels)
+            }).disposed(by: bag)
     }
 }

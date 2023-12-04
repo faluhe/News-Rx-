@@ -14,7 +14,6 @@ protocol DependencyProvider {
     func inject<T>() -> T
 }
 
-
 class AppContainer: DependencyProvider {
     
     static let shared: DependencyProvider = AppContainer()

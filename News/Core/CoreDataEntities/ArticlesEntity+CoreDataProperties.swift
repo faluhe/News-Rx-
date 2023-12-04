@@ -28,5 +28,14 @@ extension ArticlesEntity {
 }
 
 extension ArticlesEntity : Identifiable {
-
+    // Extension to convert ArticlesEntity to Article
+    func toArticle() -> Article {
+        return Article(source: Source(id: source?.id, name: source?.name),
+                       author: self.author,
+                       title: self.title,
+                       description: self.descript,
+                       url: self.url,
+                       urlToImage: self.imgUrl,
+                       content: self.content)
+    }
 }

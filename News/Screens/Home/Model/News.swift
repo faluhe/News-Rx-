@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - News
+// MARK: - NewsDTO
 struct NewsDTO: Codable {
     let status: String?
     let totalResults: Double?

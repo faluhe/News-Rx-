@@ -18,7 +18,7 @@ class AppCoordinator: Coordinator {
 
     typealias Container = UIWindow
     var container: UIWindow
-
+    
     var coordinators: [any Coordinator] = []
 
     init(window: UIWindow) {

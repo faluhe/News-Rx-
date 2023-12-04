@@ -14,10 +14,10 @@ struct K {
 
     static let bookmark = "Bookmark"
     static let home = "Home"
-
 }
 
 
+//MARK: - Images
 enum Images: String {
     case home = "newspaper.fill"
     case bookmarkFill = "bookmark.fill"
@@ -25,7 +25,7 @@ enum Images: String {
     case newspaper = "newspaper"
 
 
-    // MARK: - Property
+    // MARK: - Properties
     var image: UIImage? {
         UIImage(named: rawValue)
     }

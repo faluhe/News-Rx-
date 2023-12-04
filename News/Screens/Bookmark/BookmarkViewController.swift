@@ -14,6 +14,8 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Bookmarks"
+
         contentView.onDeleteAction = { [weak self] indexPath in
             self?.showDeleteConfirmation(at: indexPath)
         }
@@ -38,7 +40,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
             }).disposed(by: bag)
     }
 
-
+    private func configure(_ commands: BookmarkViewModel.Commands) { }
 
     func showDeleteConfirmation(at indexPath: NewsSectionModel) {
         let alert = UIAlertController(title: "Delete Bookmark", message: "Are you sure you want to delete this bookmark?", preferredStyle: .alert)
@@ -47,11 +49,6 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
             self?.viewModel.commands.deleteBookmark.accept(indexPath)
         }))
-
         self.present(alert, animated: true, completion: nil)
-    }
-
-    private func configure(_ commands: BookmarkViewModel.Commands) {
-
     }
 }

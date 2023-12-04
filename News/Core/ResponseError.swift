@@ -12,11 +12,9 @@ enum ResponseError: Error {
     case unknownData
 }
 
-
 enum NetworkError: Error {
     case invalidURL
 }
-
 
 enum CoreDataError: Error {
     case noStoredData

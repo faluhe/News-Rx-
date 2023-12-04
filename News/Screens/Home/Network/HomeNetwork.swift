@@ -42,7 +42,7 @@ final class HomeNetwork: HomeNetworkType {
                 let news = News(
                     status: newsEntity.status ?? " ",
                     totalResults: newsEntity.totalResults,
-                    articles: newsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toModel() }
+                    articles: newsEntity.articles?.compactMap { ($0 as? ArticlesEntity)?.toArticle() }
                 )
 
                 single(.success(news))
