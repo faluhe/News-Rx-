@@ -15,6 +15,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "News"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     override func viewWillAppear(_ animated: Bool) {

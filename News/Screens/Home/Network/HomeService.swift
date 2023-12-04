@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 protocol HomeServiceType {
     func getNews() -> Observable<News>
     func getStoredNews() -> Observable<News>
