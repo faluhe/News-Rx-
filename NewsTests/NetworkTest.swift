@@ -17,7 +17,6 @@ class NetworkTests: XCTestCase {
         sessionUnderTest = URLSession(configuration: URLSessionConfiguration.default)
     }
 
-    
     func testValidCallStatus() {
 
         // Given
