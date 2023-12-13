@@ -39,7 +39,7 @@ final class BookmarkView: RxBaseView {
     override func setupLayout() {
         newsCollectionView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(30)
+            $0.bottom.equalTo(safeAreaLayoutGuide)
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
         }

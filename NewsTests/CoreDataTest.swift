@@ -13,43 +13,39 @@ class CoreDataManagerTests: XCTestCase {
 
     var coreDataManager: CoreDataManager!
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    override func setUp() {
+        super.setUp()
         coreDataManager = CoreDataManager(containerName: "News")
     }
 
-    override func tearDownWithError() throws {
-        coreDataManager = nil
-        try super.tearDownWithError()
-    }
 
     func testSaveAndFetchEntities() {
-        // Create a test entity
+        // Given
         let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
 
-        // Save the entity
+        // When
         coreDataManager.saveEntity(bookmark)
 
-        // Fetch the entities
+        // Then
         let result = coreDataManager.fetchEntities(BookmarkEntity.self, predicate: nil)
 
         switch result {
         case .success(let storedEntities):
+            print(storedEntities.count)
             XCTAssertEqual(storedEntities.count, 1, "Expected one entity to be stored.")
-            // Add additional assertions based on your data model
         case .failure(let error):
             XCTFail("Failed to fetch entities with error: \(error)")
         }
     }
 
     func testDeleteEntity() {
-        // Create a test entity
+        // Given
         let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
 
-        // Delete the entity
+        // When
         coreDataManager.deleteEntity(bookmark)
 
-        // Fetch the entities after deletion
+        // Then
         let afterDeletionFetchResult = coreDataManager.fetchEntities(BookmarkEntity.self, predicate: nil)
 
         switch afterDeletionFetchResult {

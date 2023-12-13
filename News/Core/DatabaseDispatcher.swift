@@ -4,8 +4,8 @@
 //
 //  Created by Ismailov Farrukh on 14/08/23.
 //
-import RxSwift
 import Foundation
+import RxSwift
 import CoreData
 
 protocol DatabaseDispatcherType {
