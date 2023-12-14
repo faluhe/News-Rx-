@@ -7,13 +7,28 @@
 
 import UIKit
 
+//MARK: - Constants
 struct K {
     static let baseURL = "https://newsapi.org"
     static let endpoint = "/v2/top-headlines?country=us&apiKey="
     static let apiKey = "4e8632ddb68d4ad2a6aa8047d87256d8"
+}
 
+struct ScreenNames {
     static let bookmark = "Bookmark"
     static let home = "Home"
+}
+
+struct HomeScreen {
+    static let news = "News"
+}
+
+struct BookmarkScreen {
+    static let deleteBookmark = "Delete Bookmark"
+    static let areYouSureToDelete = "Are you sure you want to delete this bookmark?"
+    static let cancel = "Cancel"
+    static let delete = "Delete"
+    static let bookmarks = "Bookmarks"
 }
 
 
