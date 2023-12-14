@@ -12,10 +12,17 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     var viewModel: HomeViewModelType!
 
+    private lazy var pullToRefresh: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        return control
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = HomeScreen.news
         navigationController?.navigationBar.prefersLargeTitles = true
+        contentView.newsCollectionView.refreshControl = pullToRefresh
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,4 +46,10 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     private func configure(_ commands: HomeViewModel.Commands) { }
 
+    @objc func refreshData() {
+        viewModel.commands.loadNews.accept(())
+        DispatchQueue.main.async {
+            self.pullToRefresh.endRefreshing()
+        }
+    }
 }

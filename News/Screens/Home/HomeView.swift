@@ -44,6 +44,10 @@ final class HomeView: RxBaseView {
         }
         .disposed(by: bag)
     }
+
+    @objc func refreshData() {
+        
+    }
 }
 
 
