@@ -22,6 +22,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
         super.viewDidLoad()
         navigationItem.title = HomeScreen.news
         navigationController?.navigationBar.prefersLargeTitles = true
+        contentView.newsCollectionView.addSubview(pullToRefresh)
         contentView.newsCollectionView.refreshControl = pullToRefresh
     }
 
@@ -44,16 +45,17 @@ final class HomeViewController: RxBaseViewController<HomeView> {
             }).disposed(by: bag)
     }
 
-    private func configure(_ commands: HomeViewModel.Commands) { }
-
-    @objc func refreshData() {
-        viewModel.commands.loadNews.accept(())
-
-        viewModel.commands.loadingCompleteSignal
+    private func configure(_ commands: HomeViewModel.Commands) {
+        commands.loadingCompleteSignal
             .observe(on: MainScheduler.instance)
+            .delay(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 self?.pullToRefresh.endRefreshing()
             })
             .disposed(by: bag)
+    }
+
+    @objc func refreshData() {
+        viewModel.commands.loadNews.accept(())
     }
 }
