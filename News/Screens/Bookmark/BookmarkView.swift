@@ -67,6 +67,21 @@ final class BookmarkView: RxBaseView {
         }
         .disposed(by: bag)
     }
+
+    func animateDeletionFor(section: NewsSectionModel) {
+        guard let index = sections.value.firstIndex(of: section) else {
+            return
+        }
+
+        let indexPath = IndexPath(row: index, section: 0)
+
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.newsCollectionView.performBatchUpdates({
+                self.sections.accept(self.sections.value.filter { $0 != section })
+                self.newsCollectionView.deleteItems(at: [indexPath])
+            }, completion: nil)
+        })
+    }
 }
 
 extension BookmarkView: UICollectionViewDelegateFlowLayout {

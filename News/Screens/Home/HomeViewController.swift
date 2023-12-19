@@ -37,7 +37,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     private func configure(_ bindings: HomeViewModel.Bindings) {
         bindings.sections.bind(to: contentView.sections).disposed(by: bag)
-        
+
         contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
             .bind(to: Binder<NewsSectionModel>(self) { _, model in
                 bindings.openDetailsScreen.accept(model)
@@ -48,8 +48,12 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     @objc func refreshData() {
         viewModel.commands.loadNews.accept(())
-        DispatchQueue.main.async {
-            self.pullToRefresh.endRefreshing()
-        }
+
+        viewModel.commands.loadingCompleteSignal
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.pullToRefresh.endRefreshing()
+            })
+            .disposed(by: bag)
     }
 }

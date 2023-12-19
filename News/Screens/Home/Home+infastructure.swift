@@ -34,6 +34,7 @@ extension HomeViewModel {
 
     struct Commands {
         let loadNews = PublishRelay<Void>()
+        let loadingCompleteSignal = PublishRelay<Void>()
     }
 
     struct Dependencies {

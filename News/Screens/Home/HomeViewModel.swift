@@ -61,6 +61,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
                 self?.bindings.sections.accept(newsViewModels)
                 DispatchQueue.main.async {
                     self?.dependencies.coreData.saveEntity(news)
+                    self?.commands.loadingCompleteSignal.accept(())
                 }
             },
             onError: { [weak self] error in

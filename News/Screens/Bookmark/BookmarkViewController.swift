@@ -39,16 +39,21 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
                 bindings.openDetailsScreen.accept(model)
             }).disposed(by: bag)
     }
-    
+
     private func configure(_ commands: BookmarkViewModel.Commands) { }
 
-    func showDeleteConfirmation(at indexPath: NewsSectionModel) {
+    func showDeleteConfirmation(at section: NewsSectionModel) {
         let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: BookmarkScreen.cancel, style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: BookmarkScreen.delete, style: .destructive, handler: { [weak self] _ in
-            self?.viewModel.commands.deleteBookmark.accept(indexPath)
+            // Perform the deletion animation
+            self?.contentView.animateDeletionFor(section: section)
+
+            // Now, you can initiate the deletion through your ViewModel if needed
+             self?.viewModel.commands.deleteBookmark.accept(section)
         }))
         self.present(alert, animated: true, completion: nil)
     }
+
 }
