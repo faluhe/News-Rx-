@@ -33,7 +33,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
     }
 
     func configure(dependencies: Dependencies) { }
-    
+
     // Module Configuration: Connects module-level commands to communication with the coordinator.
     func configure(moduleCommands: ModuleCommands) { }
 
@@ -44,7 +44,7 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     // ViewModel and UI Configuration: bindings between ViewModel and UI components.
     func configure(bindings: Bindings) {
-        bindings.title.bind(to: Binder<String>(self) { target, value in
+        bindings.articleTitle.bind(to: Binder<String>(self) { target, value in
             let articleExist = target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value)
             bindings.isBookmarked.accept(articleExist)
         }).disposed(by: bag)
@@ -52,21 +52,22 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
 
     // UI Commands Configuration:  UI interaction commands
     func configure(commands: Commands) {
-        commands.addToBookmarks.bind(to: Binder<Void>(self) { target, _ in
-            guard let detailsModel = target.bindings.detailsModel.value else {
-                print("Error: detailsModel does not conform to ConvertibleToEntity")
-                return
-            }
+        commands.saveToBookmarks
+            .withLatestFrom(bindings.isBookmarked)
+            .bind(to: Binder<Bool>(self) { target, isBookmarked in
+                guard let detailsModel = target.bindings.detailsModel.value else {
+                    print("Error: detailsModel does not conform to ConvertibleToEntity")
+                    return
+                }
 
-            //removing
-            let isBookmarked = target.bindings.isBookmarked.value
-            if isBookmarked {
-                target.dependencies.coreDataManager.deleteEntity(detailsModel)
-                target.bindings.isBookmarked.accept(false)
-            }else {
-                target.dependencies.coreDataManager.saveEntity(detailsModel)
-                target.bindings.isBookmarked.accept(true)
-            }
-        }).disposed(by: bag)
+                if isBookmarked {
+                    target.dependencies.coreDataManager.deleteEntity(detailsModel)
+                    target.bindings.isBookmarked.accept(false)
+                } else {
+                    target.dependencies.coreDataManager.saveEntity(detailsModel)
+                    target.bindings.isBookmarked.accept(true)
+                }
+            })
+            .disposed(by: bag)
     }
 }

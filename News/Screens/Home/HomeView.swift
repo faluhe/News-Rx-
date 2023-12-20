@@ -8,10 +8,15 @@
 import UIKit
 import RxRelay
 import SnapKit
+import RxSwift
 
 final class HomeView: RxBaseView {
 
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
+    let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
+    let isBookmarked = BehaviorRelay<Bool>(value: false)
+    var saveActionTitle: String = " "
+    let articleTitle = BehaviorRelay<String?>(value: nil)
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -38,15 +43,16 @@ final class HomeView: RxBaseView {
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
-        
+
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
             cell.configure(article: article)
         }
         .disposed(by: bag)
-    }
 
-    @objc func refreshData() {
-        
+        isBookmarked.bind(to: Binder<Bool>(self) { target, isBookmarked in
+            print(isBookmarked)
+            isBookmarked ? (target.saveActionTitle = "Unsave") : (target.saveActionTitle = "Save")
+        }).disposed(by: bag)
     }
 }
 
@@ -54,5 +60,28 @@ final class HomeView: RxBaseView {
 extension HomeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return NewsCell.cellSize(collectionView: collectionView)
+    }
+}
+
+extension HomeView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+
+        let selectedModel = self.sections.value[indexPath.row]
+        self.articleTitle.accept(selectedModel.title)
+
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let saveAction = UIAction(title: self.saveActionTitle, image: Images.bookmarkEmpty.systemImage) { _ in
+                print("Selected model for details: \(selectedModel)")
+                self.selectedModel.accept(selectedModel)
+            }
+
+            let share = UIAction(title: "Share", image: Images.share.systemImage) { _ in
+                print("Selected model for details: \(selectedModel)")
+            }
+
+            return UIMenu(title: "", children: [saveAction, share])
+        }
+
+        return configuration
     }
 }

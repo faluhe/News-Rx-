@@ -22,7 +22,7 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
 
     private func configure(_ bindings: DetailsViewModel.Bindings) {
         bindings.detailsModel.bind(to: contentView.model).disposed(by: bag)
-        contentView.title.bind(to: bindings.title).disposed(by: bag)
+        contentView.articleTitle.bind(to: bindings.articleTitle).disposed(by: bag)
     }
 
     private func setupNavigationBar(_ bindings: DetailsViewModel.Bindings) {
@@ -34,7 +34,7 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
             .disposed(by: bag)
 
         bookmarkItem.rx.tap
-            .bind(to: viewModel.commands.addToBookmarks)
+            .bind(to: viewModel.commands.saveToBookmarks)
             .disposed(by: bag)
 
         navigationItem.rightBarButtonItem = bookmarkItem

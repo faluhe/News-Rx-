@@ -44,13 +44,36 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
     func configure(moduleBindings: ModuleBindings) { }
 
     // ViewModel and UI Configuration: bindings between ViewModel and UI components.
-    func configure(bindings: Bindings) { }
+    func configure(bindings: Bindings) {
+        bindings.articleTitle.bind(to: Binder<String?>(self) { target, value in
+            guard let title = value else { return }
+            let articleExist = target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title)
+            bindings.isBookmarked.accept(articleExist)
+        }).disposed(by: bag)
+    }
 
     // UI Commands Configuration:  UI interaction commands
     func configure(commands: Commands) {
         commands.loadNews.bind(to: Binder<Void>(self) { target, _ in
             target.loadNewsFromServer()
         }).disposed(by: bag)
+
+        commands.selectedModel
+            .withLatestFrom(bindings.isBookmarked) { selectedModel, isBookmarked in
+                return (selectedModel, isBookmarked)
+            }
+            .subscribe(onNext: { [weak self] (selectedModel, isBookmarked) in
+                if let model = selectedModel {
+                    if isBookmarked {
+                        self?.dependencies.coreData.deleteEntity(model)
+                        self?.bindings.isBookmarked.accept(false)
+                    } else {
+                        self?.dependencies.coreData.saveEntity(model)
+                        self?.bindings.isBookmarked.accept(true)
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
 
     func loadNewsFromServer() {

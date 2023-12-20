@@ -38,6 +38,7 @@ enum Images: String {
     case bookmarkFill = "bookmark.fill"
     case bookmarkEmpty = "bookmark"
     case newspaper = "newspaper"
+    case share = "square.and.arrow.up"
 
 
     // MARK: - Properties

@@ -30,11 +30,14 @@ extension HomeViewModel {
     struct Bindings {
         let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
         let openDetailsScreen = BehaviorRelay<NewsSectionModel?>(value: nil)
+        let isBookmarked = BehaviorRelay<Bool>(value: false)
+        let articleTitle = BehaviorRelay<String?>(value: nil)
     }
 
     struct Commands {
         let loadNews = PublishRelay<Void>()
         let loadingCompleteSignal = PublishRelay<Void>()
+        let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
     struct Dependencies {

@@ -43,6 +43,9 @@ final class HomeViewController: RxBaseViewController<HomeView> {
             .bind(to: Binder<NewsSectionModel>(self) { _, model in
                 bindings.openDetailsScreen.accept(model)
             }).disposed(by: bag)
+
+        contentView.articleTitle.bind(to: bindings.articleTitle).disposed(by: bag)
+        bindings.isBookmarked.bind(to: contentView.isBookmarked).disposed(by: bag)
     }
 
     private func configure(_ commands: HomeViewModel.Commands) {
@@ -53,6 +56,8 @@ final class HomeViewController: RxBaseViewController<HomeView> {
                 self?.pullToRefresh.endRefreshing()
             })
             .disposed(by: bag)
+
+        contentView.selectedModel.bind(to: commands.selectedModel).disposed(by: bag)
     }
 
     @objc func refreshData() {
