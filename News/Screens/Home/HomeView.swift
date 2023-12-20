@@ -51,7 +51,7 @@ final class HomeView: RxBaseView {
 
         isBookmarked.bind(to: Binder<Bool>(self) { target, isBookmarked in
             print(isBookmarked)
-            isBookmarked ? (target.saveActionTitle = "Unsave") : (target.saveActionTitle = "Save")
+            isBookmarked ? (target.saveActionTitle = HomeScreen.unsave) : (target.saveActionTitle = HomeScreen.save)
         }).disposed(by: bag)
     }
 }
@@ -71,11 +71,10 @@ extension HomeView: UICollectionViewDelegate {
 
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let saveAction = UIAction(title: self.saveActionTitle, image: Images.bookmarkEmpty.systemImage) { _ in
-                print("Selected model for details: \(selectedModel)")
                 self.selectedModel.accept(selectedModel)
             }
 
-            let share = UIAction(title: "Share", image: Images.share.systemImage) { _ in
+            let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
                 print("Selected model for details: \(selectedModel)")
             }
 

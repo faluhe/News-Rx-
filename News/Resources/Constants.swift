@@ -21,6 +21,9 @@ struct ScreenNames {
 
 struct HomeScreen {
     static let news = "News"
+    static let save = "Save"
+    static let unsave = "Unsave"
+    static let share = "Share"
 }
 
 struct BookmarkScreen {
