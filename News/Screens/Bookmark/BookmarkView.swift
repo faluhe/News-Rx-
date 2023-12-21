@@ -24,16 +24,16 @@ final class BookmarkView: RxBaseView {
         return cv
     }()
 
-    lazy var longPressGesture: UILongPressGestureRecognizer = {
-        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        return gesture
-    }()
+//    lazy var longPressGesture: UILongPressGestureRecognizer = {
+//        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+//        return gesture
+//    }()
     
     override func setupHierarchy() {
         super.setupHierarchy()
         addSubview(newsCollectionView)
         newsCollectionView.rx.setDelegate(self).disposed(by: bag)
-        newsCollectionView.addGestureRecognizer(longPressGesture)
+//        newsCollectionView.addGestureRecognizer(longPressGesture)
     }
     
     override func setupLayout() {
@@ -45,17 +45,17 @@ final class BookmarkView: RxBaseView {
         }
     }
 
-    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
-        guard gesture.state == .began else {
-            return
-        }
-
-        let point = gesture.location(in:  newsCollectionView)
-        guard let indexPath = newsCollectionView.indexPathForItem(at: point) else {
-            return
-        }
-        onDeleteAction?(sections.value[indexPath.row])
-    }
+//    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+//        guard gesture.state == .began else {
+//            return
+//        }
+//
+//        let point = gesture.location(in:  newsCollectionView)
+//        guard let indexPath = newsCollectionView.indexPathForItem(at: point) else {
+//            return
+//        }
+//        onDeleteAction?(sections.value[indexPath.row])
+//    }
 
     
     override func setupView() {
@@ -87,5 +87,27 @@ final class BookmarkView: RxBaseView {
 extension BookmarkView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return NewsCell.cellSize(collectionView: collectionView)
+    }
+}
+
+
+extension BookmarkView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+
+        let selectedModel = self.sections.value[indexPath.row]
+
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let deleteAction = UIAction(title: BookmarkScreen.delete, image: nil, attributes: .destructive) { _ in
+                self.onDeleteAction?(self.sections.value[indexPath.row])
+            }
+
+            let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
+                print("Selected model for details: \(selectedModel)")
+            }
+
+            return UIMenu(title: "", children: [deleteAction, share])
+        }
+
+        return configuration
     }
 }
