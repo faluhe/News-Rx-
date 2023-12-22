@@ -42,6 +42,7 @@ enum Images: String {
     case bookmarkEmpty = "bookmark"
     case newspaper = "newspaper"
     case share = "square.and.arrow.up"
+    case noImage = "xmark.app.fill"
 
 
     // MARK: - Properties

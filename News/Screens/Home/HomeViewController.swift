@@ -20,10 +20,9 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = HomeScreen.news
-        navigationController?.navigationBar.prefersLargeTitles = true
-        contentView.newsCollectionView.addSubview(pullToRefresh)
-        contentView.newsCollectionView.refreshControl = pullToRefresh
+        setupNavigationBar()
+        setupCollectionView()
+        setupActivityViewController()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +57,28 @@ final class HomeViewController: RxBaseViewController<HomeView> {
             .disposed(by: bag)
 
         contentView.selectedModel.bind(to: commands.selectedModel).disposed(by: bag)
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.title = HomeScreen.news
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    private func setupCollectionView() {
+        contentView.newsCollectionView.addSubview(pullToRefresh)
+        contentView.newsCollectionView.refreshControl = pullToRefresh
+    }
+
+    private func setupActivityViewController() {
+        contentView.onShareAction = { [weak self] section in
+            guard let url = section.url else { return }
+
+            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self?.contentView
+            DispatchQueue.main.async {
+                self?.present(activityViewController, animated: true)
+            }
+        }
     }
 
     @objc func refreshData() {

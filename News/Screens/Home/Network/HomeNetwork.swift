@@ -49,7 +49,7 @@ final class HomeNetwork: HomeNetworkType {
             case let .failure(error):
                 single(.failure(error))
             }
-
+            
             return Disposables.create()
         }
     }

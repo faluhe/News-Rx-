@@ -16,6 +16,7 @@
 		9A3019492B23FFCE00C7CC10 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3019482B23FFCE00C7CC10 /* NetworkTest.swift */; };
 		9A3A7C7E2B1A9F78009C59EA /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9A3A7C7D2B1A9F78009C59EA /* RxCocoa */; };
 		9A3A7C822B1E8F59009C59EA /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */; };
+		9A3F18152B351BC200D94B4C /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F18142B351BC200D94B4C /* HapticHelper.swift */; };
 		9A5109CB2A944861008EF0F8 /* Home+infastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109CA2A944861008EF0F8 /* Home+infastructure.swift */; };
 		9A5109CD2A9448B1008EF0F8 /* HomeModuleConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109CC2A9448B1008EF0F8 /* HomeModuleConfigurator.swift */; };
 		9A5109DC2A944955008EF0F8 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109D92A944955008EF0F8 /* DetailsViewController.swift */; };
@@ -99,6 +100,7 @@
 		9A118E152AAA4C0300C3BFB5 /* NewsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9A3019482B23FFCE00C7CC10 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
+		9A3F18142B351BC200D94B4C /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
 		9A5109CA2A944861008EF0F8 /* Home+infastructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+infastructure.swift"; sourceTree = "<group>"; };
 		9A5109CC2A9448B1008EF0F8 /* HomeModuleConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleConfigurator.swift; sourceTree = "<group>"; };
 		9A5109D92A944955008EF0F8 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			children = (
 				9A7609052A8EE32E00342AC3 /* ImageManager.swift */,
 				9A7609072A8EE33B00342AC3 /* ImageCaching.swift */,
+				9A3F18142B351BC200D94B4C /* HapticHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */,
 				9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */,
 				9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */,
+				9A3F18152B351BC200D94B4C /* HapticHelper.swift in Sources */,
 				9A7607E12A85901B00342AC3 /* SceneDelegate.swift in Sources */,
 				9A6042302AC776CF00CAE2F3 /* BookmarkViewModel.swift in Sources */,
 				9A7608E92A8AF65600342AC3 /* NetworkTargetType.swift in Sources */,

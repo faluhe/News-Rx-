@@ -15,10 +15,8 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = BookmarkScreen.bookmarks
-
-        contentView.onDeleteAction = { [weak self] indexPath in
-            self?.showDeleteConfirmation(at: indexPath)
-        }
+        setupDeleteActionHandler()
+        setupShareActionHandler()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -42,18 +40,29 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
     private func configure(_ commands: BookmarkViewModel.Commands) { }
 
-    func showDeleteConfirmation(at section: NewsSectionModel) {
-        let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)
+    private func setupDeleteActionHandler() {
+        contentView.onDeleteAction = { [weak self] section in
+            let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: BookmarkScreen.cancel, style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: BookmarkScreen.delete, style: .destructive, handler: { [weak self] _ in
-            // Perform the deletion animation
-            self?.contentView.animateDeletionFor(section: section)
-
-            // Now, you can initiate the deletion through your ViewModel if needed
-             self?.viewModel.commands.deleteBookmark.accept(section)
-        }))
-        self.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: BookmarkScreen.cancel, style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: BookmarkScreen.delete, style: .destructive, handler: { [weak self] _ in
+                // Perform the deletion animation
+                self?.contentView.animateDeletionFor(section: section)
+                self?.viewModel.commands.deleteBookmark.accept(section)
+            }))
+            self?.present(alert, animated: true, completion: nil)
+        }
     }
 
+    private func setupShareActionHandler() {
+        contentView.onShareAction = { [weak self] section in
+            guard let url = section.url else { return }
+
+            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self?.contentView
+            DispatchQueue.main.async {
+                self?.present(activityViewController, animated: true)
+            }
+        }
+    }
 }

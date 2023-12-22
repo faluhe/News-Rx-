@@ -17,6 +17,7 @@ final class HomeView: RxBaseView {
     let isBookmarked = BehaviorRelay<Bool>(value: false)
     var saveActionTitle: String = " "
     let articleTitle = BehaviorRelay<String?>(value: nil)
+    var onShareAction: ((NewsSectionModel) -> Void)?
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -75,12 +76,10 @@ extension HomeView: UICollectionViewDelegate {
             }
 
             let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
-                print("Selected model for details: \(selectedModel)")
+                self.onShareAction?(selectedModel)
             }
-
             return UIMenu(title: "", children: [saveAction, share])
         }
-
         return configuration
     }
 }

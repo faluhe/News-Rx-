@@ -93,6 +93,7 @@ final class NewsCell: UICollectionViewCell {
         img.image = nil
 
         guard let imageUrlStr = article.imageURL, let imageURL = URL(string: imageUrlStr)  else {
+            self.img.image = Images.noImage.systemImage?.withTintColor(.systemGray2, renderingMode: .alwaysOriginal)
             return
         }
 
