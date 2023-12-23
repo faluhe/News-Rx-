@@ -26,6 +26,7 @@ extension BookmarkViewModel{
     
     struct ModuleCommands {
         let startDetails = BehaviorRelay<NewsSectionModel?>(value: nil)
+        let navigateToNews = PublishRelay<Void>()
     }
 
     struct Bindings {
@@ -36,6 +37,7 @@ extension BookmarkViewModel{
     struct Commands {
         let loadBookmarks = PublishRelay<Void>()
         let deleteBookmark = BehaviorRelay<NewsSectionModel?>(value: nil)
+        let navigateToNews = PublishRelay<Void>()
     }
     
     struct Dependencies {

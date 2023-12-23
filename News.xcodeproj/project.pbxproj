@@ -17,6 +17,8 @@
 		9A3A7C7E2B1A9F78009C59EA /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9A3A7C7D2B1A9F78009C59EA /* RxCocoa */; };
 		9A3A7C822B1E8F59009C59EA /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */; };
 		9A3F18152B351BC200D94B4C /* HapticHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F18142B351BC200D94B4C /* HapticHelper.swift */; };
+		9A3F18172B36675A00D94B4C /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F18162B36675A00D94B4C /* BaseButton.swift */; };
+		9A3F18192B37958700D94B4C /* EmptyBookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3F18182B37958700D94B4C /* EmptyBookmarksView.swift */; };
 		9A5109CB2A944861008EF0F8 /* Home+infastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109CA2A944861008EF0F8 /* Home+infastructure.swift */; };
 		9A5109CD2A9448B1008EF0F8 /* HomeModuleConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109CC2A9448B1008EF0F8 /* HomeModuleConfigurator.swift */; };
 		9A5109DC2A944955008EF0F8 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5109D92A944955008EF0F8 /* DetailsViewController.swift */; };
@@ -101,6 +103,8 @@
 		9A3019482B23FFCE00C7CC10 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
 		9A3F18142B351BC200D94B4C /* HapticHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticHelper.swift; sourceTree = "<group>"; };
+		9A3F18162B36675A00D94B4C /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		9A3F18182B37958700D94B4C /* EmptyBookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBookmarksView.swift; sourceTree = "<group>"; };
 		9A5109CA2A944861008EF0F8 /* Home+infastructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Home+infastructure.swift"; sourceTree = "<group>"; };
 		9A5109CC2A9448B1008EF0F8 /* HomeModuleConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleConfigurator.swift; sourceTree = "<group>"; };
 		9A5109D92A944955008EF0F8 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +293,7 @@
 			children = (
 				9A7608DD2A859EAB00342AC3 /* UIVIew+Ext.swift */,
 				9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */,
+				9A3F18162B36675A00D94B4C /* BaseButton.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -309,6 +314,7 @@
 			children = (
 				9ACDDB0F2B0C068A0090A823 /* Network */,
 				9A7608CF2A859DE800342AC3 /* BookmarkViewController.swift */,
+				9A3F18182B37958700D94B4C /* EmptyBookmarksView.swift */,
 				9A60422D2AC776C500CAE2F3 /* BookmarkView.swift */,
 				9A60422F2AC776CF00CAE2F3 /* BookmarkViewModel.swift */,
 				9A6042312AC7771900CAE2F3 /* BookmarkModuleConfigurator.swift */,
@@ -591,6 +597,8 @@
 				9A118E0B2AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataProperties.swift in Sources */,
 				9AA123D32B04570200F91E92 /* CoreDataManager.swift in Sources */,
 				9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */,
+				9A3F18172B36675A00D94B4C /* BaseButton.swift in Sources */,
+				9A3F18192B37958700D94B4C /* EmptyBookmarksView.swift in Sources */,
 				9A7607DF2A85901B00342AC3 /* AppDelegate.swift in Sources */,
 				9A7607E92A85901B00342AC3 /* News.xcdatamodeld in Sources */,
 				9A3F18152B351BC200D94B4C /* HapticHelper.swift in Sources */,

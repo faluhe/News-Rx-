@@ -37,6 +37,7 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
     // Module Configuration: Connects module-level commands to communication with the coordinator.
     func configure(moduileCommands: ModuleCommands) {
         bindings.openDetailsScreen.bind(to: moduileCommands.startDetails).disposed(by: bag)
+        commands.navigateToNews.bind(to: moduileCommands.navigateToNews).disposed(by: bag)
     }
 
     // Module Bindings Configuration: for connecting actions to the module for coordination purposes.

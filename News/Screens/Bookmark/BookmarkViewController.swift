@@ -38,8 +38,10 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
             }).disposed(by: bag)
     }
 
-    private func configure(_ commands: BookmarkViewModel.Commands) { }
-
+    private func configure(_ commands: BookmarkViewModel.Commands) {
+        contentView.noProductsView.rx.nextAction.bind(to: commands.navigateToNews).disposed(by: bag)
+    }
+    
     private func setupDeleteActionHandler() {
         contentView.onDeleteAction = { [weak self] section in
             let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)

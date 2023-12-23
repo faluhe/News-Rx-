@@ -24,10 +24,17 @@ final class BookmarkView: RxBaseView {
         cv.alwaysBounceVertical = true
         return cv
     }()
-    
+
+    lazy var noProductsView: EmptyBookmarksView = {
+            let view = EmptyBookmarksView()
+            view.isHidden = true
+            return view
+        }()
+
     override func setupHierarchy() {
         super.setupHierarchy()
         addSubview(newsCollectionView)
+        addSubviews(noProductsView)
         newsCollectionView.rx.setDelegate(self).disposed(by: bag)
     }
     
@@ -38,16 +45,24 @@ final class BookmarkView: RxBaseView {
             $0.left.equalToSuperview().offset(20)
             $0.right.equalToSuperview().offset(-20)
         }
+
+        noProductsView.snp.makeConstraints {
+            $0.edges.equalTo(newsCollectionView)
+        }
     }
     
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
-        
-        sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
-            cell.configure(article: article)
-        }
-        .disposed(by: bag)
+
+        sections
+            .do(onNext: { [weak self] newSections in
+                self?.noProductsView.isHidden = !newSections.isEmpty
+            })
+            .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
+                cell.configure(article: article)
+            }
+            .disposed(by: bag)
     }
 
     func animateDeletionFor(section: NewsSectionModel) {
