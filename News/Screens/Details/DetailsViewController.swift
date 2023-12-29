@@ -16,6 +16,11 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
         LoadingIndicator.shared.start()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        LoadingIndicator.shared.stop()
+    }
+
     override func setupBinding() {
         configure(viewModel.bindings)
         setupNavigationBar(viewModel.bindings)

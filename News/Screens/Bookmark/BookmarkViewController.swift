@@ -22,6 +22,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.commands.loadBookmarks.accept(())
+        LoadingIndicator.shared.stop()
     }
 
     override func setupBinding() {

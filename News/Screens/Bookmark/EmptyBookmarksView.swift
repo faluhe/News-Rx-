@@ -11,7 +11,7 @@ import RxSwift
 final class EmptyBookmarksView: RxBaseView {
 
     override func setupView() {
-        backgroundColor = .white
+//        backgroundColor = .systemGray6
     }
 
     override func setupHierarchy() {
@@ -57,7 +57,7 @@ final class EmptyBookmarksView: RxBaseView {
 
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = Images.noDataInBookmarks.image
+        imageView.image = Images.noDataInBookmarks.image?.withTintColor(UIColor.label, renderingMode: .alwaysOriginal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

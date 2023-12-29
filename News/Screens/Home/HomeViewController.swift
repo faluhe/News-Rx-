@@ -20,15 +20,12 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setupCollectionView()
-        setupActivityViewController()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         LoadingIndicator.shared.start()
         viewModel.commands.loadNews.accept(())
+        
+        setupNavigationBar()
+        setupRefreshControl()
+        setupActivityViewController()
     }
 
     override func setupBinding() {
@@ -65,7 +62,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
-    private func setupCollectionView() {
+    private func         setupRefreshControl() {
         contentView.newsCollectionView.addSubview(pullToRefresh)
         contentView.newsCollectionView.refreshControl = pullToRefresh
     }
