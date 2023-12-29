@@ -27,6 +27,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        LoadingIndicator.shared.start()
         viewModel.commands.loadNews.accept(())
     }
 

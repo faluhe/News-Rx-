@@ -13,6 +13,7 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        LoadingIndicator.shared.start()
     }
 
     override func setupBinding() {
@@ -21,7 +22,7 @@ final class DetailsViewController: RxBaseViewController<DetailsView> {
     }
 
     private func configure(_ bindings: DetailsViewModel.Bindings) {
-        bindings.detailsModel.bind(to: contentView.model).disposed(by: bag)
+        bindings.detailsModel.bind(to: contentView.section).disposed(by: bag)
         contentView.articleTitle.bind(to: bindings.articleTitle).disposed(by: bag)
     }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HapticFeedbackHelper {
+final class HapticFeedbackHelper {
     static func provideHapticFeedback(_ feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
         let feedbackGenerator = UINotificationFeedbackGenerator()
         feedbackGenerator.notificationOccurred(feedbackType)

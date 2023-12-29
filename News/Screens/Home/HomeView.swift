@@ -47,11 +47,11 @@ final class HomeView: RxBaseView {
 
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
             cell.configure(article: article)
+            LoadingIndicator.shared.stop()
         }
         .disposed(by: bag)
 
         isBookmarked.bind(to: Binder<Bool>(self) { target, isBookmarked in
-            print(isBookmarked)
             isBookmarked ? (target.saveActionTitle = HomeScreen.unsave) : (target.saveActionTitle = HomeScreen.save)
         }).disposed(by: bag)
     }
