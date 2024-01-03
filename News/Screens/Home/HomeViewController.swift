@@ -62,7 +62,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
-    private func         setupRefreshControl() {
+    private func setupRefreshControl() {
         contentView.newsCollectionView.addSubview(pullToRefresh)
         contentView.newsCollectionView.refreshControl = pullToRefresh
     }

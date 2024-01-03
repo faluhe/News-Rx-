@@ -15,9 +15,9 @@ final class HomeView: RxBaseView {
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
     let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     let isBookmarked = BehaviorRelay<Bool>(value: false)
-    var saveActionTitle: String = " "
     let articleTitle = BehaviorRelay<String?>(value: nil)
     var onShareAction: ((NewsSectionModel) -> Void)?
+    fileprivate var saveActionTitle: String = " "
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -26,6 +26,14 @@ final class HomeView: RxBaseView {
         cv.alwaysBounceVertical = true
         return cv
     }()
+
+    lazy var dimmingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black.withAlphaComponent(0.8)
+        return view
+    }()
+
+    lazy var popUpView = PopUpView()
 
     override func setupHierarchy() {
         addSubview(newsCollectionView)
@@ -55,6 +63,38 @@ final class HomeView: RxBaseView {
             isBookmarked ? (target.saveActionTitle = HomeScreen.unsave) : (target.saveActionTitle = HomeScreen.save)
         }).disposed(by: bag)
     }
+
+    //MARK: - Shows popUp view when user clicks to save
+    private func showUpPopUpView() {
+        configureDimmingViewConstraints()
+        UIView.animate(withDuration: 0.75) {
+            self.configurePopUpViewConstraints()
+            HapticFeedbackHelper.provideHapticFeedback(.success)
+        } completion: { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.dimmingView.removeFromSuperview()
+                self.dimmingView.removeConstraints(self.dimmingView.constraints)
+            }
+        }
+
+    }
+
+    fileprivate func configurePopUpViewConstraints() {
+        self.popUpView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.equalTo(self.dimmingView).multipliedBy(0.6)
+            $0.height.equalTo(self.popUpView.snp.width)
+        }
+    }
+
+    fileprivate func configureDimmingViewConstraints() {
+        addSubview(dimmingView)
+        dimmingView.addSubview(popUpView)
+
+        self.dimmingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
 
 
@@ -73,6 +113,10 @@ extension HomeView: UICollectionViewDelegate {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let saveAction = UIAction(title: self.saveActionTitle, image: Images.bookmarkEmpty.systemImage) { _ in
                 self.selectedModel.accept(selectedModel)
+
+                if self.isBookmarked.value {
+                    self.showUpPopUpView()
+                }
             }
 
             let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
