@@ -38,6 +38,7 @@ extension BookmarkViewModel{
         let loadBookmarks = PublishRelay<Void>()
         let deleteBookmark = BehaviorRelay<NewsSectionModel?>(value: nil)
         let navigateToNews = PublishRelay<Void>()
+        let removeAll = PublishRelay<Void>()
     }
     
     struct Dependencies {

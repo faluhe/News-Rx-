@@ -10,10 +10,6 @@ import RxSwift
 
 final class EmptyBookmarksView: RxBaseView {
 
-    override func setupView() {
-//        backgroundColor = .systemGray6
-    }
-
     override func setupHierarchy() {
         addSubview(stackView)
     }
@@ -42,8 +38,6 @@ final class EmptyBookmarksView: RxBaseView {
         return stackView
     }()
 
-
-
     lazy var lblOne: UILabel = {
         let lbl = UILabel()
         lbl.text = "No data is available. If you want to add, please press the button"
@@ -53,15 +47,12 @@ final class EmptyBookmarksView: RxBaseView {
         return lbl
     }()
 
-
-
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Images.noDataInBookmarks.image?.withTintColor(UIColor.label, renderingMode: .alwaysOriginal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
 
     fileprivate let goToHomeBtn = BaseButton(title: "Go to News")
 }

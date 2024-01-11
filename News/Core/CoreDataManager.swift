@@ -13,6 +13,7 @@ protocol CoreDataManagerType {
     func deleteEntity<T: ConvertibleToEntity>(_ entityClass: T)
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate?) -> Result<[T], Error>
     func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool
+    func deleteAllBookmarks()
 }
 
 final class CoreDataManager: CoreDataManagerType {
@@ -32,9 +33,9 @@ final class CoreDataManager: CoreDataManagerType {
     //MARK: - Saving and updating
     func saveEntity<T: ConvertibleToEntity>(_ entityClass: T) {
         let context = viewContext
+        let newEntity = entityClass.toEntity(context: context)
 
         do {
-            let newEntity = entityClass.toEntity(context: context)
             try context.save()
         } catch {
             print("Error managing entity: \(error)")
@@ -54,12 +55,29 @@ final class CoreDataManager: CoreDataManagerType {
         }
     }
 
+    func deleteAllBookmarks() {
+        let context = viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = BookmarkEntity.fetchRequest()
+
+        do {
+            let result = try context.fetch(fetchRequest)
+            for case let bookmark as NSManagedObject in result {
+                context.delete(bookmark)
+            }
+            try context.save()
+        } catch {
+            print("Failed to delete entities from Core Data: \(error)")
+        }
+    }
+
+
+
     //MARK: - Fetching
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error> {
         let context = viewContext
-
+        let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
+        
         do {
-            let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
             let storedEntities = try context.fetch(fetchRequest)
             return .success(storedEntities)
         } catch {

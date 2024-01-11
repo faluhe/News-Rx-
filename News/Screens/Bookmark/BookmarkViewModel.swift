@@ -59,6 +59,10 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
             target.dependencies.coreData.deleteEntity(model)
             target.loadBookmarks()
         }).disposed(by: bag)
+
+        commands.removeAll.bind(to: Binder<Void>(self) { target, _ in
+            target.dependencies.coreData.deleteAllBookmarks()
+        }).disposed(by: bag)
     }
 
     func loadBookmarks() {

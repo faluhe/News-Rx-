@@ -14,7 +14,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = BookmarkScreen.bookmarks
+        setupNavigationBar()
         setupDeleteActionHandler()
         setupShareActionHandler()
     }
@@ -42,7 +42,17 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     private func configure(_ commands: BookmarkViewModel.Commands) {
         contentView.noProductsView.rx.nextAction.bind(to: commands.navigateToNews).disposed(by: bag)
     }
-    
+
+    private func setupNavigationBar() {
+        navigationItem.title = BookmarkScreen.bookmarks
+
+        let removeAllItem = UIBarButtonItem()
+        removeAllItem.image = .remove
+        navigationItem.rightBarButtonItem = removeAllItem
+        removeAllItem.rx.tap.bind(to: viewModel.commands.removeAll).disposed(by: bag)
+    }
+
+    //MARK: - Removing the article from bookmarks
     private func setupDeleteActionHandler() {
         contentView.onDeleteAction = { [weak self] section in
             let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)
@@ -57,6 +67,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
         }
     }
 
+    //MARK: - Sharing and article action
     private func setupShareActionHandler() {
         contentView.onShareAction = { [weak self] section in
             guard let url = section.url else { return }
