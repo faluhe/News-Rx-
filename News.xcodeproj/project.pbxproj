@@ -76,6 +76,7 @@
 		9A8BCD8A2AA2A19900725B57 /* DetailsModuleConfiguraotor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8BCD892AA2A19900725B57 /* DetailsModuleConfiguraotor.swift */; };
 		9AA123D32B04570200F91E92 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA123D22B04570200F91E92 /* CoreDataManager.swift */; };
 		9AA123D52B0457FE00F91E92 /* CoreDataConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */; };
+		9AEE13DC2B50B71400F8AC47 /* UIVIewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEE13DB2B50B71400F8AC47 /* UIVIewController+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		9A8BCD892AA2A19900725B57 /* DetailsModuleConfiguraotor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModuleConfiguraotor.swift; sourceTree = "<group>"; };
 		9AA123D22B04570200F91E92 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9AA123D42B0457FE00F91E92 /* CoreDataConvertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataConvertable.swift; sourceTree = "<group>"; };
+		9AEE13DB2B50B71400F8AC47 /* UIVIewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +290,7 @@
 				9A7608E02A859EE300342AC3 /* Extensions */,
 				9A7608D12A859DEF00342AC3 /* RxBaseView.swift */,
 				9A7608D52A859DFA00342AC3 /* RxBaseViewController.swift */,
+				9A3F18162B36675A00D94B4C /* BaseButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -296,8 +299,8 @@
 			isa = PBXGroup;
 			children = (
 				9A7608DD2A859EAB00342AC3 /* UIVIew+Ext.swift */,
+				9AEE13DB2B50B71400F8AC47 /* UIVIewController+Ext.swift */,
 				9A3A7C812B1E8F59009C59EA /* Observable+Operators.swift */,
-				9A3F18162B36675A00D94B4C /* BaseButton.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				9A7608C82A859DDD00342AC3 /* AppCoordinator.swift in Sources */,
 				9A7608F32A8B16AE00342AC3 /* Constants.swift in Sources */,
 				9A7608E72A8AE73D00342AC3 /* DatabaseDispatcher.swift in Sources */,
+				9AEE13DC2B50B71400F8AC47 /* UIVIewController+Ext.swift in Sources */,
 				9A7609062A8EE32E00342AC3 /* ImageManager.swift in Sources */,
 				9A7608CC2A859DE500342AC3 /* HomeView.swift in Sources */,
 				9A118E0A2AAA44AD00C3BFB5 /* ArticlesEntity+CoreDataClass.swift in Sources */,

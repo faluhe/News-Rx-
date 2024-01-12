@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 
 final class BookmarkView: RxBaseView {
-    
+
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
     var onDeleteAction: ((NewsSectionModel) -> Void)?
     var onShareAction: ((NewsSectionModel) -> Void)?
@@ -26,10 +26,10 @@ final class BookmarkView: RxBaseView {
     }()
 
     lazy var noProductsView: EmptyBookmarksView = {
-            let view = EmptyBookmarksView()
-            view.isHidden = true
-            return view
-        }()
+        let view = EmptyBookmarksView()
+        view.isHidden = true
+        return view
+    }()
 
     override func setupHierarchy() {
         super.setupHierarchy()
@@ -37,7 +37,7 @@ final class BookmarkView: RxBaseView {
         addSubviews(noProductsView)
         newsCollectionView.rx.setDelegate(self).disposed(by: bag)
     }
-    
+
     override func setupLayout() {
         newsCollectionView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
@@ -50,7 +50,7 @@ final class BookmarkView: RxBaseView {
             $0.edges.equalTo(newsCollectionView)
         }
     }
-    
+
     override func setupView() {
         super.setupView()
         newsCollectionView.backgroundColor = .clear
@@ -66,9 +66,8 @@ final class BookmarkView: RxBaseView {
     }
 
     func animateDeletionFor(section: NewsSectionModel) {
-        guard let index = sections.value.firstIndex(of: section) else {
-            return
-        }
+
+        guard let index = sections.value.firstIndex(of: section) else { return }
 
         let indexPath = IndexPath(row: index, section: 0)
 

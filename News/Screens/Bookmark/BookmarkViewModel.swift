@@ -62,6 +62,7 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
         commands.removeAll.bind(to: Binder<Void>(self) { target, _ in
             target.dependencies.coreData.deleteAllBookmarks()
+            target.loadBookmarks()
         }).disposed(by: bag)
     }
 

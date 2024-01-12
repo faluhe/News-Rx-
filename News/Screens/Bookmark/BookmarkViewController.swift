@@ -31,7 +31,14 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     }
 
     private func configure(_ bindings: BookmarkViewModel.Bindings) {
-        bindings.sections.bind(to: contentView.sections).disposed(by: bag)
+
+        bindings.sections
+            .do(onNext: { [weak self] sections in
+                self?.navigationItem.rightBarButtonItem?.isHidden = sections.isEmpty
+            })
+            .bind(to: contentView.sections)
+            .disposed(by: bag)
+
 
         contentView.newsCollectionView.rx.modelSelected(NewsSectionModel.self)
             .bind(to: Binder<NewsSectionModel>(self) { _, model in
@@ -49,21 +56,22 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
         let removeAllItem = UIBarButtonItem()
         removeAllItem.image = .remove
         navigationItem.rightBarButtonItem = removeAllItem
-        removeAllItem.rx.tap.bind(to: viewModel.commands.removeAll).disposed(by: bag)
+
+        removeAllItem.rx.tap.bind(onNext: { [weak self] in
+            self?.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
+                self?.viewModel.commands.removeAll.accept(())
+            })
+        }).disposed(by: bag)
     }
 
     //MARK: - Removing the article from bookmarks
     private func setupDeleteActionHandler() {
         contentView.onDeleteAction = { [weak self] section in
-            let alert = UIAlertController(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferredStyle: .alert)
 
-            alert.addAction(UIAlertAction(title: BookmarkScreen.cancel, style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: BookmarkScreen.delete, style: .destructive, handler: { [weak self] _ in
-                // Perform the deletion animation
+            self?.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
                 self?.contentView.animateDeletionFor(section: section)
                 self?.viewModel.commands.deleteBookmark.accept(section)
-            }))
-            self?.present(alert, animated: true, completion: nil)
+            })
         }
     }
 
