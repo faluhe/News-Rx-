@@ -32,6 +32,8 @@ struct BookmarkScreen {
     static let cancel = "Cancel"
     static let delete = "Delete"
     static let bookmarks = "Bookmarks"
+    static let goToNews = "Go to News"
+    static let noDataLabel = "No data available. If you want to add some, please press the button"
 }
 
 

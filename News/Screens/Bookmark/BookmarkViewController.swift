@@ -59,6 +59,7 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
         removeAllItem.rx.tap.bind(onNext: { [weak self] in
             self?.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
+                HapticFeedbackHelper.provideHapticFeedback(.success)
                 self?.viewModel.commands.removeAll.accept(())
             })
         }).disposed(by: bag)

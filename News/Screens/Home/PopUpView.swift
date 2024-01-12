@@ -18,6 +18,8 @@ final class PopUpView: RxBaseView {
     override func setupView() {
         super.setupView()
         layer.cornerRadius = 13
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.systemGray5.cgColor
     }
 
     override func setupHierarchy() {
@@ -27,7 +29,7 @@ final class PopUpView: RxBaseView {
     override func setupLayout() {
         img.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(self).multipliedBy(0.6)
+            $0.width.equalTo(self).multipliedBy(0.5)
             $0.height.equalTo(img.snp.width)
         }
     }

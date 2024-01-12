@@ -40,7 +40,7 @@ final class EmptyBookmarksView: RxBaseView {
 
     lazy var lblOne: UILabel = {
         let lbl = UILabel()
-        lbl.text = "No data is available. If you want to add, please press the button"
+        lbl.text = BookmarkScreen.noDataLabel
         lbl.font = .systemFont(ofSize: 20, weight: .semibold)
         lbl.textAlignment = .center
         lbl.numberOfLines = 2
@@ -54,7 +54,7 @@ final class EmptyBookmarksView: RxBaseView {
         return imageView
     }()
 
-    fileprivate let goToHomeBtn = BaseButton(title: "Go to News")
+    fileprivate let goToHomeBtn = BaseButton(title: BookmarkScreen.goToNews)
 }
 
 
