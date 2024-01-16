@@ -6,31 +6,33 @@
 //
 
 import UIKit
+import Lottie
 
 final class PopUpView: RxBaseView {
 
-    private lazy var img: UIImageView = {
-        let img = UIImageView()
-        img.image = Images.check.image
-        return img
-    }()
+    private let animationView: LottieAnimationView = .init(name: "LottieBookmark")
 
     override func setupView() {
         super.setupView()
         layer.cornerRadius = 13
         layer.borderWidth = 1
         layer.borderColor = UIColor.systemGray5.cgColor
+        setupAnimation()
     }
 
     override func setupHierarchy() {
-        addSubview(img)
+        addSubview(animationView)
     }
 
     override func setupLayout() {
-        img.snp.makeConstraints {
+        animationView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(self).multipliedBy(0.5)
-            $0.height.equalTo(img.snp.width)
         }
+    }
+
+    func setupAnimation() {
+        animationView.contentMode = .scaleAspectFit
+        animationView.play(fromProgress: 0, toProgress: 1, loopMode: animationView.loopMode)
+
     }
 }

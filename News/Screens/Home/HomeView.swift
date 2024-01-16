@@ -27,13 +27,13 @@ final class HomeView: RxBaseView {
         return cv
     }()
 
-    lazy var dimmingView: UIView = {
+    private lazy var dimmingView: UIView = {
         let view = UIView()
         view.backgroundColor = .black.withAlphaComponent(0.8)
         return view
     }()
 
-    lazy var popUpView = PopUpView()
+    private lazy var popUpView = PopUpView()
 
     override func setupHierarchy() {
         addSubview(newsCollectionView)
@@ -71,7 +71,7 @@ final class HomeView: RxBaseView {
             self.configurePopUpViewConstraints()
             HapticFeedbackHelper.provideHapticFeedback(.success)
         } completion: { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.dimmingView.removeFromSuperview()
                 self.dimmingView.removeConstraints(self.dimmingView.constraints)
             }

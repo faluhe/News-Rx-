@@ -16,6 +16,7 @@ class LaunchScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupHierarchy()
+        setupLayout()
         setupView()
         setupAnimation()
     }
@@ -24,10 +25,17 @@ class LaunchScreenVC: UIViewController {
         view.addSubview(animationView)
     }
 
-    func setupView() {
+    func setupLayout() {
         animationView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.center.equalToSuperview()
+            $0.width.equalToSuperview().multipliedBy(0.6)
+            $0.height.equalTo(animationView.snp.width)
         }
+    }
+
+    func setupView() {
+        view.backgroundColor = .systemBackground
+        animationView.backgroundColor = .clear
     }
 
     func setupAnimation() {
@@ -35,5 +43,4 @@ class LaunchScreenVC: UIViewController {
         animationView.loopMode = .loop
         animationView.play()
     }
-
 }
