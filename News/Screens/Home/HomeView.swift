@@ -27,13 +27,7 @@ final class HomeView: RxBaseView {
         return cv
     }()
 
-    private lazy var dimmingView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black.withAlphaComponent(0.8)
-        return view
-    }()
-
-    private lazy var popUpView = PopUpView()
+    var popUpView: PopUpView!
 
     override func setupHierarchy() {
         addSubview(newsCollectionView)
@@ -66,32 +60,21 @@ final class HomeView: RxBaseView {
 
     //MARK: - Shows popUp view when user clicks to save
     private func showUpPopUpView() {
-        configureDimmingViewConstraints()
+        popUpView = PopUpView()
+        addSubview(popUpView)
         UIView.animate(withDuration: 0.75) {
             self.configurePopUpViewConstraints()
             HapticFeedbackHelper.provideHapticFeedback(.success)
         } completion: { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.dimmingView.removeFromSuperview()
-                self.dimmingView.removeConstraints(self.dimmingView.constraints)
+                self.popUpView.removeFromSuperview()
+                self.popUpView.snp.removeConstraints()
             }
         }
-
     }
 
     fileprivate func configurePopUpViewConstraints() {
         self.popUpView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalTo(self.dimmingView).multipliedBy(0.6)
-            $0.height.equalTo(self.popUpView.snp.width)
-        }
-    }
-
-    fileprivate func configureDimmingViewConstraints() {
-        addSubview(dimmingView)
-        dimmingView.addSubview(popUpView)
-
-        self.dimmingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

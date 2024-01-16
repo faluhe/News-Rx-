@@ -252,14 +252,14 @@
 		9A7607DD2A85901B00342AC3 /* News */ = {
 			isa = PBXGroup;
 			children = (
-				9A76086D2A85963B00342AC3 /* Resources */,
 				9A7607DE2A85901B00342AC3 /* AppDelegate.swift */,
 				9A7607E02A85901B00342AC3 /* SceneDelegate.swift */,
 				9A7608EC2A8B154300342AC3 /* Core */,
 				9A7608FE2A8D565100342AC3 /* Dependency IInjection */,
-				9A7608DF2A859ECF00342AC3 /* Common */,
 				9A7608E12A859EF700342AC3 /* Coordinator */,
 				9ACDDB112B0C07B20090A823 /* Screens */,
+				9A7608DF2A859ECF00342AC3 /* Common */,
+				9A76086D2A85963B00342AC3 /* Resources */,
 				9A3A7C832B1E8FFB009C59EA /* Storyboards */,
 			);
 			path = News;
@@ -296,11 +296,11 @@
 		9A7608DF2A859ECF00342AC3 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				9A7609042A8EE2AF00342AC3 /* Helper */,
-				9A7608E02A859EE300342AC3 /* Extensions */,
 				9A7608D12A859DEF00342AC3 /* RxBaseView.swift */,
 				9A7608D52A859DFA00342AC3 /* RxBaseViewController.swift */,
 				9A3F18162B36675A00D94B4C /* BaseButton.swift */,
+				9A7609042A8EE2AF00342AC3 /* Helper */,
+				9A7608E02A859EE300342AC3 /* Extensions */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -346,11 +346,11 @@
 			children = (
 				9A7608F12A8B168F00342AC3 /* Model */,
 				9A7608F82A8D48C900342AC3 /* Network */,
-				9A7608B82A859BF200342AC3 /* HomeView.swift */,
-				9A6BA7162B3E5D70002636C8 /* PopUpView.swift */,
+				9AEE13EB2B571B8D00F8AC47 /* PopUpView */,
 				9A7608B92A859BF200342AC3 /* NewsCell.swift */,
-				9A7608BA2A859BF200342AC3 /* HomeViewController.swift */,
+				9A7608B82A859BF200342AC3 /* HomeView.swift */,
 				9A7608E42A870FB200342AC3 /* HomeViewModel.swift */,
+				9A7608BA2A859BF200342AC3 /* HomeViewController.swift */,
 				9A5109CA2A944861008EF0F8 /* Home+infastructure.swift */,
 				9A5109CC2A9448B1008EF0F8 /* HomeModuleConfigurator.swift */,
 			);
@@ -456,9 +456,17 @@
 			children = (
 				9AEE13DD2B5609C700F8AC47 /* LaunchScreenVC.swift */,
 				9AEE13E62B561BB900F8AC47 /* LottieAnimation.json */,
-				9AEE13E92B561F8600F8AC47 /* LottieBookmark.json */,
 			);
 			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		9AEE13EB2B571B8D00F8AC47 /* PopUpView */ = {
+			isa = PBXGroup;
+			children = (
+				9A6BA7162B3E5D70002636C8 /* PopUpView.swift */,
+				9AEE13E92B561F8600F8AC47 /* LottieBookmark.json */,
+			);
+			path = PopUpView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

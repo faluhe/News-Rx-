@@ -36,6 +36,12 @@ struct BookmarkScreen {
     static let noDataLabel = "No data available. If you want to add some, please press the button"
 }
 
+//MARK: - Lottie
+struct Lottie {
+    static let bookmark = "LottieBookmark"
+    static let launch = "LottieAnimation"
+}
+
 
 //MARK: - Images
 enum Images: String {
@@ -58,3 +64,5 @@ enum Images: String {
         UIImage(systemName: rawValue)
     }
 }
+
+

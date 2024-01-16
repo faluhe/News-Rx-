@@ -11,7 +11,7 @@ import SnapKit
 
 class LaunchScreenVC: UIViewController {
 
-    private let animationView: LottieAnimationView = .init(name: "LottieAnimation")
+    private let animationView: LottieAnimationView = .init(name: Lottie.launch)
 
     override func viewDidLoad() {
         super.viewDidLoad()

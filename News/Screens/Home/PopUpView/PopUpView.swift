@@ -10,13 +10,11 @@ import Lottie
 
 final class PopUpView: RxBaseView {
 
-    private let animationView: LottieAnimationView = .init(name: "LottieBookmark")
+    private let animationView: LottieAnimationView = .init(name: Lottie.bookmark)
 
     override func setupView() {
         super.setupView()
-        layer.cornerRadius = 13
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.systemGray5.cgColor
+        backgroundColor = .black.withAlphaComponent(0.8)
         setupAnimation()
     }
 
@@ -26,6 +24,8 @@ final class PopUpView: RxBaseView {
 
     override func setupLayout() {
         animationView.snp.makeConstraints {
+            $0.width.equalToSuperview().multipliedBy(0.6)
+            $0.height.equalTo(animationView.snp.width)
             $0.center.equalToSuperview()
         }
     }
@@ -33,6 +33,5 @@ final class PopUpView: RxBaseView {
     func setupAnimation() {
         animationView.contentMode = .scaleAspectFit
         animationView.play(fromProgress: 0, toProgress: 1, loopMode: animationView.loopMode)
-
     }
 }
