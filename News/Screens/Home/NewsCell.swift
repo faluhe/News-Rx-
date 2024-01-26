@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-
+///Краще використовувати підхід контейнерів, де ти по факту вюхи кладеш у контейнер, і в майбутньому можеш вюхи із ячейок реюзати
 final class NewsCell: UICollectionViewCell {
 
     static let identifier = "NewsCell"
@@ -83,7 +83,11 @@ final class NewsCell: UICollectionViewCell {
     }
 
     static func cellSize(collectionView: UICollectionView) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 40, height: 100)
+        /// Кращу юзати nativeBounds, bounds може змінюватись під час повороту екрана
+        /// FIxed
+        let pixelsWidth = UIScreen.main.nativeBounds.width
+        let pointsWidth = pixelsWidth / UIScreen.main.nativeScale
+        return CGSize(width: pointsWidth - 40, height: 100)
     }
 
 

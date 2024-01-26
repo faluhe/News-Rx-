@@ -18,7 +18,7 @@ class AppContainer: DependencyProvider {
     
     static let shared: DependencyProvider = AppContainer()
     let container = Container()
-    
+
     init() {
         reset()
     }
@@ -45,8 +45,8 @@ class AppContainer: DependencyProvider {
 
 extension AppContainer {
     func register() {
-        container.register(DatabaseDispatcher.self) { _ in
-            DatabaseDispatcher()
+        container.register(NetworkDispatcher.self) { _ in
+            NetworkDispatcher()
         }.inObjectScope(.container)
 
         container.register(CoreDataManager.self) { _ in
@@ -55,7 +55,7 @@ extension AppContainer {
         .inObjectScope(.container)
 
         container.register(HomeNetwork.self) { resolver in
-            let dispatcher = resolver.resolve(DatabaseDispatcher.self)!
+            let dispatcher = resolver.resolve(NetworkDispatcher.self)!
             let dataBase = resolver.resolve(CoreDataManager.self)!
             return HomeNetwork(dispatcher, dataBase)
         }.inObjectScope(.container)

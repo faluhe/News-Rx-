@@ -14,14 +14,23 @@ import SnapKit
 final class BookmarkView: RxBaseView {
 
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
-    var onDeleteAction: ((NewsSectionModel) -> Void)?
-    var onShareAction: ((NewsSectionModel) -> Void)?
+    private var deleteActionSubject = PublishSubject<NewsSectionModel>()
+    private var shareActionSubject = PublishSubject<NewsSectionModel>()
+
+    var onDeleteAction: Observable<NewsSectionModel> {
+        return deleteActionSubject.asObservable()
+    }
+
+    var onShareAction: Observable<NewsSectionModel> {
+        return shareActionSubject.asObservable()
+    }
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
         cv.showsVerticalScrollIndicator = false
         cv.alwaysBounceVertical = true
+        cv.backgroundColor = .clear
         return cv
     }()
 
@@ -40,10 +49,8 @@ final class BookmarkView: RxBaseView {
 
     override func setupLayout() {
         newsCollectionView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.top.left.right.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
         }
 
         noProductsView.snp.makeConstraints {
@@ -53,7 +60,6 @@ final class BookmarkView: RxBaseView {
 
     override func setupView() {
         super.setupView()
-        newsCollectionView.backgroundColor = .clear
 
         sections
             .do(onNext: { [weak self] newSections in
@@ -86,6 +92,11 @@ extension BookmarkView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return NewsCell.cellSize(collectionView: collectionView)
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            let inset: CGFloat = 10.0
+            return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+        }
 }
 
 
@@ -96,16 +107,14 @@ extension BookmarkView: UICollectionViewDelegate {
 
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let deleteAction = UIAction(title: BookmarkScreen.delete, image: nil, attributes: .destructive) { _ in
-                self.onDeleteAction?(selectedModel)
+                self.deleteActionSubject.onNext(selectedModel)
             }
-
             let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
-                self.onShareAction?(selectedModel)
+                self.shareActionSubject.onNext(selectedModel)
             }
 
             return UIMenu(title: "", children: [deleteAction, share])
         }
-
         return configuration
     }
 }

@@ -61,10 +61,19 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
                 }
 
                 if isBookmarked {
-                    target.dependencies.coreDataManager.deleteEntity(detailsModel)
+                    do {
+                        try target.dependencies.coreDataManager.deleteEntity(detailsModel)
+                    }catch {
+
+                    }
                     target.bindings.isBookmarked.accept(false)
                 } else {
-                    target.dependencies.coreDataManager.saveEntity(detailsModel)
+
+                    do {
+                        try target.dependencies.coreDataManager.saveEntity(detailsModel)
+                    }catch {
+
+                    }
                     target.bindings.isBookmarked.accept(true)
                 }
             })

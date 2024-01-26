@@ -18,16 +18,16 @@ protocol Coordinator {
 class AppCoordinator: Coordinator {
 
     typealias Container = UIWindow
-    var container: UIWindow
-    
-    var coordinators: [any Coordinator] = []
+    internal var container: UIWindow
+
+    private var coordinators: [any Coordinator] = []
     private let bag = DisposeBag()
 
     init(window: UIWindow) {
         self.container = window
     }
 
-    func start() {
+    internal func start() {
         let launchCoordinator = LaunchScreenCoordinator()
 
         launchCoordinator.output.done.bind(to: Binder<Void>(self) { target, _ in
@@ -35,16 +35,17 @@ class AppCoordinator: Coordinator {
 
         }).disposed(by: bag)
         launchCoordinator.start()
-        self.container.rootViewController = launchCoordinator.container
-        self.container.makeKeyAndVisible()
+        
+        container.rootViewController = launchCoordinator.container
+        container.makeKeyAndVisible()
     }
 
 
-    func startTabBar() {
+    private func startTabBar() {
         let startTabBarCoordinator = StartTabBarCoordinator()
         coordinators.append(startTabBarCoordinator)
         startTabBarCoordinator.start()
-        self.container.rootViewController = startTabBarCoordinator.container
-        self.container.makeKeyAndVisible()
+        container.rootViewController = startTabBarCoordinator.container
+        container.makeKeyAndVisible()
     }
 }

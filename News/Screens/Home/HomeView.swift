@@ -16,18 +16,24 @@ final class HomeView: RxBaseView {
     let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     let isBookmarked = BehaviorRelay<Bool>(value: false)
     let articleTitle = BehaviorRelay<String?>(value: nil)
-    var onShareAction: ((NewsSectionModel) -> Void)?
-    fileprivate var saveActionTitle: String = " "
+    private let shareActionSubject = PublishSubject<NewsSectionModel>()
+    private var saveActionTitle: String = " "
+
+    var onShareAction: Observable<NewsSectionModel> {
+            return shareActionSubject.asObservable()
+        }
+
 
     lazy var newsCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.identifier)
         cv.showsVerticalScrollIndicator = false
         cv.alwaysBounceVertical = true
+        cv.backgroundColor = .clear
         return cv
     }()
 
-    var popUpView: PopUpView!
+   private var popUpView: PopUpView!
 
     override func setupHierarchy() {
         addSubview(newsCollectionView)
@@ -36,23 +42,20 @@ final class HomeView: RxBaseView {
 
     override func setupLayout() {
         newsCollectionView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.left.right.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide)
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-20)
         }
     }
 
     override func setupView() {
         super.setupView()
-        newsCollectionView.backgroundColor = .clear
 
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
             cell.configure(article: article)
             LoadingIndicator.shared.stop()
         }
         .disposed(by: bag)
-
+    
         isBookmarked.bind(to: Binder<Bool>(self) { target, isBookmarked in
             isBookmarked ? (target.saveActionTitle = HomeScreen.unsave) : (target.saveActionTitle = HomeScreen.save)
         }).disposed(by: bag)
@@ -85,6 +88,11 @@ extension HomeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return NewsCell.cellSize(collectionView: collectionView)
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            let inset: CGFloat = 10.0
+            return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+        }
 }
 
 extension HomeView: UICollectionViewDelegate {
@@ -103,7 +111,7 @@ extension HomeView: UICollectionViewDelegate {
             }
 
             let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in
-                self.onShareAction?(selectedModel)
+                self.shareActionSubject.onNext(selectedModel)
             }
             return UIMenu(title: "", children: [saveAction, share])
         }

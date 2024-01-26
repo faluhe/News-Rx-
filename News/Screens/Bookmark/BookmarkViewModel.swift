@@ -56,12 +56,22 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
         commands.deleteBookmark.bind(to: Binder<NewsSectionModel?>(self) { target, model in
             guard let model = model else { return }
-            target.dependencies.coreData.deleteEntity(model)
+            do {
+                try target.dependencies.coreData.deleteEntity(model)
+            }catch {
+
+            }
+
             target.loadBookmarks()
         }).disposed(by: bag)
 
         commands.removeAll.bind(to: Binder<Void>(self) { target, _ in
-            target.dependencies.coreData.deleteAllBookmarks()
+            do {
+                try target.dependencies.coreData.deleteAllBookmarks()
+            }catch {
+
+            }
+            
             target.loadBookmarks()
         }).disposed(by: bag)
     }

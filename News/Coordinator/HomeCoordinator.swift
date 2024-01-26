@@ -12,9 +12,9 @@ import RxSwift
 class HomeCoordinator: Coordinator {
 
     typealias Container = UINavigationController
-    var container = UINavigationController()
+    internal var container = UINavigationController()
 
-    var bag = DisposeBag()
+    private var bag = DisposeBag()
     
     struct Input {
         let updatedata = PublishRelay<Void>()

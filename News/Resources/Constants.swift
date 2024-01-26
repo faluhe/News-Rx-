@@ -8,6 +8,10 @@
 import UIKit
 
 //MARK: - Constants
+
+/// Погана назва, краще очевидно писати Constants
+/// Для констант краще юзати enum із статичним проперті, тоді ти не можеш викликати K()/K.init(), який по факту не
+/// несе ніякої цінності 
 struct K {
     static let baseURL = "https://newsapi.org"
     static let endpoint = "/v2/top-headlines?country=us&apiKey="

@@ -12,7 +12,7 @@ import RxRelay
 class LaunchScreenCoordinator: Coordinator {
 
     typealias Container = UIViewController
-    var container: UIViewController = LaunchScreenVC()
+    internal var container: UIViewController = LaunchScreenVC()
 
     struct Output {
         let done = PublishRelay<Void>()
@@ -20,11 +20,11 @@ class LaunchScreenCoordinator: Coordinator {
 
     let output = Output()
 
-    func start() {
+    internal func start() {
         configure()
     }
 
-    func configure() {
+    private func configure() {
         Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(finishModule), userInfo: nil, repeats: false)
     }
 

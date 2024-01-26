@@ -9,14 +9,15 @@ import UIKit
 import CoreData
 
 protocol CoreDataManagerType {
-    func saveEntity<T: ConvertibleToEntity>(_ entityClass: T)
-    func deleteEntity<T: ConvertibleToEntity>(_ entityClass: T)
+    func saveEntity<T: ConvertibleToEntity>(_ entity: T) throws
+    func deleteEntity<T: ConvertibleToEntity>(_ entity: T) throws
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate?) -> Result<[T], Error>
     func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String) -> Bool
-    func deleteAllBookmarks()
+    func deleteAllBookmarks() throws
 }
 
 final class CoreDataManager: CoreDataManagerType {
+
     let persistentContainer: NSPersistentContainer
     let viewContext: NSManagedObjectContext
 
@@ -31,19 +32,24 @@ final class CoreDataManager: CoreDataManagerType {
     }
 
     //MARK: - Saving and updating
-    func saveEntity<T: ConvertibleToEntity>(_ entityClass: T) {
+    /// Даний метод краще зробити throwable, щоб розуміти коли в тебе відбулась помилка і потім якось відігратись для юзера, бо в такому випадку
+    /// ти робиш save, і не знаєш чи дійсно в тебе засейвилось щось у базу, як приклад можна помилку прокинути в аналітику і бачити
+    /// що щось в цьому моменті йде не так, це стосується й інших методів
+    /// і ще в тут треба створити окрему чергу яка буде писати, і окрему для читання, бо якщо користувач цієї штуки намутить із багатопоточністю
+    /// то в тебе будуть проблеми
+    func saveEntity<T: ConvertibleToEntity>(_ entityClass: T) throws {
         let context = viewContext
         let newEntity = entityClass.toEntity(context: context)
 
         do {
             try context.save()
         } catch {
-            print("Error managing entity: \(error)")
+            throw CoreDataError.saveFailed(error)
         }
     }
 
     //MARK: - Removing
-    func deleteEntity<T: ConvertibleToEntity>(_ entityClass: T) {
+    func deleteEntity<T: ConvertibleToEntity>(_ entityClass: T) throws {
         let context = viewContext
         let existingEntity = entityClass.toEntity(context: context)
         context.delete(existingEntity)
@@ -51,11 +57,11 @@ final class CoreDataManager: CoreDataManagerType {
         do {
             try context.save()
         } catch {
-            print("Failed to delete entity from Core Data: \(error)")
+            throw CoreDataError.deleteFailed(error)
         }
     }
 
-    func deleteAllBookmarks() {
+    func deleteAllBookmarks() throws {
         let context = viewContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = BookmarkEntity.fetchRequest()
 
@@ -66,22 +72,22 @@ final class CoreDataManager: CoreDataManagerType {
             }
             try context.save()
         } catch {
-            print("Failed to delete entities from Core Data: \(error)")
+            throw CoreDataError.deleteAllFailed(error)
         }
     }
 
 
 
     //MARK: - Fetching
-    func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error> {
+    func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil) -> Result<[T], Error>  {
         let context = viewContext
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: entityClass))
-        
+
         do {
             let storedEntities = try context.fetch(fetchRequest)
             return .success(storedEntities)
         } catch {
-            return .failure(error)
+            return .failure(CoreDataError.fetchFailed(error))
         }
     }
 

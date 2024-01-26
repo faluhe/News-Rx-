@@ -64,21 +64,21 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
             })
         }).disposed(by: bag)
     }
-
+    
     //MARK: - Removing the article from bookmarks
     private func setupDeleteActionHandler() {
-        contentView.onDeleteAction = { [weak self] section in
+        contentView.onDeleteAction.subscribe(onNext: { [weak self] section in
 
             self?.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
                 self?.contentView.animateDeletionFor(section: section)
                 self?.viewModel.commands.deleteBookmark.accept(section)
             })
-        }
+        }).disposed(by: bag)
     }
 
     //MARK: - Sharing and article action
     private func setupShareActionHandler() {
-        contentView.onShareAction = { [weak self] section in
+        contentView.onShareAction.subscribe(onNext: { [weak self] section in
             guard let url = section.url else { return }
 
             let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -86,6 +86,6 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
             DispatchQueue.main.async {
                 self?.present(activityViewController, animated: true)
             }
-        }
+        }).disposed(by: bag)
     }
 }

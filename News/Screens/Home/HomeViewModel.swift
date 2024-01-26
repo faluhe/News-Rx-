@@ -45,6 +45,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
     // ViewModel and UI Configuration: bindings between ViewModel and UI components.
     func configure(bindings: Bindings) {
+        /// Потенційно може бути виток памяті
         bindings.articleTitle.bind(to: Binder<String?>(self) { target, value in
             guard let title = value else { return }
             let articleExist = target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title)
@@ -65,10 +66,20 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             .subscribe(onNext: { [weak self] (selectedModel, isBookmarked) in
                 if let model = selectedModel {
                     if isBookmarked {
-                        self?.dependencies.coreData.deleteEntity(model)
+
+                        do {
+                            try self?.dependencies.coreData.deleteEntity(model)
+                        }catch {
+
+                        }
                         self?.bindings.isBookmarked.accept(false)
                     } else {
-                        self?.dependencies.coreData.saveEntity(model)
+
+                        do {
+                            try self?.dependencies.coreData.saveEntity(model)
+                        }catch {
+
+                        }
                         self?.bindings.isBookmarked.accept(true)
                     }
                 }
@@ -83,9 +94,14 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
                 let newsViewModels = news.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
                 DispatchQueue.main.async {
-                    self?.dependencies.coreData.saveEntity(news)
+                    do {
+                        try self?.dependencies.coreData.saveEntity(news)
+                    } catch {
+
+                    }
                     self?.commands.loadingCompleteSignal.accept(())
                 }
+
             },
             onError: { [weak self] error in
                 print("Error loading news: \(error.localizedDescription)")

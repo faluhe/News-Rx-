@@ -11,6 +11,7 @@ protocol NetworkTargetType {
     var path: String { get }
     var parameters: Codable? { get }
     var requestMethod: RequestMethod { get }
+    var allHeaders: [String: String]? { get }
 }
 
 enum RequestMethod {

@@ -8,17 +8,18 @@ import Foundation
 import RxSwift
 import CoreData
 
-protocol DatabaseDispatcherType {
+protocol NetworkDispatcherType {
     func request<T: Codable>(_ target: NetworkTargetType, type: T.Type) -> Single<T>
 }
 
-final class DatabaseDispatcher: DatabaseDispatcherType {
-    
+final class NetworkDispatcher: NetworkDispatcherType {
+
     func request<T>(_ target: NetworkTargetType, type: T.Type) -> RxSwift.Single<T> where T : Decodable, T : Encodable {
         return Single.create { [unowned self] single in
+
             switch target.requestMethod {
             case .get:
-                getNews(target, type: type) { result in
+                getData(target, type: type) { result in
                     single(result ?? .failure(ResponseError.unknownData))
                 }
             }
@@ -27,7 +28,7 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
     }
 
 
-    func getNews<T: Codable>(_ target: NetworkTargetType, type: T.Type, completion: @escaping (Result<T, Error>?) -> Void) {
+    private func getData<T: Codable>(_ target: NetworkTargetType, type: T.Type, completion: @escaping (Result<T, Error>?) -> Void) {
         guard let url = URL(string: target.path) else {
             completion(.failure(NetworkError.invalidURL))
             return
@@ -35,7 +36,7 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(NetworkError.networkError))
                 return
             }
 
@@ -48,7 +49,7 @@ final class DatabaseDispatcher: DatabaseDispatcherType {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedData))
             } catch {
-                completion(.failure(error))
+                completion(.failure(ResponseError.parsingError))
             }
         }.resume()
     }

@@ -12,15 +12,16 @@ import RxRelay
 class BookmarkCoordinator: Coordinator {
     
     typealias Container = UINavigationController
-    var container = UINavigationController()
 
-    let bag = DisposeBag()
+    internal var container = UINavigationController()
+
+    private let bag = DisposeBag()
 
     struct Input {
         let detailsModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     }
 
-    let input = Input()
+    private let input = Input()
 
     func start() {
         configure()

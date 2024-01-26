@@ -68,7 +68,8 @@ final class HomeViewController: RxBaseViewController<HomeView> {
     }
 
     private func setupActivityViewController() {
-        contentView.onShareAction = { [weak self] section in
+
+        contentView.onShareAction.subscribe(onNext: { [weak self] section in
             guard let url = section.url else { return }
 
             let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
@@ -76,7 +77,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
             DispatchQueue.main.async {
                 self?.present(activityViewController, animated: true)
             }
-        }
+        }).disposed(by: bag)
     }
 
     @objc func refreshData() {
