@@ -19,7 +19,7 @@ class AppContainer: DependencyProvider {
     static let shared: DependencyProvider = AppContainer()
     let container = Container()
 
-    init() {
+    private init() {
         reset()
     }
     

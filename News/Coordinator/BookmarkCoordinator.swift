@@ -12,9 +12,8 @@ import RxRelay
 class BookmarkCoordinator: Coordinator {
     
     typealias Container = UINavigationController
-
     internal var container = UINavigationController()
-
+    
     private let bag = DisposeBag()
 
     struct Input {

@@ -34,7 +34,9 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
 
         bindings.sections
             .do(onNext: { [weak self] sections in
-                self?.navigationItem.rightBarButtonItem?.isHidden = sections.isEmpty
+                DispatchQueue.main.async {
+                    self?.navigationItem.rightBarButtonItem?.isHidden = sections.isEmpty
+                }
             })
             .bind(to: contentView.sections)
             .disposed(by: bag)

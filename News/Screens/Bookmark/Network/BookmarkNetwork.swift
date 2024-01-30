@@ -13,9 +13,9 @@ protocol BookmarkNetworkType {
 }
 
 final class BookmarkNetwork: BookmarkNetworkType {
-    
+
     private let dataBase: CoreDataManagerType
-    
+
     init(_ dataBase: CoreDataManagerType) {
         self.dataBase = dataBase
     }
@@ -23,25 +23,23 @@ final class BookmarkNetwork: BookmarkNetworkType {
     func getBookmarks() -> Single<[NewsSectionModel]> {
         return Single.create { [unowned self] single in
 
-            let result: Result<[BookmarkEntity], Error> = dataBase.fetchEntities(BookmarkEntity.self, predicate: nil)
+            dataBase.fetchEntities(BookmarkEntity.self, predicate: nil) { result in
+                switch result {
+                case let .success(bookmarkEntity):
+                    let bookmarkArticles = bookmarkEntity.map { entity in
+                        return NewsSectionModel(
+                            title: entity.title ?? "",
+                            imageURL: entity.urlToImage,
+                            description: entity.desc,
+                            url: entity.url
+                        )
+                    }
 
-            switch result {
-            case let .success(newsEntity):
-
-                let bookmarkArticles = newsEntity.map { entity in
-                    return NewsSectionModel(
-                        title: entity.title ?? "",
-                        imageURL: entity.urlToImage,
-                        description: entity.desc,
-                        url: entity.url
-                    )
+                    single(.success(bookmarkArticles))
+                case let .failure(error):
+                    single(.failure(error))
                 }
-
-                single(.success(bookmarkArticles))
-            case let .failure(error):
-                single(.failure(error))
             }
-
             return Disposables.create()
         }
     }

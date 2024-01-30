@@ -9,11 +9,6 @@ import UIKit
 
 class StartTabBarCoordinator: Coordinator {
 
-
-    /// Я б в координаторі описав ще роутер, який би переходив по певному екрані
-    /// типу router.open(.home), router.open(.bookmarks), мені не подобається що це все різні методи, хотя по суті вони роблять
-    /// одне й те саме, беруть чайлд координатор, юзають якийсь аутпут, пушать/презентять екран 
-
     typealias Container = UITabBarController
     internal var container = UITabBarController()
 

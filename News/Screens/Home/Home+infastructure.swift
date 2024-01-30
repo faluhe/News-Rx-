@@ -38,6 +38,7 @@ extension HomeViewModel {
         let loadNews = PublishRelay<Void>()
         let loadingCompleteSignal = PublishRelay<Void>()
         let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
+        let showPopUpView = PublishRelay<Void>()
     }
 
     struct Dependencies {

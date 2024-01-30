@@ -15,9 +15,11 @@ final class HomeView: RxBaseView {
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
     let selectedModel = BehaviorRelay<NewsSectionModel?>(value: nil)
     let isBookmarked = BehaviorRelay<Bool>(value: false)
+    let showPopUpView = PublishRelay<Void>()
     let articleTitle = BehaviorRelay<String?>(value: nil)
     private let shareActionSubject = PublishSubject<NewsSectionModel>()
     private var saveActionTitle: String = " "
+    var issome: Bool!
 
     var onShareAction: Observable<NewsSectionModel> {
             return shareActionSubject.asObservable()
@@ -49,7 +51,6 @@ final class HomeView: RxBaseView {
 
     override func setupView() {
         super.setupView()
-
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
             cell.configure(article: article)
             LoadingIndicator.shared.stop()
@@ -58,6 +59,10 @@ final class HomeView: RxBaseView {
     
         isBookmarked.bind(to: Binder<Bool>(self) { target, isBookmarked in
             isBookmarked ? (target.saveActionTitle = HomeScreen.unsave) : (target.saveActionTitle = HomeScreen.save)
+        }).disposed(by: bag)
+
+        showPopUpView.bind(to: Binder<Void>(self) { target, _ in
+            target.showUpPopUpView()
         }).disposed(by: bag)
     }
 
@@ -102,12 +107,9 @@ extension HomeView: UICollectionViewDelegate {
         self.articleTitle.accept(selectedModel.title)
 
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+
             let saveAction = UIAction(title: self.saveActionTitle, image: Images.bookmarkEmpty.systemImage) { _ in
                 self.selectedModel.accept(selectedModel)
-
-                if self.isBookmarked.value {
-                    self.showUpPopUpView()
-                }
             }
 
             let share = UIAction(title: HomeScreen.share, image: Images.share.systemImage) { _ in

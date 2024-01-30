@@ -43,6 +43,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
         contentView.articleTitle.bind(to: bindings.articleTitle).disposed(by: bag)
         bindings.isBookmarked.bind(to: contentView.isBookmarked).disposed(by: bag)
+
     }
 
     private func configure(_ commands: HomeViewModel.Commands) {
@@ -54,6 +55,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
             })
             .disposed(by: bag)
 
+        commands.showPopUpView.bind(to: contentView.showPopUpView).disposed(by: bag)
         contentView.selectedModel.bind(to: commands.selectedModel).disposed(by: bag)
     }
 
@@ -78,6 +80,7 @@ final class HomeViewController: RxBaseViewController<HomeView> {
                 self?.present(activityViewController, animated: true)
             }
         }).disposed(by: bag)
+
     }
 
     @objc func refreshData() {

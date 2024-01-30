@@ -48,8 +48,10 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
         /// Потенційно може бути виток памяті
         bindings.articleTitle.bind(to: Binder<String?>(self) { target, value in
             guard let title = value else { return }
-            let articleExist = target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title)
-            bindings.isBookmarked.accept(articleExist)
+            target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title) { articleExist in
+                bindings.isBookmarked.accept(articleExist)
+            }
+
         }).disposed(by: bag)
     }
 
@@ -64,24 +66,29 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
                 return (selectedModel, isBookmarked)
             }
             .subscribe(onNext: { [weak self] (selectedModel, isBookmarked) in
-                if let model = selectedModel {
-                    if isBookmarked {
-
-                        do {
-                            try self?.dependencies.coreData.deleteEntity(model)
-                        }catch {
-
+                guard let model = selectedModel else { return }
+                if isBookmarked {
+                    self?.dependencies.coreData.deleteEntity(model, completion: { result in
+                        switch result {
+                        case .success:
+                            print("Entity deleted successfully.")
+                        case .failure(let error):
+                            print("Error deleting entity: \(error)")
                         }
-                        self?.bindings.isBookmarked.accept(false)
-                    } else {
+                    })
+                } else {
 
-                        do {
-                            try self?.dependencies.coreData.saveEntity(model)
-                        }catch {
-
+                    self?.dependencies.coreData.saveEntity(model, completion: { result in
+                        print(Thread.current)
+                        switch result {
+                        case .success:
+                            commands.showPopUpView.accept(())
+                            print(Thread.current)
+                            print("Entity saved successfully.")
+                        case .failure(let error):
+                            print("Error saving entity: \(error)")
                         }
-                        self?.bindings.isBookmarked.accept(true)
-                    }
+                    })
                 }
             })
             .disposed(by: bag)
@@ -93,14 +100,17 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
-                DispatchQueue.main.async {
-                    do {
-                        try self?.dependencies.coreData.saveEntity(news)
-                    } catch {
 
+                self?.dependencies.coreData.saveEntity(news, completion: { result in
+                    switch result {
+                    case .success:
+                        print("saved: \(result)")
+                    case .failure(let error):
+                        print("Error saving entity: \(error)")
                     }
-                    self?.commands.loadingCompleteSignal.accept(())
-                }
+                })
+                self?.commands.loadingCompleteSignal.accept(())
+
 
             },
             onError: { [weak self] error in

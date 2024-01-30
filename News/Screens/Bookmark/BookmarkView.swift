@@ -63,7 +63,9 @@ final class BookmarkView: RxBaseView {
 
         sections
             .do(onNext: { [weak self] newSections in
-                self?.noProductsView.isHidden = !newSections.isEmpty
+                DispatchQueue.main.async {
+                    self?.noProductsView.isHidden = !newSections.isEmpty
+                }
             })
             .bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
                 cell.configure(article: article)
@@ -94,9 +96,9 @@ extension BookmarkView: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            let inset: CGFloat = 10.0
-            return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
-        }
+        let inset: CGFloat = 10.0
+        return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+    }
 }
 
 
