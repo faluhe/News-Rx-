@@ -30,7 +30,7 @@ final class EmptyBookmarksView: RxBaseView {
         }
     }
 
-    lazy var stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [imageView,label,goToHomeBtn])
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -38,7 +38,7 @@ final class EmptyBookmarksView: RxBaseView {
         return stackView
     }()
 
-    lazy var label: UILabel = {
+    private lazy var label: UILabel = {
         let lbl = UILabel()
         lbl.text = BookmarkScreen.noDataLabel
         lbl.font = .systemFont(ofSize: 18, weight: .medium)
@@ -47,7 +47,7 @@ final class EmptyBookmarksView: RxBaseView {
         return lbl
     }()
 
-    lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Images.noDataInBookmarks.image?.withTintColor(UIColor.label, renderingMode: .alwaysOriginal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +59,6 @@ final class EmptyBookmarksView: RxBaseView {
 
 
 extension Reactive where Base: EmptyBookmarksView {
-
     var nextAction: Observable<Void> {
         base.goToHomeBtn.rx.action
     }

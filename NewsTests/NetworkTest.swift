@@ -20,14 +20,16 @@ class NetworkTests: XCTestCase {
     func testValidCallStatus() {
 
         // Given
-        let path = URL(string: HomeTarget.getNews.path)
+        guard let path = URL(string: HomeTarget.getNews.path) else { 
+            XCTFail("Path is empty")
+            return }
 
         let promise = expectation(description: "Completion handler invoked")
         var statusCode: Int?
         var responseError: Error?
 
         // When
-        let dataTask = sessionUnderTest.dataTask(with: path!) { data, response, error in
+        let dataTask = sessionUnderTest.dataTask(with: path) { data, response, error in
             statusCode = (response as? HTTPURLResponse)?.statusCode
             responseError = error
             promise.fulfill()

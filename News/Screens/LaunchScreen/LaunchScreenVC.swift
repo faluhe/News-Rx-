@@ -9,23 +9,20 @@ import UIKit
 import Lottie
 import SnapKit
 
-class LaunchScreenVC: UIViewController {
+class LaunchScreenVC: RxBaseViewController<RxBaseView> {
 
     private let animationView: LottieAnimationView = .init(name: Lottie.launch)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupHierarchy()
-        setupLayout()
-        setupView()
         setupAnimation()
     }
 
-    func setupHierarchy() {
+    override func setupHierarchy() {
         view.addSubview(animationView)
     }
 
-    func setupLayout() {
+    override func setupLayout() {
         animationView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalToSuperview().multipliedBy(0.6)
@@ -33,12 +30,12 @@ class LaunchScreenVC: UIViewController {
         }
     }
 
-    func setupView() {
+    override func setupView() {
         view.backgroundColor = .systemBackground
         animationView.backgroundColor = .clear
     }
 
-    func setupAnimation() {
+    private func setupAnimation() {
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .loop
         animationView.play()

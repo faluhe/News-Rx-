@@ -48,7 +48,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
         bindings.articleTitle.bind(to: Binder<String?>(self) { target, value in
             guard let title = value else { return }
-            target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title) { articleExist in
+            target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: title) { articleExist in
                 bindings.isBookmarked.accept(articleExist)
             }
         }).disposed(by: bag)
@@ -66,23 +66,23 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             }
             .subscribe(onNext: { [weak self] (selectedModel, isBookmarked) in
                 guard let model = selectedModel else { return }
-                isBookmarked ? self?.removingFromDatabase(model) : self?.savingToDatabase(model)
+                isBookmarked ? self?.removeFromDatabase(model) : self?.savingToDatabase(model)
             })
             .disposed(by: bag)
     }
 
-    fileprivate func loadNewsFromServer() {
+    private func loadNewsFromServer() {
         let news = dependencies.newsService.getNews()
         news.subscribe(
             onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
                 self?.commands.loadingCompleteSignal.accept(())
-                
-                self?.dependencies.coreData.saveEntity(news, completion: { result in
+
+                self?.dependencies.coreDataManager.saveEntity(news, completion: { result in
                     switch result {
                     case .success:
-                        print("Entity saved successfully.")
+                        break
                     case .failure(let error):
                         print("Error saving entity: \(error)")
                     }
@@ -94,7 +94,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             }).disposed(by: bag)
     }
 
-    fileprivate func loadStoredNews() {
+    private func loadStoredNews() {
         let storedNews = dependencies.newsService.getStoredNews()
 
         storedNews.subscribe(
@@ -104,23 +104,22 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             }).disposed(by: bag)
     }
 
-    fileprivate func removingFromDatabase(_ model: NewsSectionModel) {
-        self.dependencies.coreData.deleteEntity(model, completion: { result in
+    private func removeFromDatabase(_ model: NewsSectionModel) {
+        dependencies.coreDataManager.deleteEntity(model, completion: { result in
             switch result {
             case .success:
-                print("Entity deleted successfully.")
+                break
             case .failure(let error):
                 print("Error deleting entity: \(error)")
             }
         })
     }
 
-    fileprivate func savingToDatabase(_ model: NewsSectionModel) {
-        self.dependencies.coreData.saveEntity(model, completion: { result in
+    private func savingToDatabase(_ model: NewsSectionModel) {
+        dependencies.coreDataManager.saveEntity(model, completion: { result in
             switch result {
             case .success:
                 self.commands.showPopUpView.accept(())
-                print("Entity saved successfully.")
             case .failure(let error):
                 print("Error saving entity: \(error)")
             }

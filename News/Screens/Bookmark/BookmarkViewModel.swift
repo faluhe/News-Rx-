@@ -56,39 +56,43 @@ final class BookmarkViewModel: BookmarkViewModelType, BookmarkMuduleType {
 
         commands.deleteBookmark.bind(to: Binder<NewsSectionModel?>(self) { target, model in
             guard let model = model else { return }
-
-
-            target.dependencies.coreData.deleteEntity(model, completion: { result in
-                switch result {
-                case .success:
-                    print("Entity deleted successfully.")
-                case .failure(let error):
-                    print("Error deleting entity: \(error)")
-                }
-            })
-
+            target.removeFromDatabase(model)
             target.loadBookmarks()
         }).disposed(by: bag)
 
         commands.removeAll.bind(to: Binder<Void>(self) { target, _ in
-            target.dependencies.coreData.deleteAllBookmarks(completion: { result in
-                switch result {
-                case .success:
-                    print("Entity deleted successfully.")
-                case .failure(let error):
-                    print("Error deleting entity: \(error)")
-                }
-            })
-            
+            target.removeAllFromDatabase()
             target.loadBookmarks()
         }).disposed(by: bag)
     }
 
-    func loadBookmarks() {
+    private func loadBookmarks() {
         let bookmarks = dependencies.bookmarkService.getBookmarks()
         bookmarks.subscribe(onNext: { [weak self] result in
             self?.bindings.sections.accept(result)
         })
         .disposed(by: bag)
+    }
+
+    private func removeAllFromDatabase() {
+        dependencies.coreData.deleteAllBookmarks(completion: { result in
+            switch result {
+            case .success:
+                print("Entity deleted successfully.")
+            case .failure(let error):
+                print("Error deleting entity: \(error)")
+            }
+        })
+    }
+
+    private func removeFromDatabase(_ model: NewsSectionModel) {
+        dependencies.coreData.deleteEntity(model, completion: { result in
+            switch result {
+            case .success:
+                print("Entity deleted successfully.")
+            case .failure(let error):
+                print("Error deleting entity: \(error)")
+            }
+        })
     }
 }

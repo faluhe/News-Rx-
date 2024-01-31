@@ -13,7 +13,7 @@ final class HomeModuleConfigurator {
 
     class func configure() -> Module {
         let view = HomeViewController()
-        let viewModel = HomeViewModel(dependencies: .init(newsService: AppContainer.shared.inject(), coreData: AppContainer.shared.inject()))
+        let viewModel = HomeViewModel(dependencies: .init(newsService: AppContainer.shared.inject(), coreDataManager: AppContainer.shared.inject()))
         view.viewModel = viewModel
         return (view, viewModel)
     }
