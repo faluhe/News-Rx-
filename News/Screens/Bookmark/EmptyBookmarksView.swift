@@ -17,7 +17,7 @@ final class EmptyBookmarksView: RxBaseView {
     override func setupLayout() {
         stackView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(20)
+            $0.left.right.equalToSuperview().inset(30)
         }
 
         goToHomeBtn.snp.makeConstraints {
@@ -31,19 +31,19 @@ final class EmptyBookmarksView: RxBaseView {
     }
 
     lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [imageView,lblOne,goToHomeBtn])
+        let stackView = UIStackView(arrangedSubviews: [imageView,label,goToHomeBtn])
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.spacing = 60
         return stackView
     }()
 
-    lazy var lblOne: UILabel = {
+    lazy var label: UILabel = {
         let lbl = UILabel()
         lbl.text = BookmarkScreen.noDataLabel
-        lbl.font = .systemFont(ofSize: 20, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 18, weight: .medium)
         lbl.textAlignment = .center
-        lbl.numberOfLines = 2
+        lbl.numberOfLines = 3
         return lbl
     }()
 

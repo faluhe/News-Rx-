@@ -110,7 +110,6 @@ final class CoreDataManager: CoreDataManagerType {
     }
 
 
-
     //MARK: - Fetching
     func fetchEntities<T: NSManagedObject>(_ entityClass: T.Type, predicate: NSPredicate? = nil, completion: @escaping (Result<[T], Error>) -> Void) {
         let context = privateContext
@@ -133,6 +132,7 @@ final class CoreDataManager: CoreDataManagerType {
     func doesEntityExist<T: NSManagedObject>(_ entityClass: T.Type, withTitle title: String, completion: @escaping (Bool) -> Void) {
         let context = privateContext
         let predicate = NSPredicate(format: "title == %@", title)
+        
         context.perform {
             do {
                 let result = try self.fetchEntity(ofType: entityClass, predicate: predicate, in: context)

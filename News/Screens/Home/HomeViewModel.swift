@@ -45,13 +45,12 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
 
     // ViewModel and UI Configuration: bindings between ViewModel and UI components.
     func configure(bindings: Bindings) {
-        /// Потенційно може бути виток памяті
+
         bindings.articleTitle.bind(to: Binder<String?>(self) { target, value in
             guard let title = value else { return }
             target.dependencies.coreData.doesEntityExist(BookmarkEntity.self, withTitle: title) { articleExist in
                 bindings.isBookmarked.accept(articleExist)
             }
-
         }).disposed(by: bag)
     }
 
@@ -67,51 +66,27 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             }
             .subscribe(onNext: { [weak self] (selectedModel, isBookmarked) in
                 guard let model = selectedModel else { return }
-                if isBookmarked {
-                    self?.dependencies.coreData.deleteEntity(model, completion: { result in
-                        switch result {
-                        case .success:
-                            print("Entity deleted successfully.")
-                        case .failure(let error):
-                            print("Error deleting entity: \(error)")
-                        }
-                    })
-                } else {
-
-                    self?.dependencies.coreData.saveEntity(model, completion: { result in
-                        print(Thread.current)
-                        switch result {
-                        case .success:
-                            commands.showPopUpView.accept(())
-                            print(Thread.current)
-                            print("Entity saved successfully.")
-                        case .failure(let error):
-                            print("Error saving entity: \(error)")
-                        }
-                    })
-                }
+                isBookmarked ? self?.removingFromDatabase(model) : self?.savingToDatabase(model)
             })
             .disposed(by: bag)
     }
 
-    func loadNewsFromServer() {
+    fileprivate func loadNewsFromServer() {
         let news = dependencies.newsService.getNews()
         news.subscribe(
             onNext: { [weak self] news in
                 let newsViewModels = news.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
-
+                self?.commands.loadingCompleteSignal.accept(())
+                
                 self?.dependencies.coreData.saveEntity(news, completion: { result in
                     switch result {
                     case .success:
-                        print("saved: \(result)")
+                        print("Entity saved successfully.")
                     case .failure(let error):
                         print("Error saving entity: \(error)")
                     }
                 })
-                self?.commands.loadingCompleteSignal.accept(())
-
-
             },
             onError: { [weak self] error in
                 print("Error loading news: \(error.localizedDescription)")
@@ -119,7 +94,7 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
             }).disposed(by: bag)
     }
 
-    func loadStoredNews() {
+    fileprivate func loadStoredNews() {
         let storedNews = dependencies.newsService.getStoredNews()
 
         storedNews.subscribe(
@@ -127,5 +102,28 @@ final class HomeViewModel: HomeModuleType, HomeViewModelType {
                 let newsViewModels = storedNews.articles?.map { $0.toNewsSectionModel() } ?? []
                 self?.bindings.sections.accept(newsViewModels)
             }).disposed(by: bag)
+    }
+
+    fileprivate func removingFromDatabase(_ model: NewsSectionModel) {
+        self.dependencies.coreData.deleteEntity(model, completion: { result in
+            switch result {
+            case .success:
+                print("Entity deleted successfully.")
+            case .failure(let error):
+                print("Error deleting entity: \(error)")
+            }
+        })
+    }
+
+    fileprivate func savingToDatabase(_ model: NewsSectionModel) {
+        self.dependencies.coreData.saveEntity(model, completion: { result in
+            switch result {
+            case .success:
+                self.commands.showPopUpView.accept(())
+                print("Entity saved successfully.")
+            case .failure(let error):
+                print("Error saving entity: \(error)")
+            }
+        })
     }
 }
