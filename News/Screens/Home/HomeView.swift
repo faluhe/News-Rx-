@@ -17,13 +17,14 @@ final class HomeView: RxBaseView {
     let isBookmarked = BehaviorRelay<Bool>(value: false)
     let showPopUpView = PublishRelay<Void>()
     let articleTitle = BehaviorRelay<String?>(value: nil)
-    private let shareActionSubject = PublishSubject<NewsSectionModel>()
-    private var saveActionTitle: String = " "
     var issome: Bool!
 
     var onShareAction: Observable<NewsSectionModel> {
             return shareActionSubject.asObservable()
         }
+
+    private let shareActionSubject = PublishSubject<NewsSectionModel>()
+    private var saveActionTitle: String = " "
 
 
     lazy var newsCollectionView: UICollectionView = {

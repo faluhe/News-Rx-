@@ -45,12 +45,9 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
     // ViewModel and UI Configuration: bindings between ViewModel and UI components.
     func configure(bindings: Bindings) {
         bindings.articleTitle.bind(to: Binder<String>(self) { target, value in
-            //            let articleExist = target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value)
-
             target.dependencies.coreDataManager.doesEntityExist(BookmarkEntity.self, withTitle: value) { isSuccess in
                 bindings.isBookmarked.accept(isSuccess)
             }
-
         }).disposed(by: bag)
     }
 
@@ -63,32 +60,31 @@ final class DetailsViewModel: DetailsModuleType, DetailsViewModelType {
                     print("Error: detailsModel does not conform to ConvertibleToEntity")
                     return
                 }
-
-                if isBookmarked {
-                    target.dependencies.coreDataManager.deleteEntity(detailsModel) { result in
-                        switch result {
-                        case .success:
-                            target.bindings.isBookmarked.accept(false)
-                            print("Entity deleted successfully.")
-                        case .failure(let error):
-                            // Handle failure, e.g., show an error message
-                            print("Error deleting entity: \(error)")
-                        }
-                    }
-                    
-                } else {
-                    target.dependencies.coreDataManager.saveEntity(detailsModel) { result in
-                        switch result {
-                        case .success:
-                            target.bindings.isBookmarked.accept(true)
-                        case .failure(let error):
-                            // Handle failure, e.g., show an error message
-                            print("Error saving entity: \(error)")
-                        }
-                    }
-
-                }
+                isBookmarked ? target.removeFromDatabase(detailsModel) : target.savingToDatabase(detailsModel)
             })
             .disposed(by: bag)
+    }
+
+
+    private func removeFromDatabase(_ model: NewsSectionModel) {
+        dependencies.coreDataManager.deleteEntity(model, completion: { result in
+            switch result {
+            case .success:
+                self.bindings.isBookmarked.accept(false)
+            case .failure(let error):
+                print("Error deleting entity: \(error)")
+            }
+        })
+    }
+
+    private func savingToDatabase(_ model: NewsSectionModel) {
+        dependencies.coreDataManager.saveEntity(model, completion: { result in
+            switch result {
+            case .success:
+                self.bindings.isBookmarked.accept(true)
+            case .failure(let error):
+                print("Error saving entity: \(error)")
+            }
+        })
     }
 }
