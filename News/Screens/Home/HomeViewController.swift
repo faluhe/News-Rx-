@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-final class HomeViewController: RxBaseViewController<HomeView> {
+final class HomeViewController: RxBaseViewController<HomeView>, LoadingIndicator {
 
     var viewModel: HomeViewModelType!
 
@@ -20,13 +20,18 @@ final class HomeViewController: RxBaseViewController<HomeView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicator.shared.start()
+        startLoadingIndicator()
         viewModel.commands.loadNews.accept(())
-        
+
         setupNavigationBar()
         setupRefreshControl()
         setupActivityViewController()
+
+        contentView.onStopLoadingIndicatorAction.bind(to: Binder<Void>(self) { target, _ in
+            target.stopLoadingIndicator()
+        }).disposed(by: bag)
     }
+
 
     override func setupBinding() {
         configure(viewModel.bindings)
@@ -70,17 +75,17 @@ final class HomeViewController: RxBaseViewController<HomeView> {
     }
 
     private func setupActivityViewController() {
-
-        contentView.onShareAction.subscribe(onNext: { [weak self] section in
+        contentView.onShareAction.bind(to: Binder<NewsSectionModel>(self) { target, section in
             guard let url = section.url else { return }
 
             let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self?.contentView
-            DispatchQueue.main.async {
-                self?.present(activityViewController, animated: true)
-            }
-        }).disposed(by: bag)
+            activityViewController.popoverPresentationController?.sourceView = target.contentView
 
+            DispatchQueue.main.async {
+                target.present(activityViewController, animated: true)
+            }
+
+        }).disposed(by: bag)
     }
 
     @objc func refreshData() {

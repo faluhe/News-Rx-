@@ -17,13 +17,17 @@ final class HomeView: RxBaseView {
     let isBookmarked = BehaviorRelay<Bool>(value: false)
     let showPopUpView = PublishRelay<Void>()
     let articleTitle = BehaviorRelay<String?>(value: nil)
-    var issome: Bool!
 
     var onShareAction: Observable<NewsSectionModel> {
             return shareActionSubject.asObservable()
         }
 
+    var onStopLoadingIndicatorAction: Observable<Void> {
+            return stopLoadingSubject.asObservable()
+        }
+
     private let shareActionSubject = PublishSubject<NewsSectionModel>()
+    private let stopLoadingSubject = PublishSubject<Void>()
     private var saveActionTitle: String = " "
 
 
@@ -54,7 +58,7 @@ final class HomeView: RxBaseView {
         super.setupView()
         sections.bind(to: newsCollectionView.rx.items(cellIdentifier: NewsCell.identifier, cellType: NewsCell.self)) { _, article, cell in
             cell.configure(article: article)
-            LoadingIndicator.shared.stop()
+            self.stopLoadingSubject.onNext(())
         }
         .disposed(by: bag)
     

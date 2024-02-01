@@ -6,19 +6,19 @@
 //
 
 import UIKit
+import RxSwift
 
-final class DetailsViewController: RxBaseViewController<DetailsView> {
+final class DetailsViewController: RxBaseViewController<DetailsView>, LoadingIndicator {
 
     var viewModel: DetailsViewModelType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LoadingIndicator.shared.start()
-    }
+        startLoadingIndicator()
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        LoadingIndicator.shared.stop()
+        contentView.onStopLoadingIndicatorAction.bind(to: Binder<Void>(self) { target, _ in
+            target.stopLoadingIndicator()
+        }).disposed(by: bag)
     }
 
     override func setupBinding() {

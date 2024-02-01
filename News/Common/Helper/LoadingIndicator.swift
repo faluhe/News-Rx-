@@ -7,38 +7,31 @@
 
 import UIKit
 
-final class LoadingIndicator {
-    static let shared = LoadingIndicator()
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
+protocol LoadingIndicator: AnyObject {
+    func startLoadingIndicator()
+    func stopLoadingIndicator()
+}
 
-    private init() {
-        setup()
-    }
+extension LoadingIndicator where Self: UIViewController {
+    func startLoadingIndicator() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
 
-    private func setup() {
-        activityIndicator.hidesWhenStopped = true
-    }
-
-    func start() {
-        DispatchQueue.main.async {
-
-
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let mainWindow = windowScene.windows.first else {
-                return
-            }
-
-            let screenCenter = mainWindow.center
-            self.activityIndicator.center = screenCenter
-            mainWindow.addSubview(self.activityIndicator)
-            self.activityIndicator.startAnimating()
+            let loadingIndicator = UIActivityIndicatorView(style: .medium)
+            loadingIndicator.center = self.view.center
+            loadingIndicator.startAnimating()
+            self.view.addSubview(loadingIndicator)
         }
     }
 
-    func stop() {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.activityIndicator.removeFromSuperview()
+    func stopLoadingIndicator() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.view.subviews.compactMap { $0 as? UIActivityIndicatorView }.forEach {
+                $0.stopAnimating()
+                $0.removeFromSuperview()
+            }
         }
     }
 }

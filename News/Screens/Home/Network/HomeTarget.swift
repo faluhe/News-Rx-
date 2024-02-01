@@ -14,7 +14,7 @@ enum HomeTarget: NetworkTargetType {
     var path: String {
         switch self {
         case .getNews:
-            return K.baseURL + K.endpoint + K.apiKey
+            return Constants.baseURL + Constants.endpoint + Constants.apiKey
         }
     }
 

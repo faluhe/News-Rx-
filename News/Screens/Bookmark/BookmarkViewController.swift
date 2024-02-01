@@ -22,7 +22,6 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.commands.loadBookmarks.accept(())
-        LoadingIndicator.shared.stop()
     }
 
     override func setupBinding() {
@@ -69,24 +68,24 @@ final class BookmarkViewController: RxBaseViewController<BookmarkView> {
     
     //MARK: - Removing the article from bookmarks
     private func setupDeleteActionHandler() {
-        contentView.onDeleteAction.subscribe(onNext: { [weak self] section in
+        contentView.onDeleteAction.bind(to: Binder<NewsSectionModel>(self) { target, section in
 
-            self?.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
-                self?.contentView.animateDeletionFor(section: section)
-                self?.viewModel.commands.deleteBookmark.accept(section)
+            target.showAlert(title: BookmarkScreen.deleteBookmark, message: BookmarkScreen.areYouSureToDelete, preferedStyle: .alert, completion: { _ in
+                target.contentView.animateDeletionFor(section: section)
+                target.viewModel.commands.deleteBookmark.accept(section)
             })
         }).disposed(by: bag)
     }
 
     //MARK: - Sharing and article action
     private func setupShareActionHandler() {
-        contentView.onShareAction.subscribe(onNext: { [weak self] section in
+        contentView.onShareAction.bind(to: Binder<NewsSectionModel>(self) { target, section in
             guard let url = section.url else { return }
 
             let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self?.contentView
+            activityViewController.popoverPresentationController?.sourceView = target.contentView
             DispatchQueue.main.async {
-                self?.present(activityViewController, animated: true)
+                target.present(activityViewController, animated: true)
             }
         }).disposed(by: bag)
     }

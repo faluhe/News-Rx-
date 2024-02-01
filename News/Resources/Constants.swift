@@ -8,29 +8,25 @@
 import UIKit
 
 //MARK: - Constants
-
-/// Погана назва, краще очевидно писати Constants
-/// Для констант краще юзати enum із статичним проперті, тоді ти не можеш викликати K()/K.init(), який по факту не
-/// несе ніякої цінності 
-struct K {
+enum Constants {
     static let baseURL = "https://newsapi.org"
     static let endpoint = "/v2/top-headlines?country=us&apiKey="
     static let apiKey = "4e8632ddb68d4ad2a6aa8047d87256d8"
 }
 
-struct ScreenNames {
+enum ScreenNames {
     static let bookmark = "Bookmark"
     static let home = "Home"
 }
 
-struct HomeScreen {
+enum HomeScreen {
     static let news = "News"
     static let save = "Save"
     static let unsave = "Unsave"
     static let share = "Share"
 }
 
-struct BookmarkScreen {
+enum BookmarkScreen {
     static let deleteBookmark = "Delete Bookmark"
     static let areYouSureToDelete = "Are you sure you want to delete this bookmark?"
     static let cancel = "Cancel"
@@ -40,8 +36,8 @@ struct BookmarkScreen {
     static let noDataLabel = "No data available. If you want to add some, please press the button"
 }
 
-//MARK: - Lottie
-struct Lottie {
+
+enum Lottie {
     static let bookmark = "LottieBookmark"
     static let launch = "LottieAnimation"
 }

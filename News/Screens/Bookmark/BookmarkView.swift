@@ -16,7 +16,7 @@ final class BookmarkView: RxBaseView {
     let sections = BehaviorRelay<[NewsSectionModel]>(value: [])
     private var deleteActionSubject = PublishSubject<NewsSectionModel>()
     private var shareActionSubject = PublishSubject<NewsSectionModel>()
-
+    
     var onDeleteAction: Observable<NewsSectionModel> {
         return deleteActionSubject.asObservable()
     }
