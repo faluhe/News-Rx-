@@ -10,17 +10,12 @@ import XCTest
 import CoreData
 
 class CoreDataManagerTests: XCTestCase {
-
     var coreDataManager: CoreDataManager!
+    let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
 
     override func setUp() {
         super.setUp()
         coreDataManager = CoreDataManager(containerName: "News")
-    }
-
-
-    func testSaveDeleteAndFetchEntities() {
-        let bookmark = NewsSectionModel(title: "test", imageURL: "test", description: "test", url: "test")
         saveEntityAndAssert(bookmark: bookmark)
         fetchEntitiesAndAssertCount(expectedCount: 1, bookmark: bookmark)
         deleteEntityAndFetchAssert(expectedCount: 0, bookmark: bookmark)
