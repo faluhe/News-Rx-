@@ -16,7 +16,7 @@ This is a simple iOS news application that fetches current news articles from [N
 
 ## License
 
-This project is licensed under the MIT License, see more [license](https://github.com/](https://github.com/faluhe/News-Rx-/blob/master/LICENSE)).
+This project is licensed under the MIT License, see more [license](https://github.com/faluhe/News-Rx-/blob/master/LICENSE).
 
 
 ## Usage 
