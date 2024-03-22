@@ -1,10 +1,8 @@
 # News app 
 A simple app with few layers implemented with RxSwift. 
 
-# NewsRxApp
-
 ## Overview
-NewsRxApp is a simple iOS news application that fetches current news articles from [News Api](https://newsapi.org).
+This is a simple iOS news application that fetches current news articles from [News Api](https://newsapi.org).
 Tech Stack: RxSwift, CoreData, Swinject, SnapKit, Lottie
 
 ## Features
