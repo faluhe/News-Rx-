@@ -17,7 +17,7 @@ protocol CoreDataManagerType {
 }
 
 final class CoreDataManager: CoreDataManagerType {
-    private let persistentContainer: NSPersistentContainer
+    let persistentContainer: NSPersistentContainer
     private let viewContext: NSManagedObjectContext
     private let privateContext: NSManagedObjectContext
 
